@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[UniqueEntity(fields: ['name'], message: 'Un trick à ce nom existe déjà sur le site')]
-#[Vich\Uploadable]
+#[UniqueEntity(fields: ['slug'], message: 'Un trick à ce nom existe déjà sur le site')]
+// #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 
@@ -21,6 +21,9 @@ class Trick
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
@@ -39,23 +42,19 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private $category;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'trick')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $user;
+    // #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'trick')]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private $user;
 
-    // #[Vich\UploadableField(mapping: 'user_images', fileNameProperty: 'avatar')]
-    // private ?File $imageFile = null;
-
-    // #[ORM\Column(type: 'string')]
-    // private ?string $avatar = '';
+    
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist','remove'])]
     private $images;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Tag::class, orphanRemoval: true, cascade: ['persist','remove'])]
     private $tags;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
-    private $comments;
+//    #[ ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
+//     private $comments;
 
     public function __construct()
     {
@@ -63,12 +62,24 @@ class Trick
         // $this->updatedAt = new \DateTimeImmutable();
         $this->images = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->comments = new ArrayCollection();
+        // $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -78,7 +89,7 @@ class Trick
 
     public function setName(string $name): self
     {
-        $this->name = $name;
+        $this->slug = $name;
 
         return $this;
     }
@@ -141,17 +152,17 @@ class Trick
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
+    // public function getUser(): ?User
+    // {
+    //     return $this->user;
+    // }
 
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
+    // public function setUser(?User $user): self
+    // {
+    //     $this->user = $user;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     //pour aller chercher les images d'un trick
     public function getImages(): Collection
@@ -216,38 +227,38 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection<int, Comment>
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
+    // /**
+    //  * @return Collection<int, Comment>
+    //  */
+    // public function getComments(): Collection
+    // {
+    //     return $this->comments;
+    // }
 
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setTrick($this);
-        }
+    // public function addComment(Comment $comment): self
+    // {
+    //     if (!$this->comments->contains($comment)) {
+    //         $this->comments[] = $comment;
+    //         $comment->setTrick($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getTrick() === $this) {
-                $comment->setTrick(null);
-            }
-        }
+    // public function removeComment(Comment $comment): self
+    // {
+    //     if ($this->comments->removeElement($comment)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($comment->getTrick() === $this) {
+    //             $comment->setTrick(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function __toString()
     {
-        return $this->name;
+        return $this->slug;
     }
 }

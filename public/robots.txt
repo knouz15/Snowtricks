@@ -1,0 +1,8 @@
+# Poids maximal 62 ko
+User-agent: Googlebot
+Disallow: /nogooglebot/
+
+User-agent: *
+Allow: /
+
+Sitemap: http://www.snowtricks.com/sitemap.xml
