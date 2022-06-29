@@ -12,13 +12,12 @@ class CategoryFixtures extends Fixture
     {
         
         $categories = ['Rotations','Flips','Grabs','Slides'];
+        
         foreach($categories as $category){
             $cat= new Category();
                 $cat->setNom($category);
                 $manager->persist($cat);
         }
-       
-        
 
         $manager->flush();
     }

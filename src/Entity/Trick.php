@@ -25,6 +25,9 @@ class Trick
     #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $name;
+
     #[ORM\Column(type: 'text')]
     private $description;
 
@@ -75,6 +78,18 @@ class Trick
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->slug = $name;
 
         return $this;
     }
