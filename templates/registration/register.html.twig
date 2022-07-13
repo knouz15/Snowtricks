@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Snowtricks - Inscription
+{% endblock %} 
+{% block stylesheets %}
+  <link href="{{ asset('css/register.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block body %}
+  {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+  {% endfor %}
+    <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
+
+  <div class="row">
+    <div class="col-lg-10 col-xl-9 mx-auto">
+      <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
+        <div class="card-img-left d-none d-md-flex">
+            <!-- Background image for card set in CSS! -->
+        </div>
+        <div class="card-body p-4 p-sm-5">
+          <h5 class="card-title text-center mb-5 fw-light fs-5">Inscription</h5>
+          {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}})}}
+            {% for message in app.flashes('success') %}
+			        <div class="alert alert-success mt-4">
+                <div class="flash-notice">
+				          {{ message }}
+			          </div>
+              </div>
+	          {% endfor %}
+            
+            <div class="my-custom-class-for-errors">
+              {{ form_errors(registrationForm) }}
+   
+              <div class="form-floating mb-3">
+                   {# <input type="text" class="form-control" id="floatingInputUsername" placeholder="username" > #}
+                    {# value="{{ user.username }}"> #}
+                    {# required autofocus> #}
+                    {# <label for="floatingInputUsername">Username</label> #}
+                {{ form_row(registrationForm.username)}}
+              </div>
+               
+              <div class="form-floating mb-3">
+                    {# <input type="email" class="form-control" id="floatingInputEmail" placeholder="name@example.com">  #}
+                    {# value="{{ user.email }}"> #}
+                    {# <label for="floatingInputEmail">Email</label> #}
+				    
+                {{ form_row(registrationForm.email)}}
+              </div>
+             
+              <div class="form-floating mb-3">
+                    {# <input type="password" class="form-control" id="floatingPassword" placeholder="********" > #}
+                    {# value="{{ user.password }}"> #}
+                    {# <label for="floatingPassword">Mot de passe</label> #}
+                {{ form_row(registrationForm.plainPassword)}}
+              </div>
+
+              <div class="form-check mb-3">
+                    {# <input class="form-check-input" type="checkbox" value="" id="agreeTerms" > #}
+                    {# value="{{ user.agreeTerms }}"> #}
+                    {# <label class="form-check-label" for="agreeTerms"> Accepter conditions du site</label>#}
+                {{ form_row(registrationForm.agreeTerms)}}
+              </div>
+              <div class="d-grid mb-2">
+                <button class="btn btn-lg btn-primary btn-register fw-bold text-uppercase" href="{{ path('app_register') }}" type="submit">Créer mon compte</button>
+              </div>
+            </div>
+          {{ form_end(registrationForm)}}
+          <a class="d-block text-center mt-2 small" href="{{ path('app_login') }}" role="button">Déjà membre? Se connecter</a>   
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+{# {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.dueDate) }}
+
+    {{ form_row(form.submit, { 'label': 'Submit me' }) }}
+{{ form_end(form) }} 
+
+
+{{ form_label(form.name, null, {
+    'label': 'Your name',
+    'label_attr': {'class': 'foo'}
+}) }}
+
+#}

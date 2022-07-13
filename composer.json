@@ -24,6 +24,7 @@
         "symfony/flex": "^2",
         "symfony/form": "6.1.*",
         "symfony/framework-bundle": "6.1.*",
+        "symfony/google-mailer": "6.1.*",
         "symfony/http-client": "6.1.*",
         "symfony/intl": "6.1.*",
         "symfony/mailer": "6.1.*",
@@ -36,6 +37,7 @@
         "symfony/proxy-manager-bridge": "6.1.*",
         "symfony/runtime": "6.1.*",
         "symfony/security-bundle": "6.1.*",
+        "symfony/sendgrid-mailer": "6.1.*",
         "symfony/serializer": "6.1.*",
         "symfony/string": "6.1.*",
         "symfony/translation": "6.1.*",
@@ -43,8 +45,10 @@
         "symfony/validator": "6.1.*",
         "symfony/web-link": "6.1.*",
         "symfony/yaml": "6.1.*",
+        "symfonycasts/verify-email-bundle": "^1.10",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "vich/uploader-bundle": "^1.19"
     },
     "config": {
         "allow-plugins": {

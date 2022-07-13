@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Snowtricks - Connexion
+{% endblock %}
+{% block stylesheets %}
+  <link href="{{ asset('css/login.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block body %}
+
+	<!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
+    <div class="row">
+      <div class="col-lg-10 col-xl-9 mx-auto">
+        <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
+          <div class="card-img-left d-none d-md-flex">
+            <!-- Background image for card set in CSS! -->
+          </div>
+          <div class="card-body p-4 p-sm-5">
+            <h5 class="card-title text-center mb-5 fw-light fs-5">Connexion</h5>
+	          {% for message in app.flashes('success') %}
+			        <div class="alert alert-success mt-4">
+				        {{ message }}
+			        </div>
+	          {% endfor %}
+            <form 
+            {# action="{{ path('app_login') }}"  #}
+            method="post" novalidate>
+             
+	          {% if error %}
+			        <div class="alert alert-danger mt-4">
+				        {{ error.messageKey|trans(error.messageData, 'security') }}
+			        </div>
+	          {% endif %}
+            {% if app.user %}
+              <div class="mb-3">
+                Vous êtes connecté(e) comme {{ app.user.username }}
+              </div>
+            {% endif %}
+            {# <form>  #}
+                 <div class="form-floating mb-3">
+                    {# value="{{ app.user.userIdentifier }}"> #}
+                    {# required autofocus> #}
+                   
+                    <input type="text" required value="{{ last_username }}" name="username" id="floatingInputUsername" class="form-control" placeholder="Nom d'utilisateur" required autofocus>
+                    <label for="floatingInputUsername">Entrez votre username</label>
+                  </div>
+                  <hr>
+                  <div class="form-floating mb-3">
+                    <input type="password" name="password" id="floatingPassword" class="form-control" placeholder="********" required>
+                    {# value="{{ app.user.password }}"> #}
+                    <label for="floatingPassword">Entrez votre mot de passe</label>
+                  </div>
+                  <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                  <div class="d-grid mb-2">
+                    <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">Accéder à mon compte</button>
+                  </div>
+
+                  <a class="d-block text-center mt-2 small" href="{{ path('app_register') }}" role="button">Pas de compte? S'inscrire</a>
+
+                  <hr class="my-4">
+
+                  <div class="d-grid">
+                    <div class="text-center">
+                      <a class="small" href="#" role="button">Mot de passe oublié?</a>
+                    </div>
+                  </div>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  
+	
+{% endblock %}

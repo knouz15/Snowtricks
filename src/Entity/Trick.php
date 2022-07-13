@@ -152,17 +152,17 @@ class Trick
         return $this;
     }
 
-    // public function getUser(): ?User
-    // {
-    //     return $this->user;
-    // }
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
 
-    // public function setUser(?User $user): self
-    // {
-    //     $this->user = $user;
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
     //pour aller chercher les images d'un trick
     public function getImages(): Collection

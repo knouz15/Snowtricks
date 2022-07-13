@@ -1,0 +1,252 @@
+{% extends "base.html.twig" %}
+
+{# {% block title trick.name %} #}
+ 
+	
+{% block body %}
+
+  {# <div class="w-50 h-50" style="position:relative; widht: 200px; height:400px; margin:0 auto; m-5">
+    {% if trick.images | length > 0 %}
+      <img src="{{ asset('images/trick/' ~ trick.images[0].name) }}" id="" class="d-block w-100" alt="/"  >      
+    {% else %}  <img src="/assets/no-image.jpg" id="" class="d-block w-100" alt="/">
+    {% endif %}     
+  </div> #}
+
+  <div id="trickMainImage" >
+    {% if trick.images | length > 0 %}
+        <img class="w-100" src="{{ asset('images/trick/' ~ trick.images[0].name) }}" id=""  alt="/" class="position-relative border border-dark">
+      {% else %}  <img src="/assets/no-image.jpg" id="" class="w-100" alt="/">
+    {% endif %}   
+    <div id="trickTitle" class="text-center">
+      <h1>{{ trick.name }}</h1>
+    </div>
+    {# {% if app.user %}
+      <div class="operations">
+        <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i class="fas fa-pencil-alt"></i></a>
+        <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm(`Êtes-vous sûr de vouloir supprimer le trick : {{trick.name}} ?`)"><i class="fas fa-trash-alt"></i></a>
+      </div>
+    {% endif %} #}
+  </div>
+
+	<div class="trickMedia m-5" id="trickMedia">
+    {% if trick.images | length > 0 %}
+      {% for image in trick.images %}
+        <div class="trickImage mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3 border border-dark ">
+          {% set i = loop.index -1 %}
+              <img src='{{ asset('images/trick/') ~image.name}}' alt="Image trick" width="100%" height="200">
+              {% if app.user %}
+                <div class="">
+                  <a href="{{ path('trick.edit', {'id': trick.id}) }}"> <img src="{{ asset("assets/pencil.png") }}" style="width:10%"></a>
+                  <a href="{{ path('trick.delete', {'id': trick.id}) }}" onclick="return confirm('Etes-vous sûr ?');"> <img src="{{ asset("assets/trash.png") }}" style="width:10%"></a>
+                </div>
+              {% endif %}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if trick.tags | length > 0 %}
+      {% for tag in trick.tags %}
+        <div class="trickVideo col-sm-6 col-md-4 col-lg-4 col-xl-3 border border-dark ">  
+          {{ tag.name | raw}}
+          {% if app.user %}
+            <div class="">
+              <a href="{{ path('trick.edit', {'id': trick.id}) }}"> <img src="{{ asset("assets/pencil.png") }}" style="width:10%"></a>
+              <a href="{{ path('trick.delete', {'id': trick.id}) }}" onclick="return confirm('Etes-vous sûr ?');"> <img src="{{ asset("assets/trash.png") }}" style="width:10%"></a>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endif %} 
+  </div>
+  {# <div class="row text-center" id="seeMedia">   #}
+  {# <div class="row  col-11 mx-auto mt-4 mb-1 bg-light" style="justify-content: center" id="seeMedia"> #}
+    <button class="btn btn-info col-10 mt-3 ">Voir les médias</button>
+  {# </div> #}
+
+  <div class="row">
+    <div id="trickDescription" class="col-11 mx-auto mt-4 mb-1 bg-light">
+      <h3>Description </h3>
+        {{ trick.description | raw }}
+    </div>
+  </div>
+  <div class="info">
+    Publié le {{ trick.createdAt|date('d/m/Y') }}
+	</div>
+  {% if trick.updatedAt is not null %}
+    <div class="info">
+      Mis à jour le {{ trick.updatedAt |date('d/m/Y') }}
+    </div>
+  {% endif %}
+      
+  <div class="info">
+    Catégorie: {{ trick.category.slug }}
+  </div>
+	
+  <div class="comment-form " id="comments">
+    {% if app.user %}
+      <div class="comment-item">
+        {{ form_start(commentForm) }}
+        {{ form_row(commentForm.content, {'label': ' ', 'attr': {'placeholder': "Votre commentaire",                                                         'cols': "40"}}) }}
+      </div>
+      <div class="comment-item">
+        {{ form_end(commentForm) }}
+      </div>
+      {% else %}
+        <div class="comment-item">
+          <h3>Vous ne pouvez pas commenter si vous n'etes pas connecté</h3>
+          <a href="{{path('security.login')}}" class="btn btn-primary">Connexion</a>
+        </div>
+    {% endif %}
+  </div>
+
+  <div class="comment-form">
+    {% if trick.comments | length > 0 %}
+      {% for comment in trick.comments  | slice(0,10) %} 
+        <div class="comment ">
+          <div class="avatar">
+            {% if comment.user.avatar %}
+              {# <img src="{{asset('/uploads/images/'~ comment.user.getAvatarImage.url)}}"/> #}
+              <img src="{{ vich_uploader_asset( comment.user,'imageFile') }}" style="width:20%"/>
+              {% else %}
+								<img src="{{asset('/assets/profilnew.png')}}" style="width:20%"/>
+            {% endif %}
+          </div>
+          <div class="comment-content">
+            <div>{{ comment.content | raw }}</div>
+              <div><small>Publié par {{ comment.user.username }} le {{ comment.createdAt |date('d/m/Y H:i') }}</small></div>
+            </div>
+          </div>
+        </div>  
+      {% endfor %}
+      {# <div class="navigation"> #}
+        {# {{ knp_pagination_render(comments) }}  #}
+      {# </div> #}
+      <div class="row text-center">
+        <button id="loadMoreComments" href="{{ path('security.registration') }}" class="btn btn-primary col-md-6 col-8 mx-auto">Voir plus de commentaires</button>
+        <a class="btn btn-primary btn-lg" href="./loadComments.html.twig" role="button">Plus de commentaires</a>
+      </div>
+
+      {% else %}
+        <h3>Aucun commentaire pour ce trick</h3>
+    {% endif %}
+  </div>
+
+{% endblock %} 
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+  {# <script>
+    click = 0;
+    function loadMoreComments(event) {
+        event.preventDefault();
+        click++;
+        var start = 5 * click;
+        const url = "{{ path('loadMoreComments', {'name': trick.name} )}}/" + start;
+        axios.get(url).then(function(response) {
+            $("#comments").append(response.data);
+        }).catch(function (error) {
+            if (response.status === 403) {
+                window.alert("Vous n etes pas autorise a effectuer cette action !");
+            }
+            else if (response.status === 404) {
+                window.alert("La page appelee n existe pas");
+            }
+            else {
+                window.alert("Une erreur est survenue !");
+            }
+        });
+    }
+    document.getElementById("loadMoreComments").addEventListener("click", loadMoreComments);
+</script> #}
+<script>
+ $("#seeMedia").click(function() { 
+        $("#trickMedia").show();
+        $("#seeMedia").hide();
+    });
+</script>
+
+	{% endblock %}
+{# <iframe width="1424" height="652" src="https://www.youtube.com/embed/XUIJw5N5RYY" title="YouTube tag player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
+
+{# Warning: POST Content-Length of 102361652 bytes exceeds the limit of 41943040 bytes in Unknown on line 0 #}
+
+	{# {% for message in app.flashes('success') %}
+			<div class="alert alert-success mt-4">
+				{{ message }}
+			</div>
+		{% endfor %} #}
+
+		{# <h1 class="mt-4">{{ trick.name }}</h1>
+
+		<div class="mt-4">
+			{{ trick.description|raw }}
+		</div>
+
+		<div class="mt-4">
+			{% for image in trick.images %}
+            	<div>
+               		<img src="{{ asset('/images/trick/' ~ image.name) }}" alt="Image" width="150">
+            	</div>
+			{% endfor %}
+		</div>
+		
+		<div>
+			<span class="badge bg-primary">Créée le
+				{{ trick.createdAt|date('d/m/Y') }}</span>
+		</div> #}
+
+	 {# <div class="row justify-content-center mt-5">          
+            <div class="col-md-10 col-md-offset-1 mt-5 mb-4"> 
+                {% if app.user %}
+                  <div class="">
+                    <a href="{{ path('trick.edit', {'id': trick.id}) }}"> <img src="{{ asset("assets/pencil.png") }}" style="width:3%"></a>
+                    <a href="{{ path('trick.delete', {'id': trick.id}) }}" onclick="return confirm('Etes-vous sûr ?');"> <img src="{{ asset("assets/trash.png") }}" style="width:3%"></a>
+                  </div>
+                {% endif %}
+                 <h1> {{ trick.name }}</h1> #}
+               
+                    {# <img class="card-img-top" src="/images/{{ trick.image }}" alt="{{ trick.title }}">
+                    <div class="card-body">
+                        <ul class="list-inline trick-data">
+                            <li class="list-inline-item">
+                                Par : <a target="_blank" href="{{ path('user_profile', { 'id' : trick.user.id }) }}">{{ trick.user.username }}</a>
+                            </li> |           
+                            <li class="list-inline-item">
+                                Ajouté le {{ trick.createdAt | date('d/m/Y') }} (<small>Mise à jour le : {% if trick.updatedAt is defined %}{{ trick.updatedAt | date('d/m/Y') }}{% endif %}</small>)
+                            </li> |                            
+                            <li class="list-inline-item">
+                                Catégorie : {{ trick.category.title }}
+                            </li> | #}
+        {# {% if trick.images | length > 0 %}
+          {% for image in trick.images %}
+            {% if loop.first %}
+               #}
+               
+
+                {# {% set i = trick.images | length + (loop.index -1) %}
+              <a data-target='#carousel-custom' data-slide-to="{{ i }}">
+              <iframe width="1424" height="652" src="https://www.youtube.com/embed/XUIJw5N5RYY" title="YouTube tag player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <img src='{{ asset('tags/') ~tag.name}}' alt="tag trick" width="200" height="200" />
+              </a> #}
+               {# <div class="trickTag col-sm-6 col-md-4 col-lg-4 col-xl-3 border border-dark"> #}
+                {# <iframe src="{{ tag.name }}" allowfullscreen></iframe> #}
+                {# <iframe width="560" height="315" src="https://www.youtube.com/embed/9KTbxKz8VXI" title="YouTube tag player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
+            {# <iframe id="tag{{ tag.id }}" width="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> #}
+       
+
+       {# <script>
+            var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            var url = "{{ tag.name }}";
+            var match = url.match(regExp);
+            if (match && match[2].length == 11) 
+            {
+                var id = match[2];
+                var embedlink = "http://www.youtube.com/embed/" + id;
+                var iframe = document.getElementById("tag{{ tag.id }}");
+                iframe.src = embedlink;
+            }
+        </script> #}

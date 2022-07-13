@@ -67,9 +67,9 @@ class CategoryFixtures extends Fixture
         
         foreach($tricks as $trick){
             $tr= new Trick();
-                $tr->setName($trick[0]);
-                $tr->setCategory->id($trick[1]);
-                $tr->setDescription($trick[2]);
+                // $tr->setName($trick[0]);
+                // $tr->setCategory->id($trick[1]);
+                // $tr->setDescription($trick[2]);
                 // $tr->AddImage($trick[4][0]);
 
                 $manager->persist($tr);

@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TrickController extends AbstractController
 {
-    #[Route('/', name: 'app_trick', methods: ['GET'])]
+    #[Route('/', name: 'app_index', methods: ['GET'])]
     public function index(
         TrickRepository $trickRepository
     ): Response
