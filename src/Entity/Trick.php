@@ -42,9 +42,9 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private $category;
 
-    // #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'trick')]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private $user;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'trick')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $user;
 
     
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist','remove'])]

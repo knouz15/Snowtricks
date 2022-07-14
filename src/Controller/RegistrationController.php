@@ -23,15 +23,17 @@ class RegistrationController extends AbstractController
     private $mailer;
     private $userRepository;
     public function __construct(
-        // Mailer $mailer,
+        Mailer $mailer,
      UserRepository $userRepository)
     {
-        // $this->mailer = $mailer;
+        
         $this->userRepository = $userRepository;
+        $this->mailer = $mailer;
     }
 
     #[Route('/inscription', name: 'app_register', methods: ['GET','POST'])]
     public function register(
+        // Mailer $mailer,
         Request $request, 
         UserPasswordHasherInterface $userPasswordHasher, 
         UserAuthenticatorInterface $userAuthenticator, 
@@ -39,6 +41,14 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager
         ): Response
     {
+        //si connecté, redirection vers page d'accueil
+        // if($user)
+        if (session_status() == 2)
+        {
+            return $this->redirectToRoute('app_index');
+        }
+        else
+        {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -63,7 +73,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // $this->mailer->sendEmail($user->getEmail(), $user->getToken());
+            $this->mailer->sendEmail($user->getEmail(), $user->getToken());
             // $this->mailer->sendEmail($user->getEmail());
 
             $this->addFlash( type:"success", message:"Votre compte a bien été créé ! Veuillez valider le mail d'activation");
@@ -74,14 +84,17 @@ class RegistrationController extends AbstractController
 
             // return $userAuthenticator->authenticateUser($user, $authenticator,$request);
         } 
-        else{
-            $this->addFlash( 'Erreur', 'Aucun compte n a été créé !');
-        }
+        // else{
+        //     $this->addFlash( 'Erreur', 'Aucun compte n a été créé !');
+        // }
 
         return $this->render('registration/register.html.twig', 
        
-        ['registrationForm' => $form->createView(), ]
+        ['registrationForm' => $form->createView(), 
+        // 'user' => $user
+        ]
     );
+}
     }
     
 /**
@@ -105,16 +118,18 @@ class RegistrationController extends AbstractController
             $this->addFlash("success", "Compte actif !");
             return $this->redirectToRoute('app_index');
         } else {
-            $this->addFlash("error", "Ce compte n'exsite pas !");
+            $this->addFlash("error", "Ce compte ne semble pas valide !");
             return $this->redirectToRoute('app_index');
         }
     }
-    
+     
     /**
      * @return string
      * @throws \Exception
      */
-    private function generateToken()
+    private function generateToken(
+        // int $validity = 10800
+        )
     {
         return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');//on nettoie les valeurs encodés on retirant les +,/ et =
     }

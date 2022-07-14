@@ -17,8 +17,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte avec cet email existe déjà!')]
+#[UniqueEntity(fields: ['username'], message: 'Un compte avec ce username existe déjà!')]
 
 // #[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 /**
@@ -84,7 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     private $token;
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private $isVerified;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $iagreeTerms;

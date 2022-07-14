@@ -40,7 +40,13 @@
                 <div class="form-floating mb-3">
                 {{ form_row(form.category)}}
                 </div>
-              
+                <div class="form-floating mb-3">
+                {{ form_row(form.images)}}
+                </div>
+                <div class="form-floating mb-3">
+                {{ form_row(form._token)}}
+                </div>
+                <ul class="tags" data-prototype="&lt;div&gt;&lt;label class=&quot; required&quot;&gt;__name__&lt;/label&gt;&lt;div id=&quot;trick_tags___name__&quot;&gt;&lt;div&gt;&lt;label for=&quot;trick_tags___name___name&quot; class=&quot; required&quot;&gt;iframe&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;trick_tags___name___name&quot; name=&quot;trick[tags][__name__][name]&quot; required=&quot;required&quot; maxlength=&quot;255&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;"></ul>
               <div class="d-grid mb-2">
                 <button class="btn btn-primary btn-login text-uppercase fw-bold" href="/#tricks" type="submit">Créer mon trick
                 </button>

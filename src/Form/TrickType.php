@@ -74,38 +74,37 @@ class TrickType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'slug',
                 'label' => 'Catégorie',
-                'empty_data' => '',
+                'placeholder' => '',
                 'constraints' => [
                     new Assert\NotBlank([
                         'message' => 'Veuillez choisir une categorie',
                     ])
                 ]
-            ]);
-             // On ajoute le champ "images" dans le formulaire
-            // Il n'est pas lié à la base de données (mapped à false)
-            // ->add('images', FileType::class, [
-            //     'label' => 'Images:jpg ou png ou  ',
-            //     'multiple' => true,
-            //     'mapped' => false,
-            //     'required' => true
-            // ]) 
+            ])
+            //   On ajoute le champ "images" dans le formulaire. Il n'est pas lié à la base de données (mapped à false)
+             ->add('images', FileType::class, [
+                 'label' => 'Images: par exemple jpg ou png  ',
+                 'multiple' => true,
+                 'mapped' => false,
+                 'required' => false
+             ]) 
             
-            // ->add('tags', CollectionType::class, [
+            ->add('tags', CollectionType::class, [
                 
-            //     'entry_type' => TagType::class, 
+                'entry_type' => TagType::class, 
                 
-            //     'entry_options' => ['label' => false],
-            //     'allow_add' => true,
-            //     'by_reference' => false,
-            //     'allow_delete' => true,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false,
+                'allow_delete' => true,
                 
-            //     // 'label' => 'Vos vidéos',
-            //     // 'mapped' => false,
+                // 'label' => 'Vos vidéos',
+                // 'mapped' => false,
                 
                 
-            //     'required' => true,
+                'required' => true,
                
-            //     ])
+            ]);
 
     } 
 

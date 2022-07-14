@@ -63,11 +63,44 @@ class TrickController extends AbstractController
        
         if ($form->isSubmitted() && $form->isValid()) {
             // $entityManager = $doctrine->getManager();
-            $trick = $form->getData();
+    $trick = $form->getData();
             //  $trick->setUser($this->getUser());
             
             // dd($trick);
-            $trick->setUser($this->getUser());
+            // $trick->setUser($this->getUser());
+
+            // On récupère les images et les vidéos transmises
+            $images = $form->get('images')->getData();
+            $tags = $form->get('tags')->getData();
+           
+            // On boucle sur les images
+            foreach($images as $image){
+                // On génère un nouveau nom de fichier
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();//pr eviter que 2 images aient le meme nom
+
+                // On copie le fichier dans le dossier
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $fichier);
+
+                // On stocke l'image dans la base de données (son nom) pcq l'image est sur le disque
+                $img = new Image();
+                $img->setName($fichier);//on stoque le nom, $fichier est une string
+                $trick->addImage($img);
+               //  $entityManager->persist($image);
+               // On persiste l'entité Image une fois bien remplie dans la BDD
+                $manager->persist($image);
+    
+           }
+            foreach($tags as $tag)
+           {
+               // $tag->setTrick($trick);
+               $trick->addTag($tag);
+               $manager->persist($tag);
+           }
+           
+        //    $trick->setUser($this->getUser());
+
             // $entityManager = $doctrine->getManager();
             $manager->persist($trick);
             $manager->flush();
