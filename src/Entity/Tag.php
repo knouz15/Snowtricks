@@ -18,7 +18,7 @@ class Tag
     private $name;
 
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'tags')]
-    #[ORM\JoinColumn(nullable: false)]
+    // #[ORM\JoinColumn(nullable: false)]
     private $trick;
 
     public function getId(): ?int

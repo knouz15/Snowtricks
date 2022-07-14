@@ -15,18 +15,18 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use DateTimeImmutable;
 
 class RegistrationController extends AbstractController
 {
 
     private $mailer;
     private $userRepository;
-    public function __construct(Mailer $mailer, UserRepository $userRepository)
+    public function __construct(
+        // Mailer $mailer,
+     UserRepository $userRepository)
     {
-        $this->mailer = $mailer;
+        // $this->mailer = $mailer;
         $this->userRepository = $userRepository;
     }
 
@@ -54,10 +54,7 @@ class RegistrationController extends AbstractController
                 )
             );
             // dd($user);
-            
-            $this->iagreeTerms = new DateTimeImmutable();
-            // now = new DateTimeImmutable();
-            // $user->setIagreeTerms(now);
+            $user->setIagreeTerms(new \DateTime()); 
             $user->setToken($this->generateToken());
             // $em = $this->getDoctrine()->getManager();
             // $em->persist($user);
@@ -66,22 +63,10 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // $email = (new Email())
-        //     ->from('register@example.fr')
-        //     ->to('$user->getEmail()')
-        //     //->cc('cc@example.com')
-        //     //->bcc('bcc@example.com')
-        //     //->replyTo('fabien@example.com')
-        //     //->priority(Email::PRIORITY_HIGH)
-        //     ->subject('Validez votre inscription!')
-            // ->text("Bienvenue {$user->getFirstName()}!")
-            // ->html('<h1>See Twig integration for better HTML integration!</h1>');
-            // ->html('<p>See Twig integration for better HTML integration!</p>');
+            // $this->mailer->sendEmail($user->getEmail(), $user->getToken());
+            // $this->mailer->sendEmail($user->getEmail());
 
-            $this->mailer->sendEmail($user->getEmail(), $user->getToken());
-
-
-            $this->addFlash( type:"success", message:"Votre compte a bien été créé ! Veuillez validé le mail d\'activation");
+            $this->addFlash( type:"success", message:"Votre compte a bien été créé ! Veuillez valider le mail d'activation");
             // do anything else you need here, like send an email
 
 

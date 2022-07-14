@@ -14,7 +14,7 @@
                     {# <div class="card mb-4">
                         <a href="#!"><img class="card-img-top" src="/IMAGES/blog-thumb3.jpg" alt="..." stlye="height:200vw; width:850vw; object-fit: cover"/></a>    
                     </div> #}
-                    <section >
+                    <section  class="mb-5 mt-5">
                         <div class="overlay-wcs"></div>
                             <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
                                 <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                     </section>
-
+                    
                     <!-- Nested row for non-featured blog posts-->
                     <div class="row" id="tricks">
                         
@@ -42,9 +42,9 @@
                                     {% endif %}
                                     <div class="card-body">
                                         <div class="small text-muted">Publié le {{ trick.createdAt|date('d/m/Y H:i') }}</div>
-                                        <h2 class="card-title h4">{{ trick.slug }}</h2>
-                                        <p class="card-text">{{ trick.description|slice(0, 100) ~ '...' }}</p>
-                                        <a class="btn btn-primary" href="#!">Read more →</a>
+                                        <h2 class="card-title h4">{{ trick.name }}</h2>
+                                        {# <p class="card-text">{{ trick.description|slice(0, 100) ~ '...' }}</p> #}
+                                        <a class="btn btn-primary" href="{{ path('trick_show', {name: trick.name}) }}">Read more →</a>
                                     </div>
                                 </div>
                                 </div>

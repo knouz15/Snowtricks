@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[UniqueEntity(fields: ['slug'], message: 'Un trick à ce nom existe déjà sur le site')]
+#[UniqueEntity(fields: ['name'], message: 'Un trick à ce nom existe déjà sur le site')]
 // #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -22,7 +22,7 @@ class Trick
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -89,8 +89,8 @@ class Trick
 
     public function setName(string $name): self
     {
-        $this->slug = $name;
-
+        // $this->slug = $name;
+        $this->name = $name;
         return $this;
     }
 

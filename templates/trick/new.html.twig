@@ -6,26 +6,108 @@
 {% endblock %}
 
 {% form_theme form _self %}
-
+{% block stylesheets %}
+  <link href="{{ asset('css/register.css') }}" rel="stylesheet" />
+{% endblock %}
 {% block body %} 
-	<div class="container">
+
+    {# <body> #}
+  {# <div class="container"> #}
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5">
+            <h5 class="card-title text-center mb-5 fw-light fs-5">Création d'un trick</h5>
+            {# <form> #}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
+            {% for message in app.flashes('success') %}
+			        <div class="alert alert-success mt-4">
+                <div class="flash-notice">
+				          {{ message }}
+			          </div>
+              </div>
+	          {% endfor %}
+            
+            <div class="my-custom-class-for-errors">
+              {{ form_errors(form) }}
+
+              <div class="form-floating mb-3">
+                {{ form_row(form.name)}}
+                </div>
+              <div class="form-floating mb-3">
+              {{ form_row(form.description)}}
+                 </div>
+                <div class="form-floating mb-3">
+                {{ form_row(form.category)}}
+                </div>
+              
+              <div class="d-grid mb-2">
+                <button class="btn btn-primary btn-login text-uppercase fw-bold" href="/#tricks" type="submit">Créer mon trick
+                </button>
+              </div>
+              {# <hr class="my-4"> #}
+              </div>
+          {{ form_end(form)}}
+            {# </form> #}
+          </div>
+        </div>
+      </div>
+    </div>
+  {# </div>
+</body> #}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	{# <div class="container">
 
 		<h1 class="mt-4">Création d'un trick</h1>
 
-		{{ form_start(form) }}
+		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
 		<div class="form-group">
 			{{ form_row(form.name) }}
-		</div>
+		</div> #}
+        {# <div class="form-group">
+			{{ form_row(form.slug) }}
+		</div> #}
 
-		<div class="form-group">
+		{# <div class="form-group">
 			{{ form_row(form.description) }}
 		</div>
 
 		<div class="form-group">
 			{{ form_row(form.category) }}
-		</div>
-
+		</div> #}
+{# DEBUT MEDIAS
         <div class="card grey">
             <span class="card-title">Ajout médias</span>
        
@@ -33,14 +115,9 @@
 			    {{ form_row(form.images) }}
 		    </div>
             {{ form_row(form._token) }}
+           <ul class="tags" data-prototype="&lt;div&gt;&lt;label class=&quot; required&quot;&gt;__name__&lt;/label&gt;&lt;div id=&quot;trick_tags___name__&quot;&gt;&lt;div&gt;&lt;label for=&quot;trick_tags___name___name&quot; class=&quot; required&quot;&gt;iframe&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;trick_tags___name___name&quot; name=&quot;trick[tags][__name__][name]&quot; required=&quot;required&quot; maxlength=&quot;255&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;"></ul>
 
-
-
-
-           <ul class="tags" data-prototype="&lt;div&gt;&lt;label class=&quot; required&quot;&gt;__name__&lt;/label&gt;&lt;div id=&quot;trick_tags___name__&quot;&gt;&lt;div&gt;&lt;label for=&quot;trick_tags___name___name&quot; class=&quot; required&quot;&gt;iframe&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;trick_tags___name___name&quot; name=&quot;trick[tags][__name__][name]&quot; required=&quot;required&quot; maxlength=&quot;255&quot; /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;">
-</ul>
-
-
+FIN MEDIAS #}
 
             {# <ul id="tag-fields-list"
                 data-prototype="{{ form_widget(form.tags.vars.prototype)|e }}"
@@ -94,7 +171,7 @@
 
 		    {# </div> #} 
 
-        </div>
+        {# </div>
 		<div class="form-group">
 			{{ form_row(form.submit) }}
 		</div>
@@ -102,7 +179,7 @@
         {{ form_end(form) }}
 
     </div>
-{% endblock %}
+{% endblock %} #}
 
 
 

@@ -1,0 +1,136 @@
+{% extends "base.html.twig" %}
+
+{% block title trick.name %}
+ 
+	
+{% block body %}
+
+<div class="container">
+
+    <!-- Portfolio Item Heading -->
+    <h1 class="my-4">{{ trick.name }}
+      {# <small>Secondary Text</small> #}
+    </h1>
+  
+    <!-- Portfolio Item Row -->
+    <div class="row">
+  
+      <div class="col-md-8">
+        <img class="img-fluid" src="/IMAGES/no-image.jpg" alt="">
+      </div>
+  
+      <div class="col-md-4">
+        <h3 class="my-3">Description du trick</h3>
+        <p>{{ trick.description | raw }}.</p>
+        <h3 class="my-3">Details du trick</h3>
+        <ul>
+          <li>Publié le {{ trick.createdAt|date('d/m/Y') }}</li>
+          <li>Mis à jour le {{ trick.updatedAt |date('d/m/Y') }}</li>
+          <li>Catégorie: {{ trick.category.slug }}</li>
+        </ul>
+      </div>
+  
+    </div>
+    <!-- /.row -->
+  
+    <h3 class="my-4">Voir Medias</h3>
+  
+    <div class="row">
+  
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+              <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+      </div>
+  
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+              <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+      </div>
+  
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+              <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+      </div>
+  
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+              <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+      </div>
+  
+    </div>
+    <!-- /.row -->
+  
+  </div>
+
+
+
+
+
+
+
+  {# <div id="trickMainImage" >
+    {% if trick.images | length > 0 %}
+        <img class="w-100" src="{{ asset('images/trick/' ~ trick.images[0].name) }}" id=""  alt="/" class="position-relative border border-dark">
+      {% else %}  <img src="/IMAGES/no-image.jpg" id="" class="w-100" alt="/">
+    {% endif %}   
+    <div id="trickTitle" class="text-center">
+      <h1>{{ trick.name }}</h1>
+    </div>
+ </div>
+
+	<div class="trickMedia m-5" id="trickMedia">
+    {% if trick.images | length > 0 %}
+      {% for image in trick.images %}
+        <div class="trickImage mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3 border border-dark ">
+          {% set i = loop.index -1 %}
+              <img src='{{ asset('images/trick/') ~image.name}}' alt="Image trick" width="100%" height="200">
+              {% if app.user %}
+                <div class="">
+                  <a href="{{ path('trick.edit', {'id': trick.id}) }}"> <img src="{{ asset("assets/pencil.png") }}" style="width:10%"></a>
+                  <a href="{{ path('trick.delete', {'id': trick.id}) }}" onclick="return confirm('Etes-vous sûr ?');"> <img src="{{ asset("assets/trash.png") }}" style="width:10%"></a>
+                </div>
+              {% endif %}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+       <h3>Description </h3>
+        {{ trick.description | raw }}
+    </div>
+  </div>
+  <div class="info">
+    Publié le {{ trick.createdAt|date('d/m/Y') }}
+	</div>
+  {% if trick.updatedAt is not null %}
+    <div class="info">
+      Mis à jour le {{ trick.updatedAt |date('d/m/Y') }}
+    </div>
+  {% endif %}
+      
+  <div class="info">
+    Catégorie: {{ trick.category.slug }}
+  </div>
+	
+  
+
+{% endblock %} 
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+ 
+<script>
+ $("#seeMedia").click(function() { 
+        $("#trickMedia").show();
+        $("#seeMedia").hide();
+    });
+</script> #}
+
+	{% endblock %}

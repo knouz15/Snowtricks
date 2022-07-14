@@ -17,7 +17,7 @@ class Image
     private $name;
 
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'images')]
-    #[ORM\JoinColumn(nullable: false)]
+    // #[ORM\JoinColumn(nullable: false)]
     private $trick;
 
     //private $file;
