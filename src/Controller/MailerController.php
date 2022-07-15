@@ -1,21 +1,18 @@
 <?php
 
-namespace App\Service;
-// namespace App\Controller;
+//namespace App\Service;
+namespace App\Controller;
 
-// use Symfony\Component\Routing\Annotation\Route;
-// use Symfony\Component\HttpFoundation\Response;
-// use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-// use Symfony\Component\Mime\Email;
-// use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mime\Email;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-
-
+use Symfony\Component\Mailer\MailerInterface;
 
 //class Mailer {
-class Mailer
+class MailerController extends AbstractController
 {
     /**
      * @var MailerInterface
@@ -24,7 +21,7 @@ class Mailer
 
     private $mailer;
 
-    public function __construct(MailerInterface $mailer){$this->mailer = $mailer;}
+    //public function __construct(MailerInterface $mailer){$this->mailer = $mailer;}
 
     //public function sendEmail($email, $token)
 
@@ -32,13 +29,13 @@ class Mailer
  * @Route("/email")
  * */
 
-public function sendEmail($email, $token)
+public function sendEmail(MailerInterface $mailer)
     { 
         // $email = (new Email())
 	$email = (new TemplatedEmail())
             ->from('resgister@example.fr')
-            ->to(new Address($email,$email))
-// ->to('alex@example.com')
+            //->to(new Address($email))
+->to('alex@example.com')
             // ->subject('Merci pour votre inscription!')
             ->subject('Validez votre inscription!')
             ->text("Bienvenue !")
@@ -46,21 +43,19 @@ public function sendEmail($email, $token)
             // ->html('<p>See Twig integration for better HTML integration!</p>');
 
             // path of the Twig template to render
-            ->htmlTemplate('emails/registration.html.twig')
+            ->htmlTemplate('emails/registration.html.twig');
 
             // pass variables (name => value) to the template
-            ->context(['token' => $token
-            // ,'userId' => $user->getId()
-        ]);
+            //->context(['token' => $token,]);
 //On envoie le mail 
-        $this->mailer->send($email);
-// $mailer->send($email);
+        // $this->mailer->send($email);
+$mailer->send($email);
 
  
 
-// return new Response(
-//           'Email was sent'
-//        );
+return new Response(
+          'Email was sent'
+       );
         // dd($email);
     }
 }

@@ -88,7 +88,7 @@ class RegistrationFormType extends AbstractType
                 'second_options' => [
                     'attr' => [
                         'class' => 'form-control',
-                        "placeholder" => "Retapez votre mot de passe",
+                        "placeholder" => "Confirmez votre mot de passe",
                     ],
                     'label' => 'Confirmez Mot de passe',
                     'label_attr' => [

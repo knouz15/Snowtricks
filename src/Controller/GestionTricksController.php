@@ -5,14 +5,13 @@ namespace App\Controller;
 use App\Entity\Tag;
 use App\Entity\Image;
 use App\Entity\Trick;
-use App\Entity\Comment;
+// use App\Entity\Comment;
 use App\Form\TrickType;
-use App\Form\CommentType;
+// use App\Form\CommentType;
 use App\Repository\TrickRepository;
-// use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Knp\Component\Pager\PaginatorInterface;
+// use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class TrickController extends AbstractController
+class GestionTricksController extends AbstractController
 {
     /**
      * This controller display all tricks
@@ -54,7 +53,7 @@ class TrickController extends AbstractController
      * @return Response
      */
     #[Route('/trick/creation', 'trick.new',methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    // #[IsGranted('ROLE_USER')]
     public function new(
         Request $request,
         EntityManagerInterface $manager
@@ -72,7 +71,7 @@ class TrickController extends AbstractController
             $trick = $form->getData();
             //  $trick->setUser($this->getUser());
             
-            // dd($manager);
+            // dd($trick);
             $trick->setUser($this->getUser());
             // $entityManager = $doctrine->getManager();
             $manager->persist($trick);
@@ -82,10 +81,10 @@ class TrickController extends AbstractController
                 'Votre trick a été créé avec succès !'
             );
 
-            return $this->redirectToRoute('trick.index');
+            return $this->redirectToRoute('app_index');
         }
 
-        return $this->render('pages/trick/new.html.twig', 
+        return $this->render('trick/new.html.twig', 
         ['form' => $form->createView(),]
         );
     }
@@ -103,11 +102,8 @@ class TrickController extends AbstractController
     ): Response
     {//le repository sert à gérer la récupération des données
         $trick = $trickRepo->findOneBy(['name' => $name ]);
-        //dd($trick);
-    
-           
 
-        return $this->render('pages/trick/show.html.twig', ['trick' => $trick]);
+        return $this->render('trick/show.html.twig', ['trick' => $trick]);
     }
 }
     
