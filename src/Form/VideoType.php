@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Tag;
+use App\Entity\Video;
 use App\Form\ApplicationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,24 +14,31 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
-class TagType extends AbstractType
+class VideoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-       
+        
         $builder
-        ->add('name', TextType::class, [
-            'label' => false,
-            'required' => false,
-            'constraints' => [
-                new Regex([
-                    'pattern' => '#^((?:https?:)?\/\/)?(?:www\.)?((?:youtube\.com|youtu\.be|dai\.ly|dailymotion\.com|vimeo\.com|player\.vimeo\.com))(\/(?:[\w\-]+\?v=|embed\/|video\/|embed\/video\/)?)([\w\-]+)(\S+)?$#',
-                    // 'pattern' => '<iframe\s+.*?\s+src=("[^"]+").*?<\/iframe>',
-                    //  'pattern' => '<iframe\s+.*?\s+src=(".*?").*?<\/iframe>',
-            //         'message' => 'You can only use an iframe',
-                ]),
-            ],
-        ]);
+            ->add('url',TextType::class, [
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '#(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))#',
+                        'message' => 'Ceci n\'est pas une iframe',
+                    ]),
+                ],
+                'label' => 'Entrez une iframe'
+            ]
+        
+        );
+            // , TextType::class, [
+            //     'label' => false,
+            //     'attr'  => [
+            //         'class' => 'form__input'
+            //     ],
+            // ]);
+
+
         // ->add('delete', ButtonType::class, [
         //     'label_html' => true,
         //     'label' => '<i class="fas fa-times"></i>',
@@ -82,7 +89,7 @@ class TagType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Tag::class,
+            'data_class' => Video::class,
         ]);
     }
 }

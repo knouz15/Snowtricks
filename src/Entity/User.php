@@ -342,7 +342,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
         ) = unserialize($serialized);
     }
 
-    // public function isVerified(): bool
     public function getIsVerified(): bool
     {
         return $this->isVerified;

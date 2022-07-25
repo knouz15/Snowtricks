@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-
+ 
 class UserForgotPasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

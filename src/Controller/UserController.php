@@ -17,42 +17,43 @@ use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 class UserController extends AbstractController
 {
     
-    #[Security("is_granted('ROLE_USER')")]
-    #[Route('/utilisateur/mot-de-passe-oublie', 'user.forgot.password', methods: ['GET', 'POST'])]
-    public function forgotPassword(
-        // User $choosenUser,
-        Request $request,
-        EntityManagerInterface $manager,
-        UserPasswordHasherInterface $hasher
-    ): Response {
-        $form = $this->createForm(UserForgotPasswordType::class);
+    // #[Security("is_granted('ROLE_USER')")]
+    // #[Route('/utilisateur/mot-de-passe-oublie', 'user.forgot.password', methods: ['GET', 'POST'])]
+    // public function forgotPassword
+    // (
+    //     // User $choosenUser,
+    //     Request $request,
+    //     EntityManagerInterface $manager,
+    //     UserPasswordHasherInterface $hasher
+    // ): Response {
+    //     $form = $this->createForm(UserForgotPasswordType::class);
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+    //     $form->handleRequest($request);
+    //     if ($form->isSubmitted() && $form->isValid()) {
             
-                    $form->getData()['username'];
+    //                 $form->getData()['username'];
 
-                $this->addFlash(
-                    'success',
-                    'Vous pouvez choisir un nouveau mot de passe.'
-                );
+    //             $this->addFlash(
+    //                 'success',
+    //                 'Vous pouvez choisir un nouveau mot de passe.'
+    //             );
 
-                $manager->persist($user);
-                $manager->flush();
+    //             $manager->persist($user);
+    //             $manager->flush();
 
-                return $this->redirectToRoute('trick.index');
-            } else {
-                $this->addFlash(
-                    'warning',
-                    'Le username renseigné est incorrect.'
-                );
-            }
+    //             return $this->redirectToRoute('trick.index');
+    //         } else {
+    //             $this->addFlash(
+    //                 'warning',
+    //                 'Le username renseigné est incorrect.'
+    //             );
+    //         }
         
 
-        return $this->render('security/forgot_password.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
+    //     return $this->render('security/forgot_password.html.twig', [
+    //         'form' => $form->createView()
+    //     ]);
+    // }
     /**
      * This controller allow us to edit user's password
      *

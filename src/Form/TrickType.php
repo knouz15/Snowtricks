@@ -17,7 +17,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -30,15 +33,21 @@ class TrickType extends AbstractType
             
             ->add('name', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    "placeholder" => "Entrez un nom",
+                    'minlenght' => '3',
+                    'maxlenght' => '50',
+
                 ],
-                'label' => 'Nom',
+                'label' => 'Nom trick',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
                 'constraints' => [
                     new Assert\NotBlank([
                         'message' => 'Veuillez saisir le nom du trick ',
+                    ]),
+                    new Length(['min' => 3, 'max' => 50, 'minMessage' => 'Le nom du trick doit contenir au moins 3 caractères'
                     ])
                 ]
             ])
@@ -57,8 +66,7 @@ class TrickType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    // 'min' => 1,
-                    // 'max' => 5
+                    "placeholder" => "Décrivez le trick ..."
                 ],
                 'label' => 'Description',
                 'label_attr' => [
@@ -70,42 +78,83 @@ class TrickType extends AbstractType
                     ])
                 ]
                 ])
+                ->add('videos', CollectionType::class, [
+                    'entry_type'     => VideoType::class,
+                    'entry_options'  => [
+                        'label' => false,
+                    ],
+                    'by_reference'   => false,
+                    'allow_add'      => true,
+                    'allow_delete'   => true,
+                    'required'       => false,
+                    'prototype'      => true,
+                    'constraints' => [
+                        new Assert\NotBlank([
+                            'message' => 'Veuillez saisir au moins une url',
+                        ]),
+                    ]
+                ])
+                ->add('imagesFile', CollectionType::class, [
+                    'entry_type'     => FileType::class,
+                    'entry_options'  => [
+                        'label' => false,
+                    ],
+                    'by_reference'   => false,
+                    'allow_add'      => true,
+                    'allow_delete'   => true,
+                    'mapped' => false,
+                    'required'       => false,
+                    'prototype'      => true,
+                    'constraints' => [
+                        new Assert\NotBlank([
+                            'message' => 'Veuillez joindre au moins une image',
+                        ]),
+                    ]
+                ])
+
+                // ->add('images', FileType::class, [
+                //     'label' => 'image (PDF file)',
+                //     // 'multiple' => true,
+    
+                //     // unmapped means that this field is not associated to any entity property
+                //     'mapped' => false,
+    
+                //     // make it optional so you don't have to re-upload the PDF file
+                //     // every time you edit the Product details
+                //     'required' => false,
+    
+                //     // unmapped fields can't define their validation using annotations
+                //     // in the associated entity, so you can use the PHP constraint classes
+                //     'constraints' => [
+                //         new File([
+                //             'maxSize' => '1024k',
+                //             'mimeTypes' => [
+                //                 'application/jpg',
+                //                 'application/png',
+                //             ],
+                //             'mimeTypesMessage' => 'Uploadez une image à formatvalide',
+                //         ])
+                //     ],
+                // ])
+
+                // ->add('images', FileType::class, [
+                //     'label' => 'Images:jpg ou png ou  ',
+                //     'multiple' => true,
+                //     'mapped' => false,
+                //     'required' => true
+                // ]) 
             ->add('category', EntityType::class, [ 
                 'class' => Category::class,
-                'choice_label' => 'slug',
+                // 'choice_label' => 'slug',
                 'label' => 'Catégorie',
                 'placeholder' => '',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Veuillez choisir une categorie',
+                        'message' => 'Veuillez choisir une catégorie',
                     ])
-                ]
-            ])
-            //   On ajoute le champ "images" dans le formulaire. Il n'est pas lié à la base de données (mapped à false)
-             ->add('images', FileType::class, [
-                 'label' => 'Images: par exemple jpg ou png  ',
-                 'multiple' => true,
-                 'mapped' => false,
-                 'required' => false
-             ]) 
-            
-            ->add('tags', CollectionType::class, [
-                
-                'entry_type' => TagType::class, 
-                
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'by_reference' => false,
-                'allow_delete' => true,
-                
-                // 'label' => 'Vos vidéos',
-                // 'mapped' => false,
-                
-                
-                'required' => true,
-               
-            ]);
-
+                ] 
+                    ]);
+           
     } 
 
     public function configureOptions(OptionsResolver $resolver): void

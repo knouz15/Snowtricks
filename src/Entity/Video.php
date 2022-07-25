@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\TagRepository;
+use App\Repository\VideoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TagRepository::class)]
-class Tag
+#[ORM\Entity(repositoryClass: VideoRepository::class)]
+class Video
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -15,25 +15,25 @@ class Tag
 
     
     #[ORM\Column(type: 'string', length: 500)]
-    private $name;
+    private $url;
 
-    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'tags')]
-    // #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'videos')]
+    #[ORM\JoinColumn(nullable: false)]
     private $trick;
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    public function getName(): ?string
+ 
+    public function getUrl(): ?string
     {
-        return $this->name;
+        return $this->url;
     }
 
-    public function setName(string $name): self
+    public function setUrl(string $url): self
     {
-        $this->name = $name;
+        $this->url = $url;
 
         return $this;
     }

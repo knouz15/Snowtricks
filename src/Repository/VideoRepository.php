@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\Tag;
+use App\Entity\Video;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Tag|null find($id, $lockMode = null, $lockVersion = null)
- * @method Tag|null findOneBy(array $criteria, array $orderBy = null)
- * @method Tag[]    findAll()
- * @method Tag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Video|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Video|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Video[]    findAll()
+ * @method Video[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TagRepository extends ServiceEntityRepository
+class VideoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Tag::class);
+        parent::__construct($registry, Video::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Tag $entity, bool $flush = true): void
+    public function add(Video $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class TagRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Tag $entity, bool $flush = true): void
+    public function remove(Video $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,7 +46,7 @@ class TagRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Tag[] Returns an array of Tag objects
+    //  * @return Video[] Returns an array of Video objects
     //  */
     /*
     public function findByExampleField($value)
@@ -63,7 +63,7 @@ class TagRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Tag
+    public function findOneBySomeField($value): ?Video
     {
         return $this->createQueryBuilder('v')
             ->andWhere('v.exampleField = :val')

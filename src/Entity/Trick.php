@@ -46,12 +46,15 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
+    // #[Vich\UploadableField(mapping: 'user_images', fileNameProperty: 'avatar')]
+    // private ?File $imageFile = null;
     
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist','remove'])]
     private $images;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Tag::class, orphanRemoval: true, cascade: ['persist','remove'])]
-    private $tags;
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ['persist','remove'])]
+    // #[ORM\JoinColumn(nullable: false)]
+    private $videos;
 
 //    #[ ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
 //     private $comments;
@@ -61,7 +64,7 @@ class Trick
         $this->createdAt = new \DateTimeImmutable();
         // $this->updatedAt = new \DateTimeImmutable();
         $this->images = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->videos = new ArrayCollection();
         // $this->comments = new ArrayCollection();
     }
 
@@ -176,7 +179,6 @@ class Trick
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
             $image->setTrick($this);
-            //$this->setUpdatedAt(new \DateTimeImmutable);
         }
 
         return $this;
@@ -197,32 +199,32 @@ class Trick
     }
 
     /**
-     * @return Collection<int, Tag>
+     * @return Collection<int, Video>
      */
-    public function getTags(): Collection
+    public function getVideos(): Collection
     {
-        return $this->tags;
+        return $this->videos;
     }
 
-    public function addTag(Tag $tag): self
+    public function addVideo(Video $video): self
     {
-        if (!$this->tags->contains($tag)) {
-            $this->tags[] = $tag;
-            $tag->setTrick($this);
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTrick($this);
         }
 
         return $this;
     }
 
-    public function removeTag(Tag $tag): self
+    public function removeVideo(Video $video): self
     {
-        if ($this->tags->contains($tag)) {
-            $this->tags->removeElement($tag) ;
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video) ;
                 // set the owning side to null (unless already changed)
-                if ($tag->getTrick() === $this) {
-                    $tag->setTrick(null);
-                }
+            if ($video->getTrick() === $this) {
+                    $video->setTrick(null);
             }
+        }
 
         return $this;
     }

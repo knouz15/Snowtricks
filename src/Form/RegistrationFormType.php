@@ -24,20 +24,21 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'attr' => [
-                'class' => 'form-control',
-                "placeholder" => "Entrez un username",
-                'minlenght' => '2',
-                'maxlenght' => '50',
+                    'class' => 'form-control',
+                    "placeholder" => "Entrez un username",
+                    'minlenght' => '3',
+                    'maxlenght' => '50',
                 ],
                 'label' => 'Nom d\'utilisateur',
                 'label_attr' => [
-                'class' => 'form-label  mt-4'
+                    'class' => 'form-label  mt-4'
                 ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un username',
                     ]),
-                    new Length(['min' => 2, 'max' => 50, 'minMessage' => 'Votre username doit contenir plus de 3 caractères'])
+                    new Length(['min' => 3, 'max' => 50, 'minMessage' => 'Votre username doit contenir au moins 3 caractères'
+                    ])
                 ]
             ])
             ->add('email', EmailType::class, [
@@ -60,15 +61,16 @@ class RegistrationFormType extends AbstractType
                     ]),
                     new Length(['min' => 2, 'max' => 180])
                 ]
-                ])
-           
+            ])
+            
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
                     // 'mapped' => false,
-                    'attr' => ['autocomplete' => 'new-password',
-                    "placeholder" => "Entrez votre mot de passe",
-                ],
+                    'attr' => [
+                        'autocomplete' => 'new-password',
+                        "placeholder" => "Entrez votre mot de passe",
+                    ],
                     'label' => 'Mot de passe',
                     // 'label_attr' => ['class' => 'form-label  mt-4']
                     'constraints' => [

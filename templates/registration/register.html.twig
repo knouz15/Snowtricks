@@ -10,8 +10,7 @@
   {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
   {% endfor %}
-    <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
-
+   
   <div class="row">
     <div class="col-lg-10 col-xl-9 mx-auto">
       <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
@@ -28,7 +27,7 @@
 			          </div>
               </div>
 	          {% endfor %}
-            
+             
             <div class="my-custom-class-for-errors">
               {{ form_errors(registrationForm) }}
    

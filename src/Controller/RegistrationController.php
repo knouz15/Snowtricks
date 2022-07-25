@@ -42,13 +42,10 @@ class RegistrationController extends AbstractController
         ): Response
     {
         //si connecté, redirection vers page d'accueil
-        // if($user)
-        if (session_status() == 2)
-        {
+        if ($this->getUser()) {
             return $this->redirectToRoute('app_index');
         }
-        else
-        {
+        
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -94,7 +91,7 @@ class RegistrationController extends AbstractController
         // 'user' => $user
         ]
     );
-}
+
     }
     
 /**
