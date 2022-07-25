@@ -417,7 +417,7 @@ legend {
 legend + * {
   clear: left;
 }
-
+ 
 ::-webkit-datetime-edit-fields-wrapper,
 ::-webkit-datetime-edit-text,
 ::-webkit-datetime-edit-minute,
@@ -4547,7 +4547,7 @@ textarea.form-control-lg {
 }
 
 .card-title {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .card-subtitle {

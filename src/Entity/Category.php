@@ -16,7 +16,8 @@ class Category
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $nom;
+    // private $nom;
+    private $slug;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Trick::class, orphanRemoval: false)]
     private $tricks;
@@ -31,17 +32,29 @@ class Category
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getSlug(): ?string
     {
-        return $this->nom;
+        return $this->slug;
     }
 
-    public function setNom(string $nom): self
+    public function setSlug(string $slug): self
     {
-        $this->nom = $nom;
+        $this->slug = $slug;
 
         return $this;
     }
+
+    // public function getNom(): ?string
+    // {
+    //     return $this->nom;
+    // }
+
+    // public function setNom(string $nom): self
+    // {
+    //     $this->nom = $nom;
+
+    //     return $this;
+    // }
 
     /**
      * @return Collection<int, Trick>
@@ -75,6 +88,7 @@ class Category
 
     public function __toString()
     {
-        return $this->nom;
+        // return $this->nom;
+        return $this->slug;
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImageRepository;
+use Symfony\Component\HttpFoundation\Path\UploadedFile;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image
@@ -17,16 +18,22 @@ class Image
     private $name;
 
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'images')]
-    #[ORM\JoinColumn(nullable: false)]
+    // #[ORM\JoinColumn(nullable: false)]
     private $trick;
 
-    //private $file;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $path;
+
+    #[ORM\Column(type: 'boolean')]
+    private $promoteImage = false;
+
+    
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
+ 
     public function getName(): ?string
     {
         return $this->name;
@@ -51,20 +58,32 @@ class Image
         return $this;
     }
 
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(string $path): self
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    public function isPromoteImage(): ?bool
+    {
+        return $this->promoteImage;
+    }
+
+    public function setPromoteImage(bool $promoteImage): self
+    {
+        $this->promoteImage = $promoteImage;
+
+        return $this;
+    }
+
     
-    // public function getFile()
-    // {
-    //     return $this->file;
-    // }
-
-    // public function setFile(UploadedFile $file): self
-    // {
-    //     $this->file = $file;
-    //     if($file) 
-    //         $this->updatedAt = new \DateTimeImmutable();
-
-    //     return $this;
-    // }
-
+    
+  
 
 }

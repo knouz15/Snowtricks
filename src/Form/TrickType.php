@@ -17,7 +17,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -27,147 +30,132 @@ class TrickType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            
             ->add('name', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    "placeholder" => "Entrez un nom",
+                    'minlenght' => '3',
+                    'maxlenght' => '50',
+
                 ],
-                'label' => 'Nom',
+                'label' => 'Nom trick',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
                 'constraints' => [
-                    new Assert\NotBlank()
+                    new Assert\NotBlank([
+                        'message' => 'Veuillez saisir le nom du trick ',
+                    ]),
+                    new Length(['min' => 3, 'max' => 50, 'minMessage' => 'Le nom du trick doit contenir au moins 3 caractères'
+                    ])
                 ]
             ])
+            // ->add('slug', TextType::class, [
+            //     'attr' => [
+            //         'class' => 'form-control'
+            //     ],
+            //     'label' => 'Slug',
+            //     'label_attr' => [
+            //         'class' => 'form-label mt-4'
+            //     ],
+            //     'constraints' => [
+            //         new Assert\NotBlank()
+            //     ]
+            // ])
             ->add('description', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    // 'min' => 1,
-                    // 'max' => 5
+                    "placeholder" => "Décrivez le trick ..."
                 ],
                 'label' => 'Description',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
                 'constraints' => [
-                    new Assert\NotBlank()
+                    new Assert\NotBlank([
+                        'message' => 'Veuillez saisir une description du trick',
+                    ])
                 ]
                 ])
-            ->add('category', EntityType::class, [ 
-                'class' => Category::class,
-                'choice_label' => 'slug',
-                'label' => 'Catégorie',
-            ])
-             // On ajoute le champ "images" dans le formulaire
-            // Il n'est pas lié à la base de données (mapped à false)
-            ->add('images', FileType::class, [
-                'label' => 'Images:jpg ou png ou  ',
-                'multiple' => true,
-                'mapped' => false,
-                'required' => true
-            ]) 
-            // ->add('videos', FileType::class, [
-            //     'label' => 'Uploader Vidéos sous format mp4',
-            //     'multiple' => true,
-            //     'mapped' => false,
-            //     'required' => true
-            // ])
-            // ->add('images', CollectionType::class, [
-                // 'entry_type' => ImageType::class, 
-                // 'label' => 'Vos images',
-                // 'entry_options' => ['label' => false],
-                // 'allow_add' => true,
-                // 'by_reference' => false,
-                // 'allow_delete' => true,
-                // 'mapped' => false,
-                // 'required' => true,
-                // 'attr' => [
-                //     'class' => 'col-12'
-                // ]
-                
-            // ])
-
-            // ->add('videos', CollectionType::class, [
-            //     // each entry in the array will be an "email" field
-            //     'entry_type' => TextType::class,
-            //     'allow_add' => true,
-            //     'allow_delete' => true,
-            //     'prototype' => true,
-            //     'prototype_data' => "URL d'une video youtube",
-            //     // these options are passed to each "email" type
-            //     'entry_options' => [
-            //         'attr' => ['class' => 'videos-box'],
-            //     ],
-    
-
-            ->add('tags', CollectionType::class, [
-                
-                'entry_type' => TagType::class, 
-                
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'by_reference' => false,
-                'allow_delete' => true,
-                
-                // 'label' => 'Vos vidéos',
-                // 'mapped' => false,
-                
-                
-                'required' => true,
-                // 'prototype' => true,
-                // 'help_html' => true,
-                // 'attr' => [
-                //     'class' => 'col-12'
-                // ]
-                // 'entry_type' => VideoType::class,
-                // 'entry_options' => ['label' => true],
-                // 'allow_add' => true,
-                // 'allow_delete' => true,
-                // 'by_reference' => false,
-                // 'label' => 'Iframe de vidéo',
-                // 'label_attr' => [
-                //     'class' => 'form-label mt-4'
-                // ],
-                // 'required' => true
+                ->add('videos', CollectionType::class, [
+                    'entry_type'     => VideoType::class,
+                    'entry_options'  => [
+                        'label' => false,
+                    ],
+                    'by_reference'   => false,
+                    'allow_add'      => true,
+                    'allow_delete'   => true,
+                    'required'       => false,
+                    'prototype'      => true,
+                    'constraints' => [
+                        new Assert\NotBlank([
+                            'message' => 'Veuillez saisir au moins une url',
+                        ]),
+                    ]
+                ])
+                ->add('imagesFile', CollectionType::class, [
+                    'entry_type'     => FileType::class,
+                    'entry_options'  => [
+                        'label' => false,
+                    ],
+                    'by_reference'   => false,
+                    'allow_add'      => true,
+                    'allow_delete'   => true,
+                    'mapped' => false,
+                    'required'       => false,
+                    'prototype'      => true,
+                    'constraints' => [
+                        new Assert\NotBlank([
+                            'message' => 'Veuillez joindre au moins une image',
+                        ]),
+                    ]
                 ])
 
-            // ->add('videos', EntityType::class, [
-            //     'label' => 'Selectionner vos videos :',
-            //     'class' => Video::class,
-            //     'choice_label' => 'name',
-            //     'multiple' => true,
-            //     'expanded' => true,
-            //     'required' => false,
-            // ])  
-
-
-
-            // Manage submit label
-        // $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
-        //     $form = $event->getForm();
-        //     $data = $event->getData();
-
-        //     if (null === $data) {
-        //         return;
-        //     }
-
-        //     $form
-                // ->add('save', SubmitType::class, [
-                //     'label' => $data->getId() ? 'Edit' : 'Create',
-                //     'attr' => [
-                //         'class' => 'btn-primary btn-lg btn-block',
-                //     ],
-                // ]);
-        // }
+                // ->add('images', FileType::class, [
+                //     'label' => 'image (PDF file)',
+                //     // 'multiple' => true,
     
+                //     // unmapped means that this field is not associated to any entity property
+                //     'mapped' => false,
+    
+                //     // make it optional so you don't have to re-upload the PDF file
+                //     // every time you edit the Product details
+                //     'required' => false,
+    
+                //     // unmapped fields can't define their validation using annotations
+                //     // in the associated entity, so you can use the PHP constraint classes
+                //     'constraints' => [
+                //         new File([
+                //             'maxSize' => '1024k',
+                //             'mimeTypes' => [
+                //                 'application/jpg',
+                //                 'application/png',
+                //             ],
+                //             'mimeTypesMessage' => 'Uploadez une image à formatvalide',
+                //         ])
+                //     ],
+                // ])
 
-            ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary mt-4'
-                ],
-                'label' => 'Soumettre' 
-            ]);
-    }
+                // ->add('images', FileType::class, [
+                //     'label' => 'Images:jpg ou png ou  ',
+                //     'multiple' => true,
+                //     'mapped' => false,
+                //     'required' => true
+                // ]) 
+            ->add('category', EntityType::class, [ 
+                'class' => Category::class,
+                // 'choice_label' => 'slug',
+                'label' => 'Catégorie',
+                'placeholder' => '',
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Veuillez choisir une catégorie',
+                    ])
+                ] 
+                    ]);
+           
+    } 
 
     public function configureOptions(OptionsResolver $resolver): void
     {

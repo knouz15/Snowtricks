@@ -15,23 +15,25 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-use DateTimeImmutable;
 
 class RegistrationController extends AbstractController
 {
 
     private $mailer;
     private $userRepository;
-    public function __construct(Mailer $mailer, UserRepository $userRepository)
+    public function __construct(
+        Mailer $mailer,
+     UserRepository $userRepository)
     {
-        $this->mailer = $mailer;
+        
         $this->userRepository = $userRepository;
+        $this->mailer = $mailer;
     }
 
     #[Route('/inscription', name: 'app_register', methods: ['GET','POST'])]
     public function register(
+        // Mailer $mailer,
         Request $request, 
         UserPasswordHasherInterface $userPasswordHasher, 
         UserAuthenticatorInterface $userAuthenticator, 
@@ -39,6 +41,11 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager
         ): Response
     {
+        //si connecté, redirection vers page d'accueil
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_index');
+        }
+        
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -54,10 +61,7 @@ class RegistrationController extends AbstractController
                 )
             );
             // dd($user);
-            
-            $this->iagreeTerms = new DateTimeImmutable();
-            // now = new DateTimeImmutable();
-            // $user->setIagreeTerms(now);
+            $user->setIagreeTerms(new \DateTime()); 
             $user->setToken($this->generateToken());
             // $em = $this->getDoctrine()->getManager();
             // $em->persist($user);
@@ -66,22 +70,10 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // $email = (new Email())
-        //     ->from('register@example.fr')
-        //     ->to('$user->getEmail()')
-        //     //->cc('cc@example.com')
-        //     //->bcc('bcc@example.com')
-        //     //->replyTo('fabien@example.com')
-        //     //->priority(Email::PRIORITY_HIGH)
-        //     ->subject('Validez votre inscription!')
-            // ->text("Bienvenue {$user->getFirstName()}!")
-            // ->html('<h1>See Twig integration for better HTML integration!</h1>');
-            // ->html('<p>See Twig integration for better HTML integration!</p>');
-
             $this->mailer->sendEmail($user->getEmail(), $user->getToken());
+            // $this->mailer->sendEmail($user->getEmail());
 
-
-            $this->addFlash( type:"success", message:"Votre compte a bien été créé ! Veuillez validé le mail d\'activation");
+            $this->addFlash( type:"success", message:"Votre compte a bien été créé ! Veuillez valider le mail d'activation");
             // do anything else you need here, like send an email
 
 
@@ -89,14 +81,17 @@ class RegistrationController extends AbstractController
 
             // return $userAuthenticator->authenticateUser($user, $authenticator,$request);
         } 
-        else{
-            $this->addFlash( 'Erreur', 'Aucun compte n a été créé !');
-        }
+        // else{
+        //     $this->addFlash( 'Erreur', 'Aucun compte n a été créé !');
+        // }
 
         return $this->render('registration/register.html.twig', 
        
-        ['registrationForm' => $form->createView(), ]
+        ['registrationForm' => $form->createView(), 
+        // 'user' => $user
+        ]
     );
+
     }
     
 /**
@@ -120,16 +115,18 @@ class RegistrationController extends AbstractController
             $this->addFlash("success", "Compte actif !");
             return $this->redirectToRoute('app_index');
         } else {
-            $this->addFlash("error", "Ce compte n'exsite pas !");
+            $this->addFlash("error", "Ce compte ne semble pas valide !");
             return $this->redirectToRoute('app_index');
         }
     }
-    
+     
     /**
      * @return string
      * @throws \Exception
      */
-    private function generateToken()
+    private function generateToken(
+        // int $validity = 10800
+        )
     {
         return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');//on nettoie les valeurs encodés on retirant les +,/ et =
     }

@@ -17,8 +17,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte avec cet email existe déjà!')]
+#[UniqueEntity(fields: ['username'], message: 'Un compte avec ce username existe déjà!')]
 
 // #[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 /**
@@ -35,17 +35,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     private ?int $id;
 
     #[ORM\Column(type: 'string', length: 50)]
-    #[Assert\NotBlank()]
-    #[Assert\Length(min: 2, max: 50)]
-    private ?string $username = '';
+    
+    private ?string $username;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Assert\Email()]
-    #[Assert\Length(min: 2, max: 180)]
+    
     private ?string $email = '';
 
     #[ORM\Column(type: 'json')]
-    #[Assert\NotNull()]
+    
     private array $roles = [];
 
     //#[Assert\EqualTo(propertyPath : "password",message :  "Le mot de passe n'est pas identique.")]
@@ -57,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
 
     #[ORM\Column(type: 'datetime_immutable', 
     options: ['default' => 'CURRENT_TIMESTAMP'])]
-    #[Assert\NotNull()]
+    
     private \DateTimeImmutable $createdAt;
 
     /**
@@ -86,11 +84,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     private $token;
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private $isVerified;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $iagreeTerms='';
-    
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $iagreeTerms;
 
     // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class, orphanRemoval: true)]
     // private $comments;
@@ -113,7 +110,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 
@@ -202,7 +199,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
         return $this->username;
     }
 
-    public function setUsername(string $username): self
+    public function setUsername(?string $username): self
     {
         $this->username = $username;
 
@@ -345,7 +342,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
         ) = unserialize($serialized);
     }
 
-    // public function isVerified(): bool
     public function getIsVerified(): bool
     {
         return $this->isVerified;
@@ -372,15 +368,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
         return $this;
     }
 
-    public function getIagreeTerms(): ?string
+    public function getIagreeTerms(): ?\DateTime
     {
         return $this->iagreeTerms;
     }
 
-    public function setIagreeTerms(?string $iagreeTerms): self
+    public function setIagreeTerms(?\DateTime $iagreeTerms): self
     {
         $this->iagreeTerms = $iagreeTerms;
 
         return $this;
     }
+
 }

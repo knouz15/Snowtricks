@@ -24,6 +24,10 @@ security:
             custom_authenticator: App\Security\UsersAuthenticator
             logout:
                 path: app_logout
+                target: app_index
+                
+            user_checker: App\Security\UserChecker
+            #access_denied_handler: App\Security\AccessDeniedHandler
         secured_area:
             form_login:
                 # csrf_token_generator: security.csrf.token_manager
@@ -31,34 +35,7 @@ security:
                 # where to redirect after logout
                 # target: app_any_route
             
-            # form_login:
-            #     login_path: security.login
-            #     check_path: security.login
-            # custom_authenticator: App\Security\UserAuthenticator
-            # logout:
-            #     path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
-            # logout:
-            #     path: security.logout
-            #     target: home.index
-
-            # logout:
-            #     path: app_logout
-                # where to redirect after logout
-                # target: home.index
-
-            # login: 
-            #     path: security.login
-            #     target: trick.index
-
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
+            
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
