@@ -102,7 +102,7 @@ class RegistrationFormType extends AbstractType
 
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
-                'label' => 'J\' accepte les conditions d\'utilisation du site',
+                'label' => 'J\'accepte la collecte de mes données personnelles dans le cadre de ce formulaire d\'inscription ',
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Vous devez accepter nos conditions.',

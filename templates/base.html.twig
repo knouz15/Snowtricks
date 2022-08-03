@@ -6,21 +6,22 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>{% block title %}Bienvenue{% endblock %}</title>
-        {# <link rel="icon" type="image/x-icon" href="assets/favicon.ico" /> #}
-        
+        {# <link rel="icon" type="image/x-icon" href="favicon.ico" /> #}
+        <link rel="icon" type="image/svg+xml" href="favicon.svg" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="shortcut icon" href="/favicon.png">
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
-      {% block stylesheets %}
-      {% endblock %}
+        {% block stylesheets %}
+        {% endblock %}
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
         <!-- Responsive navbar-->
+        {# <div class="container"> #}
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="{{ path('app_index') }}">Snowtricks</a>
-                {# <img src="{{ asset('IMAGES/logo.svg') }}" #}
+                <a class="navbar-brand" href="{{ path('app_index') }}">
+                <img src="{{ asset('favicon.svg') }}" alt="logo" width="60px" height="60px"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -39,24 +40,38 @@
                 </div>
             </div>
         </nav>
-        {% include "flash.html.twig" %}
-        <!-- Page content-->
-        {# <div class="container py-4 py-lg-5"> #}
-        {% block body %}{% endblock %}
-        {# </div> #}
+            {% include "flash.html.twig" %}
+                <!-- Page content-->
+            <div class="container">
+            {% block body %}{% endblock %}
+            </div>
         <!-- Footer-->
-        <footer class="bg-dark">
+        {# <footer class="bg-dark">
             <div class="container">
                 <p class="m-0 text-center text-white">Copyright &copy; Snowtricks 2022</p>
             </div>
+        </footer> #}
+         <!-- Footer-->
+
+         
+        {# <footer class="py-5 bg-dark">
+            <div class="px-4"><p class="m-0 text-center text-white">Copyright &copy; Snowtricks 2022</p></div>
+        </footer> #}
+
+        <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50 mt-auto" >
+        
+            <div class="container text-center">
+                <small>Copyright &copy; Snowtricks 2022</small>
+            </div>
         </footer>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="{{ asset('js/scripts.js') }}" defer></script>
+
         {% block javascript %}
-      {% endblock %}
-        
-        
+        {% endblock %}
     </body>
 </html>

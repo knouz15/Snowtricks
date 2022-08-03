@@ -1,7 +1,7 @@
 .card-img-left {
     width: 45%;
     /* Link to your background image using in the property below! */
-    background: scroll center url('https://source.unsplash.com/WEQbe2jBg40/414x512');
+    background: scroll center url('/IMAGES/register.jpg');
     background-size: cover;
   }
   
@@ -21,16 +21,16 @@
     background-color: #3b5998;
   } */
 
-  #customFile .custom-file-input:lang(en)::after {
+  /* #customFile .custom-file-input:lang(en)::after {
     content: "Select file...";
   }
   
   #customFile .custom-file-input:lang(en)::before {
     content: "Click me";
   }
-  
+   */
   /*when a value is selected, this class removes the content */
-  .custom-file-input.selected:lang(en)::after {
+  /* .custom-file-input.selected:lang(en)::after {
     content: "" !important;
   }
   
@@ -39,4 +39,4 @@
   }
   .custom-file-input {
     white-space: nowrap;
-  }
+  } */

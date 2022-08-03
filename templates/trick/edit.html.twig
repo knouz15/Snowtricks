@@ -1,0 +1,124 @@
+{% extends "base.html.twig" %}
+{% block title %}Modifier {{ trick.name }}{% endblock %}
+
+{% block body %}
+
+  <div class="container">
+    <div class="card mt-5 mb-5">
+      {# <div class="card text-center mx-5 my-5"> #}
+      {% if trick.images | length > 0 %}
+         
+        <div class="card-title">
+          <h5 class="card-text " style="font-size:200%">
+          <center>
+          <b>
+          {{ trick.name }}
+          </b>
+          </center></h5>
+          {% if app.user %}
+            {# <a href="{{ path('trick_edit', {'id': trick.id}) }}"> <img class="float-right" src="/IMAGES/pencil.png"  style="width:2%;"alt="..."></a> #}
+            <a href="{{ path('trick_delete', {'id': trick.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:2%;"alt="..."></a>
+          {% endif %}
+        </div>
+        <img src="{{ asset('IMAGES/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks">
+       <div class="card-img-overlay">
+      {% else %}  
+        <img src="/IMAGES/no-image.jpg"  alt="...">
+      {% endif %}  
+    </div>
+  </div>
+
+    <div class="row" id="seeMedia">
+      {% if trick.images | length > 0 %}
+        {% for image in trick.images %}
+        <div class="col-lg-4"> 
+          {# <div class="col-lg-3 col-md-4 col-sm-6 mb-4"> #}
+            <div class="card mb-4">
+            {# <div class="card h-100"> #}
+              <img class="card-img-top" src="{{ asset('IMAGES/') ~image.name}}" style="height:15vw; object-fit: cover" alt="">
+              <div class="card-text"> 
+                        {% if app.user %}
+                            <a href="{{ path('trick_edit', {'id': trick.id}) }}"> <img class="float-right" src="/IMAGES/pencil.png"  style="width:5%;"alt="..."></a>
+                            <a href="{{ path('trick_delete_image', {'id': trick.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer cette image?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:5%;"alt="..."></a>
+                        {% endif %}
+                    </div> 
+              
+            </div>
+          </div>
+        {% endfor %}
+        {% else %} 
+          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100">
+              <a href="#">
+              <img class="card-img-top" src="/IMAGES/no-image.jpg"  alt="..." >
+            </a>
+            </div>
+          </div>  
+      {% endif %} 
+
+      {# les videos #}
+      {% if trick.videos | length > 0 %}
+        {% for video in trick.videos %}
+          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100">
+              {{ video.url | raw}}
+              <div class="card-footer">
+                              {% if app.user %}
+                            <a href="{{ path('trick_edit', {'id': trick.id}) }}"> <img class="float-right" src="/IMAGES/pencil.png"  style="width:5%;"alt="..."></a>
+                            <a href="{{ path('trick_delete_video', {'id': trick.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer cette vidéo?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:5%;"alt="..."></a>
+                        {% endif %}
+                    </div> 
+            </div>
+          </div>
+        {% endfor %}
+        {% else %}
+          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100">
+              <img class="card-img-top" src="/IMAGES/no-video.jpg"  alt="...">
+            </div>
+          </div>
+      {% endif %} 
+
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
+            {% for message in app.flashes('success') %}
+			        <div class="alert alert-success mt-4">
+                <div class="flash-notice">
+				          {{ message }}
+			          </div>
+              </div>
+	          {% endfor %}
+            
+            {# <div class="my-custom-class-for-errors"> #}
+            <div>
+              {# {{ form_errors(form) }} #}
+
+              <div class="form-floating mb-3">
+                {{ form_row(form.name)}}
+              </div>
+              <div class="form-floating mb-3">
+                {{ form_row(form.description)}}
+              </div>
+
+              <div class="btn">
+                {{ form_row(form.category)}}
+              </div> 
+              
+              {{ form_row(form._token) }}             
+              {# <hr class="my-4"> #}
+              <div class="d-grid mb-5">
+                <button class="btn btn-primary btn-login text-uppercase fw-bold" href="" type="submit">
+                  Mettre à jour le trick
+                </button>
+              </div>
+            </div>
+          {# {{ form_end(form)}} #}
+           </form> 
+<hr>
+    </div>
+  </div>
+</div>
+{# {{ form_row(form._token) }} #}
+
+{% endblock %} 
+
+

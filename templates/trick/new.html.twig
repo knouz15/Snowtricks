@@ -36,6 +36,11 @@
               <div class="form-floating mb-3">
                 {{ form_row(form.description)}}
               </div>
+
+              <div class="btn">
+                {{ form_row(form.category)}}
+              </div> 
+
               <h6>Videos 
                 <button type="button" class="btn btn-primary add_item_link" data-collection-holder-class="videos"> + </button>
               </h6>
@@ -43,6 +48,11 @@
               <ul class="videos"
                 data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
                 data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">  
+                {% for videoForm in form.videos %}
+                  <li>
+                    {{ form_row(videoForm)  }}
+                  </li>
+                {% endfor %}
               </ul>
               
               <h6>Images 
@@ -52,16 +62,14 @@
               <ul class="images"
                 data-index="{{ form.imagesFile|length > 0 ? form.imagesFile|last.vars.name + 1 : 0 }}"
                 data-prototype="{{ form_widget(form.imagesFile.vars.prototype)|e('html_attr') }}">
+                {# {% for imageForm in form.images %}
+                  <li>
+                    {{ form_row(imageForm)  }}
+                  </li>
+                {% endfor %} #}
               </ul> 
               
-              {# <div class="form-floating mb-3">
-			          {{ form_row(form.images) }}
-		          </div> #} 
               {{ form_row(form._token) }}             
-
-              <div class="form-floating mb-3">
-                {{ form_row(form.category)}}
-              </div> 
               {# <hr class="my-4"> #}
               <div class="d-grid mb-2">
                 <button class="btn btn-primary btn-login text-uppercase fw-bold" href="" type="submit">
