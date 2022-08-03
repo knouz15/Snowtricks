@@ -25,7 +25,7 @@ class Image
     private $path;
 
     #[ORM\Column(type: 'boolean')]
-    private $promoteImage = false;
+    private $promotedImage = false;
 
     
 
@@ -70,14 +70,14 @@ class Image
         return $this;
     }
 
-    public function isPromoteImage(): ?bool
+    public function isPromoteddImage(): ?bool
     {
-        return $this->promoteImage;
+        return $this->promotedImage;
     }
 
-    public function setPromoteImage(bool $promoteImage): self
+    public function setPromotedImage(bool $promotedImage): self
     {
-        $this->promoteImage = $promoteImage;
+        $this->promotedImage = $promotedImage;
 
         return $this;
     }

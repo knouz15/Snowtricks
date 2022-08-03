@@ -1,0 +1,75 @@
+[33mcommit 0978ce2154fa0e9c36c5db0b4059048720d72733[m[33m ([m[1;36mHEAD -> [m[1;32mEnvoyerMails[m[33m, [m[1;31morigin/EnvoyerMails[m[33m)[m
+Author: knouz15 <benknouz@yahoo.fr>
+Date:   Mon Jul 25 08:17:22 2022 +0200
+
+    Finalisation Page création trick
+
+[33mcommit 6eda200b09324075bfe807ca8d37a4bdc3d33c18[m
+Author: knouz15 <benknouz@yahoo.fr>
+Date:   Thu Jul 14 21:08:05 2022 +0200
+
+    Ajout du service UserChecker, gestion des flash messages et des fomulaires de images et videos
+
+[33mcommit e4f7680434d4c91e534c8de8eab6c2d30eb1d6bb[m
+Author: knouz15 <benknouz@yahoo.fr>
+Date:   Thu Jul 14 04:45:09 2022 +0200
+
+    Ajout de la spec. Création trick méthode form et template
+
+[33mcommit 097d3428cb81fab5ba213458bc6a59ecf95af2c5[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: knouz15 <benknouz@yahoo.fr>
+Date:   Wed Jul 13 09:43:38 2022 +0200
+
+    integration d'un service mailer et son template
+
+[33mcommit 9f390597d7aafe124acc022bf5e74a9c21dcc486[m
+Merge: 27e0250 84909e3
+Author: knouz15 <82492340+knouz15@users.noreply.github.com>
+Date:   Wed Jun 29 20:03:03 2022 +0200
+
+    Merge pull request #17 from knouz15/pageAccueil
+    
+    Feature #1 : Page d’accueil - Liste des figures de snowboard
+
+[33mcommit 84909e3955dafb97edde99bae1d2925718783c67[m[33m ([m[1;31morigin/pageAccueil[m[33m, [m[1;32mpageAccueil[m[33m)[m
+Author: knouz15 <benknouz@yahoo.fr>
+Date:   Wed Jun 29 19:54:59 2022 +0200
+
+    correction erreurs insights
+
+[33mcommit c402bccee3e638cec5ab4243134f8ae239f4c512[m
+Author: knouz15 <benknouz@yahoo.fr>
+Date:   Mon Jun 27 19:26:28 2022 +0200
+
+    Feature #1 : Page d’accueil - Liste des figures de snowboard
+
+[33mcommit 27e0250fe960348d8a1848d3230fc85226ded458[m
+Author: knouz15 <benknouz@yahoo.fr>
+Date:   Fri Jun 24 20:13:22 2022 +0200
+
+    initialiser le projet
+
+[33mcommit bb8cf89a47c8ac7410c82cfaa10b2c44190271a6[m
+Merge: 857281e 3046f06
+Author: knouz15 <benknouz@yahoo.fr>
+Date:   Fri Jun 24 20:09:23 2022 +0200
+
+    Merge branch 'main' of https://github.com/knouz15/Snowtricks
+
+[33mcommit 857281e9e6733cce224c2bb38282cda6df09fb18[m
+Author: knouz15 <benknouz@yahoo.fr>
+Date:   Fri Jun 24 17:05:09 2022 +0200
+
+    Add webapp packages
+
+[33mcommit 785e01ffc6f47b90ce2b00731455a9e790a5c348[m
+Author: knouz15 <benknouz@yahoo.fr>
+Date:   Fri Jun 24 16:57:06 2022 +0200
+
+    Add initial set of files
+
+[33mcommit 3046f068123f3a83468aaab28ad35c30d7453715[m
+Author: knouz15 <benknouz@yahoo.fr>
+Date:   Fri Jun 24 15:44:39 2022 +0200
+
+    re_uploading project

@@ -89,13 +89,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $iagreeTerms;
 
-    // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class, orphanRemoval: true)]
-    // private $comments;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class, orphanRemoval: true)]
+    private $comments;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $photo;
 
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
-        // $this->comments = new ArrayCollection();
+        $this->comments = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
         $this->isVerified = false;
     }   
@@ -252,32 +255,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     /**
      * @return Collection<int, Comment>
      */
-    // public function getComments(): Collection
-    // {
-    //     return $this->comments;
-    // }
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
 
-    // public function addComment(Comment $comment): self
-    // {
-    //     if (!$this->comments->contains($comment)) {
-    //         $this->comments[] = $comment;
-    //         $comment->setUser($this);
-    //     }
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
-    // public function removeComment(Comment $comment): self
-    // {
-    //     if ($this->comments->removeElement($comment)) {
-    //         // set the owning side to null (unless already changed)
-    //         if ($comment->getUser() === $this) {
-    //             $comment->setUser(null);
-    //         }
-    //     }
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
 
      /**
@@ -376,6 +379,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     public function setIagreeTerms(?\DateTime $iagreeTerms): self
     {
         $this->iagreeTerms = $iagreeTerms;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }

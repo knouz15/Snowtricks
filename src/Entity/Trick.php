@@ -7,6 +7,7 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -22,11 +23,20 @@ class Trick
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
+
+    
+    /**
+     * @ORM\Column(type="string", length=100, unique=true)
+     * @Gedmo\Slug(fields={"name"})
+     */
+    // #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Slug(fields:['name'])]
+    #[ORM\Column(type: 'string', length: 255, unique:true)]
+    
+    private $slug;
 
     #[ORM\Column(type: 'text')]
     private $description;
@@ -53,11 +63,11 @@ class Trick
     private $images;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ['persist','remove'])]
-    // #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false)]
     private $videos;
 
-//    #[ ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
-//     private $comments;
+   #[ ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
+    private $comments;
 
     public function __construct()
     {
@@ -65,7 +75,7 @@ class Trick
         // $this->updatedAt = new \DateTimeImmutable();
         $this->images = new ArrayCollection();
         $this->videos = new ArrayCollection();
-        // $this->comments = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -73,17 +83,6 @@ class Trick
         return $this->id;
     }
 
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
 
     public function getName(): ?string
     {
@@ -97,6 +96,18 @@ class Trick
         return $this;
     }
 
+    
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    // public function setSlug(string $slug): self
+    // {
+    //     $this->slug = $slug;
+
+    //     return $this;
+    // }
     public function getDescription(): ?string
     {
         return $this->description;
@@ -229,38 +240,39 @@ class Trick
         return $this;
     }
 
-    // /**
-    //  * @return Collection<int, Comment>
-    //  */
-    // public function getComments(): Collection
-    // {
-    //     return $this->comments;
-    // }
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
 
-    // public function addComment(Comment $comment): self
-    // {
-    //     if (!$this->comments->contains($comment)) {
-    //         $this->comments[] = $comment;
-    //         $comment->setTrick($this);
-    //     }
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setTrick($this);
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
-    // public function removeComment(Comment $comment): self
-    // {
-    //     if ($this->comments->removeElement($comment)) {
-    //         // set the owning side to null (unless already changed)
-    //         if ($comment->getTrick() === $this) {
-    //             $comment->setTrick(null);
-    //         }
-    //     }
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
+            }
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
     public function __toString()
     {
         return $this->slug;
+        
     }
 }

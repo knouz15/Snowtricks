@@ -3,7 +3,11 @@
 {% block title %}
     Snowtricks - Inscription
 {% endblock %} 
+
 {% block stylesheets %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="{{ asset('css/index.css') }}" rel="stylesheet" />
+
   <link href="{{ asset('css/register.css') }}" rel="stylesheet" />
 {% endblock %}
 {% block body %}
@@ -18,7 +22,7 @@
             <!-- Background image for card set in CSS! -->
         </div> 
         <div class="card-body p-4 p-sm-5">
-          <h5 class="card-title text-center mb-5 fw-light fs-5">Inscription</h5>
+          <h5 class="card-title text-center mb-5 fw-light fs-5"><b>Inscription</b></h5>
           {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}})}}
             {% for message in app.flashes('success') %}
 			        <div class="alert alert-success mt-4">
@@ -65,6 +69,7 @@
               </div>
             </div>
           {{ form_end(registrationForm)}}
+          <hr class="my-4">
           <a class="d-block text-center mt-2 small" href="{{ path('app_login') }}" role="button">Déjà membre? Se connecter</a>   
         </div>
       </div>
@@ -72,19 +77,3 @@
   </div>
 
 {% endblock %}
-{# {{ form_start(form) }}
-    {{ form_errors(form) }}
-
-    {{ form_row(form.name) }}
-    {{ form_row(form.dueDate) }}
-
-    {{ form_row(form.submit, { 'label': 'Submit me' }) }}
-{{ form_end(form) }} 
-
-
-{{ form_label(form.name, null, {
-    'label': 'Your name',
-    'label_attr': {'class': 'foo'}
-}) }}
-
-#}

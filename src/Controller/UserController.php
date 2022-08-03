@@ -41,7 +41,7 @@ class UserController extends AbstractController
     //             $manager->persist($user);
     //             $manager->flush();
 
-    //             return $this->redirectToRoute('trick.index');
+    //             return $this->redirectToRoute('app_index');
     //         } else {
     //             $this->addFlash(
     //                 'warning',
@@ -89,7 +89,7 @@ class UserController extends AbstractController
                 $manager->persist($choosenUser);
                 $manager->flush();
 
-                return $this->redirectToRoute('trick.index');
+                return $this->redirectToRoute('app_index');
             } else {
                 $this->addFlash(
                     'warning',
