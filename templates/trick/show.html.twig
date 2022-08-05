@@ -145,7 +145,11 @@
         </span>
         <div class="d-flex justify-content-between py-1 pt-2">
           <div>
+            {% if comment.user.avatarFilename %}
+             <img src="{{ asset('uploads/avatars/') ~comment.user.avatarFilename}}" class="card-img" style="height:8vw; object-fit: cover" alt="">
+            {% else %}
             <img src="/IMAGES/no-avatar.png" width="50">
+            {% endif %}
             <span class="text2">
               {{ comment.user.username }}
               {# Martha #}

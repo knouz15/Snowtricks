@@ -30,6 +30,7 @@ class UserFixtures extends Fixture
         $user->setPassword($password);
 
         $manager->persist($user);
+        $this->addReference($user->getUsername(),$user );
         $manager->flush();
 
         $user = new User();
@@ -108,6 +109,7 @@ class UserFixtures extends Fixture
         $user->setPassword($password);
 
         $manager->persist($user);
+        $this->addReference('user',$user );
         $manager->flush();
 
         

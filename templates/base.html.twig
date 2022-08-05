@@ -29,7 +29,7 @@
                         <li class="nav-item"><a class="nav-link active" >Bonjour {{ app.user.username }}!</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ path('trick_new') }}">Créer un trick</a></li>
                         
-                        <li class="nav-item"><a class="nav-link" href="{{ path('user_edit_profil') }}">Modifier mon profil</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('user_edit_profil', {id : app.user.id}) }}">Modifier mon profil</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link" href="/#tricks">Tricks</a></li>

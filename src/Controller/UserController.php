@@ -46,38 +46,39 @@ class UserController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $user = $form->getData(); 
- /** @var UploadedFile $avatarFile */
- $avatarFile = $form->get('avatar')->getData();
+            /** @var UploadedFile $avatarFile */
+            $avatarFile = $form->get('avatar')->getData();
 
  // this condition is needed because the 'avatar' field is not required
  // so the PDF file must be processed only when a file is uploaded
- if ($avatarFile) {
-     $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
-     // this is needed to safely include the file name as part of the URL
-     $extension = $avatarFile->guessExtension();
-     $safeFilename = $slugger->slug($originalFilename);
-     $newFilename = $safeFilename.'-'.uniqid().'.'.$extension;
+            if ($avatarFile) {
+                $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $extension = $avatarFile->guessExtension();
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$extension;
 
-     // Move the file to the directory where avatars are stored
-     try {
-         $avatarFile->move(
-             $this->getParameter('avatars_directory'),
-             $newFilename
-         );
-     } catch (FileException $e) {
-         // ... handle exception if something happens during file upload
-     }
+                // Move the file to the directory where avatars are stored
+                try {
+                    $avatarFile->move(
+                    $this->getParameter('avatars_directory'),
+                    $newFilename
+                    );
+                } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+                }
 
-     // updates the 'avatarFilename' property to store the PDF file name
-     // instead of its contents
-     $user->setAvatarFilename($newFilename);
-
-// $user->setAvatarFilename(
-//     new File($this->getParameter('brochures_directory').'/'.$product->getBrochureFilename())
-// );
- }
+                // updates the 'avatarFilename' property to store the PDF file name
+                // instead of its contents
+                $user->setAvatarFilename($newFilename);
+                // dd($user);
+                // $user->setAvatarFilename(
+                //     new File($this->getParameter('avatars_directory').'/'.$product->getAvatarFilename())
+                // );
+            }
         
             $manager->persist($user);
+            
             $manager->flush();
 
             $this->addFlash('success', 'Profil mis à jour');
@@ -87,6 +88,8 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
 
 
 

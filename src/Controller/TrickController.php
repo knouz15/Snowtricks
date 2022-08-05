@@ -289,12 +289,11 @@ class TrickController extends AbstractController
     #[Route('/supprime/image/{id}', name:'trick_delete_image', methods:['GET'])]
     public function deleteImage(Image $image, Request $request, ManagerRegistry $doctrine)
     {
-        $data = json_decode($request->getContent(), true);//on recupère les données qui ns seront transférées en json, on les décode
-
+       
         // On vérifie si le token est valide
         // if($this->isCsrfTokenValid('delete'.$image->getId(), $data['_token'])){//on sécurise le formulaire avec le token csrfToken pr éviter que cette route ne soit utilisée par n'importe qui
             // On récupère le nom de l'image
-            $nom = $image->getName();
+            $nom = $image->getPath();
             // On supprime le fichier
             unlink($this->getParameter('images_directory').'/'.$nom);
 
@@ -304,33 +303,19 @@ class TrickController extends AbstractController
             $em->remove($image);
             $em->flush();
 
-            // On répond en json
-            return new JsonResponse(['success' => 1]);
+            
+            return $this->redirectToRoute('trick_edit',
+            // ['id'=>$trick->getSlug()]);
+            ['slug'=>$image->getTrick()->getSlug()]);
         // }else{
         //     return new JsonResponse(['error' => 'Token Invalide'], 400);
         // }
     }
 
-    /** 
-    * @param Video $video
-    * @param Request $request
-    * @param ManagerRegistry $doctrine
-    * @Route("/supprime/video/{id}", name="trick.delete.video", methods={"DELETE"})
-    * @return Response
-
-     
-     */
-    #[Route('/supprime/video/{id}', name:'trick_delete_video', methods:['DELETE'])]
+    #[Route('/supprime/video/{id}', name:'trick_delete_video', methods:['GET'])]
     public function deleteVideo(Video $video, Request $request, ManagerRegistry $doctrine)
     {
-        $data = json_decode($request->getContent(), true);//on recupère les données qui ns seront transférées en json, on les décode
-
-        // On vérifie si le token est valide
-        if($this->isCsrfTokenValid('delete'.$video->getId(), $data['_token'])){//on sécurise le formulaire avec le token csrfToken pr éviter que cette route ne soit utilisée par n'importe qui
-            // On récupère le nom de la vidéo
-            $nom = $video->getUrl();
-            // On supprime le fichier
-            unlink($this->getParameter('videos_directory').'/'.$nom);
+        
 
             // On supprime l'entrée de la base
             $em = $doctrine->getManager();
@@ -338,11 +323,9 @@ class TrickController extends AbstractController
             $em->remove($video);
             $em->flush();
 
-            // On répond en json
-            return new JsonResponse(['success' => 1]);
-        }else{
-            return new JsonResponse(['error' => 'Token Invalide'], 400);
-        }
+            return $this->redirectToRoute('trick_edit',
+            // ['id'=>$trick->getSlug()]);
+            ['slug'=>$video->getTrick()->getSlug()]);
     }
 
 }

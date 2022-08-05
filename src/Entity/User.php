@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  */
 #@Ignore()
 class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serializable
-{
+{ 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -42,7 +42,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     #[ORM\Column(type: 'json')]
     
     private array $roles = [];
+    // private array $roles = ['ROLE_USER'];
 
+    
     //#[Assert\EqualTo(propertyPath : "password",message :  "Le mot de passe n'est pas identique.")]
     private ?string $plainPassword='password';
 
@@ -54,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTimeImmutable $createdAt;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $avatarFilename;
 
     // #[ORM\Column(type: 'string')]

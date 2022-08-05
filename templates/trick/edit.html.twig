@@ -61,9 +61,9 @@
             <div class="card h-100">
               {{ video.url | raw}}
               <div class="card-footer">
-                              {% if app.user %}
-                            <a href="{{ path('trick_delete_video', {'id': video.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer cette vidéo?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:5%;"alt="..."></a>
-                        {% endif %}
+                
+                  <a href="{{ path('trick_delete_video', {'id': video.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer cette vidéo?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:5%;"alt="..."></a>
+                
                     </div> 
             </div>
           </div>
