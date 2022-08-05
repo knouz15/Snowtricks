@@ -33,18 +33,15 @@
             <div class="col-lg-4">
                 <div class="card mb-4">
                     {% if trick.images | length > 0 %}
-                        <a href="{{ path('trick_show', {id: trick.id}) }}"><img class="card-img-top" src="{{ asset('IMAGES/' ~ trick.images[0].name) }}" alt="{{ trick.slug }}" style="height:15vw; object-fit: cover"></a>
+                        <a href="{{ path('trick_show', {slug: trick.slug}) }}"><img class="card-img-top" src="{{ asset('IMAGES/' ~ trick.images[0].name) }}" alt="{{ trick.slug }}" style="height:15vw; object-fit: cover"></a>
                     {% else %}  
-                        <a href="{{ path('trick_show', {id: trick.id}) }}"><img class="card-img-top" src="/IMAGES/no-image.jpg" style="height:15vw; object-fit: cover" alt="...">
+                        <a href="{{ path('trick_show', {slug: trick.slug}) }}"><img class="card-img-top" src="/IMAGES/no-image.jpg" style="height:15vw; object-fit: cover" alt="...">
                     {% endif %}
-                    <div class="card-footer">
-                                        {# <div class="small text-muted">Publié le {{ trick.createdAt|date('d/m/Y H:i') }}</div> #}
+                    <div class="card-footer">             
                         {{ trick.name }}
-                                        {# <p class="card-text">{{ trick.description|slice(0, 100) ~ '...' }}</p> #}
-                                        {# <a class="btn btn-primary" href="{{ path('trick_show', {name: trick.name}) }}">Read more →</a> #}
                         {% if app.user %}
-                            <a href="{{ path('trick_edit', {'id': trick.id}) }}"> <img class="float-right" src="/IMAGES/pencil.png"  style="width:5%;"alt="..."></a>
-                            <a href="{{ path('trick_delete', {'id': trick.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:5%;"alt="..."></a>
+                            <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"> <img class="float-right" src="/IMAGES/pencil.png"  style="width:5%;"alt="..."></a>
+                            <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:5%;"alt="..."></a>
                         {% endif %}
                     </div> 
                 </div>
@@ -53,18 +50,12 @@
         <a href="#"><img class="float-right" src="/IMAGES/arrow-up.png"  alt="haut de page"></a>
     </div>
     <!-- Pagination-->
-    <nav aria-label="Pagination">
-        <hr class="my-0" />
-        <ul class="pagination justify-content-center my-4">
-            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
-            <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
-            <li class="page-item"><a class="page-link" href="#!">2</a></li>
-            <li class="page-item"><a class="page-link" href="#!">3</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
-            <li class="page-item"><a class="page-link" href="#!">15</a></li>
-            <li class="page-item"><a class="page-link" href="#!">Older</a></li>
-        </ul>
-    </nav>
+
+    <button type="button " onclick="getData();">
+    Load More
+    </button>
+
+
 {% endblock %}
 {% block javascript %}
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>

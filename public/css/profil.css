@@ -1,0 +1,12 @@
+.card-img-left {
+    width: 45%;
+    /* Link to your background image using in the property below! */
+    background: scroll center url('/IMAGES/edit_profil.jpg');
+    background-size: cover;
+  }
+  
+  .btn-edit {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+  }

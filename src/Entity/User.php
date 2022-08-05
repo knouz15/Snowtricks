@@ -13,7 +13,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -23,9 +22,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 // #[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 /**
  * @ORM\Entity
- * @Vich\Uploadable
  */
-// #[Vich\Uploadable]
 #@Ignore()
 class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serializable
 {
@@ -40,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     
-    private ?string $email = '';
+    private ?string $email;
 
     #[ORM\Column(type: 'json')]
     
@@ -55,18 +52,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
 
     #[ORM\Column(type: 'datetime_immutable', 
     options: ['default' => 'CURRENT_TIMESTAMP'])]
-    
     private \DateTimeImmutable $createdAt;
 
-    /**
-     * @Vich\UploadableField(mapping="user_images", fileNameProperty="avatar")
-     * @var File
-     */
-    // #[Vich\UploadableField(mapping: 'user_images', fileNameProperty: 'avatar')]
-    private ?File $imageFile = null;
-
     #[ORM\Column(type: 'string')]
-    private ?string $avatar = '';
+    private $avatarFilename;
+
+    // #[ORM\Column(type: 'string')]
+    // private ?string $avatar;
 
     // #[ORM\Column(type: 'string', nullable: true)]
     // private ?string $avatar = null;
@@ -92,8 +84,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class, orphanRemoval: true)]
     private $comments;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $photo;
+    // #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    // private $photo;
 
     public function __construct()
     {
@@ -289,35 +281,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
      * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
-     *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
-    */ 
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
+     **/
+    //  * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     
+    // public function setImageFile(?File $imageFile = null): void
+    // {
+    //     $this->imageFile = $imageFile;
 
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->createdAt = new \DateTimeImmutable();//ou updatedAt
-        }
-    }
+    //     if (null !== $imageFile) {
+    //         // It is required that at least one field changes if you are using doctrine
+    //         // otherwise the event listeners won't be called and the file is lost
+    //         $this->createdAt = new \DateTimeImmutable();//ou updatedAt
+    //     }
+    // }
 
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
+    // public function getImageFile(): ?File
+    // {
+    //     return $this->imageFile;
+    // }
 
 
     
-    public function getAvatar(): ?string
+    public function getAvatarFilename(): ?string
     {
-        return $this->avatar;
+        return $this->avatarFilename;
     }
 
-    public function setAvatar(?string $avatar): void //self
+    public function setAvatarFilename(?string $avatarFilename): void //self
     {
-        $this->avatar = $avatar;
+        $this->avatarFilename = $avatarFilename;
 
         //return $this;
     }
@@ -329,7 +321,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
             $this->username,
             $this->email,
             $this->password,
-            $this->avatar,
+            $this->avatarFilename,
         ));
     }
 
@@ -340,7 +332,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
             $this->username,
             $this->email,
             $this->password,
-            $this->avatar,
+            $this->avatarFilename,
            
         ) = unserialize($serialized);
     }
@@ -383,16 +375,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
         return $this;
     }
 
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
+    // public function getPhoto(): ?string
+    // {
+    //     return $this->photo;
+    // }
 
-    public function setPhoto(?string $photo): self
-    {
-        $this->photo = $photo;
+    // public function setPhoto(?string $photo): self
+    // {
+    //     $this->photo = $photo;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
 }

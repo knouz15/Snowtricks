@@ -20,13 +20,13 @@
             </font>
           
             {% if app.user %}
-              <a href="{{ path('trick_edit', {'id': trick.id}) }}"> <img class="float-right" src="/IMAGES/pencil.png"  style="width:2%;"alt="..."></a>
-              <a href="{{ path('trick_delete', {'id': trick.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:2%;"alt="..."></a>
+              <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"> <img class="float-right" src="/IMAGES/pencil.png"  style="width:2%;"alt="..."></a>
+              <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:2%;"alt="..."></a>
             {% endif %}
           </div>
           <div class="card-body" width="100%">
-            <img src="{{ asset('IMAGES/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks">
-          <div class="card-img-overlay">
+            <img src="{{ asset('IMAGES/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks ">
+            {# <div class="card-img-overlay"> #}
           </div>
       {% else %}  
         <img src="/IMAGES/no-image.jpg"  alt="...">
@@ -45,8 +45,8 @@
     <div class="row" id="seeMedia">
       {% if trick.images | length > 0 %}
         {% for image in trick.images %}
-        <div class="col-lg-4">
-          {# <div class="col-lg-3 col-md-4 col-sm-6 mb-4"> #}
+        {# <div class="col-lg-4"> #}
+          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
             {# <div class="card text-bg-dark"> #}
             <div class="card mb-4">
               <img src="{{ asset('IMAGES/') ~image.name}}" class="card-img" style="height:18vw; object-fit: cover" alt="">
@@ -96,7 +96,9 @@
 <div class="btn-group text-center" role="group" aria-label="Infos trick">
   <button type="button" class="btn btn-secondary"><font style="vertical-align: inherit;">Publié le {{ trick.createdAt|date('d/m/Y H:i') }} </font></button>
   <button type="button" class="btn btn-primary"><font style="vertical-align: inherit;">Catégorie : {{ trick.category }}</font></button>
+  {% if trick.updatedAt %}
   <button type="button" class="btn btn-secondary"><font style="vertical-align: inherit;">Mis à jour le  </font></button>
+  {% endif %}
 </div>
     
 <!-- Include trick comments -->
@@ -104,32 +106,28 @@
 
   <div class="container justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;"  id="comments">
     <div class="col-md-3 col-sm-6 mb-4">
+            {% if trick.comments | length > 0 %}
+      <b> {{ trick.comments|length }} Commentaire(s)  </b>
             <img src="/IMAGES/icon-comment.png" width="70" alt="..." >
-          </div> 
+          {% else %}<img src="/IMAGES/icon-comment.png" width="70" alt="..." >
+        
+          {% endif %}
+          </div>
+
     {% if app.user %}
-      <div class="d-flex w-100 justify-content-center pt-3 pb-2"> 
+      <div class="d-flex justify-content-center pt-3 pb-2"> 
         {{ form_start(commentForm) }}
-          <div  class="div_comment"
-            >
+          <div  class="second py-2 px-2 addtxt div_comment">
             {{ form_row(commentForm.content ) }}
           </div> 
-          <button class="btn btn-primary" style="margin-right:50px;font-size: 20px;" type="submit">Poster</button>
+          {# <button class="btn btn-primary" style="margin-right:50px;font-size: 20px;" type="submit">Poster</button> #}
         {{ form_end(commentForm) }}
         
         
       </div>
       {% else %}
          <div class="d-flex w-100 justify-content-center pt-3 pb-2">
-        <div  style="
-       width: 900px;
-       background-color: #e5e8ed; 
-       padding-top: 10px;
-	    padding-bottom: 10px;
-	    text-align: center;
-	    font-size: 20px;
-      color: #000;
-      font-weight: 900;"
-      >
+        <div  class="div_comment">
       <h5>Vous devez vous connecter pour publier un commentaire</h5>
           <button href="{{path('app_login')}}" class="btn btn-primary" style="margin-right:50px;font-size: 20px;">Connexion</button>
         </div></div>
@@ -137,35 +135,24 @@
    
     
     {% if trick.comments | length > 0 %}
-      {% for comment in trick.comments  | slice(0,10) %} 
+      
+      {% for comment in trick.comments %} 
     <div class="d-flex justify-content-center py-2">
      
-      <div class="second py-2 px-2" style="width: 100%;
-	      background-color: white;
-	      border-radius: 4px;
-	      box-shadow: 10px 10px 5px #aaaaaa;"> 
-        <span class="text1" style="font-size: 20px;
-          font-weight: 500;
-          color: #56575b;">
+      <div class="second py-2 px-2">
           {{ comment.content | raw }}
           {# Type your note, and hit enter to add it #}
         </span>
         <div class="d-flex justify-content-between py-1 pt-2">
           <div>
             <img src="/IMAGES/no-avatar.png" width="50">
-            <span class="text2" style="font-size: 20px;
-              font-weight: 500;
-              margin-left: 6px;
-              color: #56575b;">
+            <span class="text2">
               {{ comment.user.username }}
               {# Martha #}
             </span>
           </div>
           <div>
-            <span class="text3" style="font-size: 20px;
-              font-weight: 500;
-              margin-right: 4px;
-              color: #828386;">
+            <span class="text3">
               Posté le {{ comment.createdAt |date('d/m/Y H:i') }}
             </span>
           </div>
@@ -174,8 +161,14 @@
     
     </div>
     {% endfor %}
-    {% else %}
-        <h4><b>Aucun commentaire. Soyez le premier à commenter ce trick!</b></h4>
+    {% if previous >= 0 %}
++            <a href="{{ path('trick_show', { slug: trick.slug, offset: previous }) }}">Previous</a>
++        {% endif %}
++        {% if next < comments|length %}
++            <a href="{{ path('trick_show', { slug: trick.slug, offset: next }) }}">Next</a>
++        {% endif %}
+    {% else %} 
+       <div> <h4><b>Aucun commentaire. Soyez le premier à commenter ce trick!</b></h4></div>
     {% endif %} 
   </div>
 </div> {# Container global #}

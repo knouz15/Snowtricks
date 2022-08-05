@@ -90,7 +90,7 @@ class TrickType extends AbstractType
                     'prototype'      => true,
                     'constraints' => [
                         new Assert\NotBlank([
-                            'message' => 'Veuillez saisir au moins une url',
+                            'message' => 'Veuillez renseigner les médias',
                         ]),
                     ]
                 ])
@@ -107,7 +107,7 @@ class TrickType extends AbstractType
                     'prototype'      => true,
                     'constraints' => [
                         new Assert\NotBlank([
-                            'message' => 'Veuillez joindre au moins une image',
+                            'message' => 'Veuillez renseigner les médias',
                         ]),
                     ]
                 ])

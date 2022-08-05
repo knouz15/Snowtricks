@@ -7,12 +7,10 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
+use Symfony\Component\String\Slugger\SluggerInterface;
 #[UniqueEntity(fields: ['name'], message: 'Un trick à ce nom existe déjà sur le site')]
-// #[Vich\Uploadable]
+#[UniqueEntity('slug')]
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 
@@ -27,16 +25,10 @@ class Trick
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    
-    /**
-     * @ORM\Column(type="string", length=100, unique=true)
-     * @Gedmo\Slug(fields={"name"})
-     */
     // #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Gedmo\Slug(fields:['name'])]
-    #[ORM\Column(type: 'string', length: 255, unique:true)]
+    // #[ORM\Column(type: 'string', length: 255, unique:true)]
     
-    private $slug;
+    
 
     #[ORM\Column(type: 'text')]
     private $description;
@@ -44,7 +36,7 @@ class Trick
     #[ORM\Column(type: 'datetime_immutable', 
     options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $createdAt;
-
+ 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $updatedAt;
 
@@ -68,6 +60,9 @@ class Trick
 
    #[ ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
     private $comments;
+
+   #[ORM\Column(type: 'string', length: 255, unique: true)]
+   private $slug;
 
     public function __construct()
     {
@@ -97,17 +92,7 @@ class Trick
     }
 
     
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    // public function setSlug(string $slug): self
-    // {
-    //     $this->slug = $slug;
-
-    //     return $this;
-    // }
+    
     public function getDescription(): ?string
     {
         return $this->description;
@@ -272,7 +257,26 @@ class Trick
 
     public function __toString()
     {
-        return $this->slug;
+        return $this->name;
         
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function computeSlug(SluggerInterface $slugger)
+    {
+        if (!$this->slug || '-' === $this->slug) {
+            $this->slug = (string) $slugger->slug((string) $this)->lower();
+        }
     }
 }

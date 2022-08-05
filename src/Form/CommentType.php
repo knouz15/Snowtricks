@@ -19,8 +19,11 @@ class CommentType extends AbstractType
             ->add('content', TextareaType::class, [
             'label' => 'Nouveau commentaire',
             'attr' =>  [
-                'class' => 'form-control',
+                // 'class' => 'form-control',
                 "placeholder" => "+ Laisser un commentaire ..."
+            ],
+            'label_attr' => [
+                'class' => 'form-label mt-4'
             ],
             'constraints' => [
                 new Assert\NotBlank([
@@ -28,7 +31,7 @@ class CommentType extends AbstractType
                 ])
             ]
             ])       
-            // ->add('poster', SubmitType::class)
+            ->add('poster', SubmitType::class)
         ;
     }
 

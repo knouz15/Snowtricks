@@ -1,10 +1,43 @@
 .div_comment{
     width: 900px;
-            background-color: #e5e8ed; 
-            padding-top: 10px;
-	          padding-bottom: 10px;
-	          text-align: center;
-	          font-size: 20px;
-            
-            font-weight: 900;
+    background-color: #e5e8ed; 
+    padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+	font-size: 20px;
+    font-weight: 900;
 }
+
+.second{
+    width: 100%;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 10px 10px 5px #aaaaaa;  
+}
+
+.text2{
+    font-size: 20px;
+    font-weight: 500;
+    margin-left: 6px;
+    color: #56575b; 
+}
+
+.text3{
+    font-size: 20px;
+              font-weight: 500;
+              margin-right: 4px;
+              color: #828386;
+}
+.addtxt{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+	font-size: 20px;
+	width: 400px;
+	background-color: #e5e8ed;
+	font-weight: 500;
+}
+.form-control{
+	color: #000;
+}
+
