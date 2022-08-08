@@ -284,5 +284,5 @@
     },
     "twig/extra-bundle": {
         "version": "v3.4.0"
-    },
+    }
 }

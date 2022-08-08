@@ -33,13 +33,15 @@ class TrickController extends AbstractController
     public function index(
         TrickRepository $trickRepository
     ): Response {
-        $tricks = $trickRepository->findBy([], ['createdAt' => 'DESC'], 15);
+        $tricks = $trickRepository->findBy([], ['createdAt' => 'DESC'], 5);
+        // $tricks = $trickRepository->findAll();
+        $trickCount = $trickRepository->count([]);
         return $this->render('trick/index.html.twig', [
-            'tricks' => $trickRepository->findAll()
+            // 'tricks' => $trickRepository->findAll()
+            'tricks' => $tricks,
+            'trickCount' => $trickCount
         ]);
     }
-
-
 
     /**
      * This controller show a form which create an trick
@@ -130,9 +132,9 @@ class TrickController extends AbstractController
 
     ): Response { //le repository sert à gérer la récupération des données
         
-        $offset = max(0, $request->query->getInt('offset', 0));
-        $paginator = $commentRepository->getCommentPaginator($trick, $offset);
-
+        // $offset = max(0, $request->query->getInt('offset', 0));
+        // $paginator = $commentRepository->getCommentPaginator($trick, $offset);
+        // $commentNewCount = 
         // Partie commentaires
         // On crée le commentaire "vierge"
         $comment = new Comment;
@@ -164,9 +166,9 @@ class TrickController extends AbstractController
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'commentForm' => $commentForm->createView(),
-            'comments' => $paginator,
-            'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
-            'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
+        //     'comments' => $paginator,
+        //     'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
+        //     'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
         ]);
     }
 
@@ -185,19 +187,14 @@ class TrickController extends AbstractController
         //     return $this->redirectToRoute('app_index');
         // }
         // $trick = $trickRepository->findOneBy(['slug'=>$slug]);
-        // $trick = $trickRepository->findOneBy(['id'=>$trick->getId()]);
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $trick = $form->getData();
-          
             //on récupère les images transmises
             /** @var UploadedFile $images */
             $images = $form->get('imagesFile')->getData();
-            // dd($images);
-            // this condition is needed because the 'images' field is not required
-            // so the PDF file must be processed only when a file is uploaded
             // On boucle sur les images
             foreach ($images as $image) {
                 if ($image) {
@@ -226,8 +223,7 @@ class TrickController extends AbstractController
                     // dd($trick);
                 }
             }
-
-            // dd($this->getUser());
+            $trick->setUpdatedAt(new \DateTimeImmutable);
             $manager->persist($trick);
             $manager->flush();
             $this->addFlash(
@@ -236,7 +232,6 @@ class TrickController extends AbstractController
             );
 
             return $this->redirectToRoute('trick_show',
-            // ['id'=>$trick->getSlug()]);
             ['slug'=>$trick->getSlug()]);
         }
  
@@ -247,16 +242,9 @@ class TrickController extends AbstractController
         );
     }
 
-    /**
-     * This controller allows us to delete an trick
-     * @param Request $request
-     * @param ManagerRegistry $doctrine
-     * @param Trick $trick
-     * @return Response
-     */
     #[Route('/Trick/suppression/{slug}', 'trick_delete', methods: ['GET'])]
     #[Security("is_granted('ROLE_USER')")]
-    public function delete(Request $request,
+    public function delete_trick(Request $request,
     ManagerRegistry $doctrine,
         // EntityManagerInterface $manager,
         Trick $trick
@@ -277,22 +265,12 @@ class TrickController extends AbstractController
         return $this->redirectToRoute('app_index');
     }
 
-/** 
-    * @param Image $image
-    * @param Request $request
-    * @param ManagerRegistry $doctrine
-    * @Route("/supprime/image/{id}", name="trick.delete.image", methods={"DELETE"})
-    * @return Response
 
-     
-     */
     #[Route('/supprime/image/{id}', name:'trick_delete_image', methods:['GET'])]
-    public function deleteImage(Image $image, Request $request, ManagerRegistry $doctrine)
+    public function delete_Image(Image $image, Request $request, ManagerRegistry $doctrine)
     {
        
-        // On vérifie si le token est valide
-        // if($this->isCsrfTokenValid('delete'.$image->getId(), $data['_token'])){//on sécurise le formulaire avec le token csrfToken pr éviter que cette route ne soit utilisée par n'importe qui
-            // On récupère le nom de l'image
+          // On récupère le nom de l'image
             $nom = $image->getPath();
             // On supprime le fichier
             unlink($this->getParameter('images_directory').'/'.$nom);
@@ -305,18 +283,12 @@ class TrickController extends AbstractController
 
             
             return $this->redirectToRoute('trick_edit',
-            // ['id'=>$trick->getSlug()]);
             ['slug'=>$image->getTrick()->getSlug()]);
-        // }else{
-        //     return new JsonResponse(['error' => 'Token Invalide'], 400);
-        // }
     }
 
     #[Route('/supprime/video/{id}', name:'trick_delete_video', methods:['GET'])]
-    public function deleteVideo(Video $video, Request $request, ManagerRegistry $doctrine)
+    public function delete_Video(Video $video, Request $request, ManagerRegistry $doctrine)
     {
-        
-
             // On supprime l'entrée de la base
             $em = $doctrine->getManager();
             //$em = $this->getDoctrine()->getManager();
@@ -324,8 +296,41 @@ class TrickController extends AbstractController
             $em->flush();
 
             return $this->redirectToRoute('trick_edit',
-            // ['id'=>$trick->getSlug()]);
             ['slug'=>$video->getTrick()->getSlug()]);
     }
 
+
+    /**
+     * @Route("/load-more/{start}",name="load_more")
+     */
+    #[Route('/load-more/{start}', name: 'load_more')]
+    public function load_more(Request $request, TrickRepository $trickRepository, $start = 15)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            $tricks = $trickRepository->findBy([], ['createdAt' => 'DESC'], 5, $start);
+
+            return $this->render('trick/list_tricks.html.twig', [
+                'tricks' => $tricks
+            ]);
+        }
+    }
+    /**
+     * @Route("/load-more-comments/{id}/{start}",name="load_more_comments")
+     */
+    #[Route('/load-more-comments/{id}/{start}', name: 'load_more_comments')]
+    public function load_more_comments(Request $request, CommentRepository $commentRepository, $start = 5, $id =0)
+    {
+       
+
+
+        if ($request->isXmlHttpRequest()) {
+
+            $comments = $commentRepository->findByTrick($id, ['creationDate' => 'DESC'], 5, $start);
+
+            return $this->render('comment/comments-list.html.twig', [
+                'comments' => $comments
+            ]);
+        }
+    }
 }

@@ -7,180 +7,167 @@
 
   <div class="container">
     <div class="card mt-5 mb-5">
-      {# <div class="card text-center mx-5 my-5"> #}
       {% if trick.images | length > 0 %}
-         
-        {# <div class="card-title"> #}
-          {# <h5 class="card-text " style="font-size:200%"><center> #}
-          <div class="card-header">
-            <font style="vertical-align: inherit;">
-            <center><h2><b>
-            {{ trick.name }}
-            </b></h2></center>
-            </font>
-          
-            {% if app.user %}
+        <div class="card-title">
+          {# <font style="vertical-align: inherit;">
+            <center><h2><b>{{ trick.name }}</b></h2></center>
+          </font> #}
+          <div class="card-title">
+          <h5 class="card-text " style="font-size:200%">
+          <center><b>{{ trick.name }}</b></center></h5>
+          {% if app.user %}
               <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"> <img class="float-right" src="/IMAGES/pencil.png"  style="width:2%;"alt="..."></a>
               <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:2%;"alt="..."></a>
-            {% endif %}
-          </div>
-          <div class="card-body" width="100%">
-            <img src="{{ asset('IMAGES/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks ">
-            {# <div class="card-img-overlay"> #}
-          </div>
+          {% endif %}
+        </div>
+        {# <div class="card-body" width="100%"> #}
+          <img src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks ">
+          {# <div class="card-img-overlay"> ça bloque l'affichage #}
+        {# </div> #}
       {% else %}  
-        <img src="/IMAGES/no-image.jpg"  alt="...">
-      {% endif %}  
+        <img src="/IMAGES/Tricks/no-image.jpg"  alt="...">
+      {% endif %}
     </div>
   </div>
 
-
- 
-
-  {# <div class="container" id="seeMedia"> #}
-    <!-- Page Heading -->
-    {# <h1 class="my-4">Page Heading
-    <small>Secondary Text</small>
-    </h1> #}
-    <div class="row" id="seeMedia">
-      {% if trick.images | length > 0 %}
-        {% for image in trick.images %}
-        {# <div class="col-lg-4"> #}
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            {# <div class="card text-bg-dark"> #}
-            <div class="card mb-4">
-              <img src="{{ asset('IMAGES/') ~image.name}}" class="card-img" style="height:18vw; object-fit: cover" alt="">
-            </div>
-          </div>
-        {% endfor %}
-        {% else %}
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card h-100">
-              <div class="card text-bg-dark">
-              <img class="card-img-top" src="/IMAGES/no-image.jpg"  alt="..." >
-            <div class="card-img-overlay">
-            </div>
-          </div>  
-      {% endif %} 
-
-      {# les videos #}
-      {% if trick.videos | length > 0 %}
-        {% for video in trick.videos %}
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            {# <div class="card h-100" > #}
-              {{ video.url | raw}}
-            {# </div> #}
-          </div>
-        {% endfor %}
-        {% else %}
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            {# <div class="card h-100"> #}
-              <img class="card-img" src="/IMAGES/no-video.jpg"  style="height:18vw; object-fit: cover" alt="...">
-            {# </div> #}
-          </div>
-      {% endif %} 
-  
-  
-
-  {# <p class="card-text">{{ trick.description|slice(0, 100) ~ '...' }}</p> #}
-  
-              
-              <div class="p-5">
-              <font style="vertical-align: inherit;">{{ trick.description}}  </font></p>
-                  
-                                      
- </div>    
- {# <p class="lead"><font style="vertical-align: inherit;">Il s'agit d'une simple unité de héros, un simple composant de style jumbotron pour attirer une attention particulière sur le contenu ou les informations présentés. </font></p> #}
-  
-
-<div class="btn-group text-center" role="group" aria-label="Infos trick">
-  <button type="button" class="btn btn-secondary"><font style="vertical-align: inherit;">Publié le {{ trick.createdAt|date('d/m/Y H:i') }} </font></button>
-  <button type="button" class="btn btn-primary"><font style="vertical-align: inherit;">Catégorie : {{ trick.category }}</font></button>
-  {% if trick.updatedAt %}
-  <button type="button" class="btn btn-secondary"><font style="vertical-align: inherit;">Mis à jour le  </font></button>
-  {% endif %}
-</div>
-    
-<!-- Include trick comments -->
-{# {% include 'comment.html.twig' %} #}
-
-  <div class="container justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;"  id="comments">
-    <div class="col-md-3 col-sm-6 mb-4">
-            {% if trick.comments | length > 0 %}
-      <b> {{ trick.comments|length }} Commentaire(s)  </b>
-            <img src="/IMAGES/icon-comment.png" width="70" alt="..." >
-          {% else %}<img src="/IMAGES/icon-comment.png" width="70" alt="..." >
-        
-          {% endif %}
-          </div>
-
-    {% if app.user %}
-      <div class="d-flex justify-content-center pt-3 pb-2"> 
-        {{ form_start(commentForm) }}
-          <div  class="second py-2 px-2 addtxt div_comment">
-            {{ form_row(commentForm.content ) }}
-          </div> 
-          {# <button class="btn btn-primary" style="margin-right:50px;font-size: 20px;" type="submit">Poster</button> #}
-        {{ form_end(commentForm) }}
-        
-        
-      </div>
-      {% else %}
-         <div class="d-flex w-100 justify-content-center pt-3 pb-2">
-        <div  class="div_comment">
-      <h5>Vous devez vous connecter pour publier un commentaire</h5>
-          <button href="{{path('app_login')}}" class="btn btn-primary" style="margin-right:50px;font-size: 20px;">Connexion</button>
-        </div></div>
-    {% endif %}
-   
-    
-    {% if trick.comments | length > 0 %}
+  {# <div class="row" id="seeMedia"> #}
+  {# <div class="see-medias-block mt-3"> #}
+    {# <div class="row row-cols-1 row-cols-md-2 g-4 mt-3 mb-5" style="justify-content: center"> #}
+    <div class="row">
+    {% if trick.images | length > 0 %}
       
-      {% for comment in trick.comments %} 
-    <div class="d-flex justify-content-center py-2">
-     
-      <div class="second py-2 px-2">
-          {{ comment.content | raw }}
-          {# Type your note, and hit enter to add it #}
-        </span>
-        <div class="d-flex justify-content-between py-1 pt-2">
-          <div>
-            {% if comment.user.avatarFilename %}
-             <img src="{{ asset('uploads/avatars/') ~comment.user.avatarFilename}}" class="card-img" style="height:8vw; object-fit: cover" alt="">
-            {% else %}
-            <img src="/IMAGES/no-avatar.png" width="50">
-            {% endif %}
-            <span class="text2">
-              {{ comment.user.username }}
-              {# Martha #}
-            </span>
-          </div>
-          <div>
-            <span class="text3">
-              Posté le {{ comment.createdAt |date('d/m/Y H:i') }}
-            </span>
+      {% for image in trick.images %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div class="card mb-4">
+            <img src="{{ asset('IMAGES/Tricks/') ~image.name}}" class="card-img" style="height:18vw; object-fit: cover" alt="">
           </div>
         </div>
-      </div>
-    
-    </div>
-    {% endfor %}
-    {% if previous >= 0 %}
-+            <a href="{{ path('trick_show', { slug: trick.slug, offset: previous }) }}">Previous</a>
-+        {% endif %}
-+        {% if next < comments|length %}
-+            <a href="{{ path('trick_show', { slug: trick.slug, offset: next }) }}">Next</a>
-+        {% endif %}
-    {% else %} 
-       <div> <h4><b>Aucun commentaire. Soyez le premier à commenter ce trick!</b></h4></div>
+      {% endfor %}
+      {% else %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div class="card h-100">
+            <div class="card text-bg-dark">
+              <img class="card-img-top" src="/IMAGES/no-image.jpg"  alt="..." >
+            <div class="card-img-overlay">
+          </div>
+        </div>  
     {% endif %} 
+    {# </div>fin row images #}
+    
+    {# les videos #}
+    {# <div class="row"> #}
+    {% if trick.videos | length > 0 %}
+      {% for video in trick.videos %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="embed-responsive embed-responsive-1by1">
+          {# <div class="card h-100" > #}
+            {# {{ video.url | raw}} #}
+            <iframe src="{{ video.url }}" frameborder="0" allow="accelerometer; fullscreen; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          {# </div> #}
+          </div>
+        </div>
+      {% endfor %}
+      {% else %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          {# <div class="card h-100"> #}
+            <img class="card-img" src="/IMAGES/no-video.jpg"  style="height:18vw; object-fit: cover" alt="...">
+          {# </div> #}
+        </div>
+    {% endif %} 
+    {# </div>fin row vidéos #}
+
   </div>
-</div> {# Container global #}
-</div>
+  </div> {# fin medias#}
+
+    <div class="p-5">
+      <h5><b> DESCRIPTION DU TRICK :</b></center></h5>
+      <font style="vertical-align: inherit;">
+      {{ trick.description}}  
+      </font>
+    </div> 
+
+    <div class="btn-group mx-5" role="group" aria-label="Infos trick">
+      <button type="button" class="btn btn-secondary"><font style="vertical-align: inherit;">Publié le {{ trick.createdAt|date('d/m/Y H:i') }} </font></button>
+      <button type="button" class="btn btn-primary"><font style="vertical-align: inherit;">Catégorie : {{ trick.category }}</font></button>
+      {% if trick.updatedAt %}
+        <button type="button" class="btn btn-secondary"><font style="vertical-align: inherit;">Mis à jour le {{ trick.createdAt|date('d/m/Y H:i') }} </font></button>
+      {% endif %}
+    </div>
+    <div class="hr-line">
+				<hr>
+		</div>
+    <!-- Include trick comments -->
+    
+
+    <div class="container justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;">
+      <div id="load_data_message"></div>
+      <div class="col-md-3 col-sm-6 mb-4" >
+        {% if trick.comments | length > 0 %}
+          <b> {{ trick.comments|length }} Commentaire(s)  </b>
+          <img src="/IMAGES/icon-comment.png" width="70" alt="..." >
+          {% else %}<img src="/IMAGES/icon-comment.png" width="70" alt="..." >
+        {% endif %}
+      </div>
+      {% if app.user %}
+        <div class="d-flex justify-content-center pt-3 pb-2"> 
+          {{ form_start(commentForm) }}
+            <div  class="second py-2 px-2 addtxt div_comment">
+              {{ form_row(commentForm.content ) }}
+            </div> 
+          {{ form_end(commentForm) }}
+        </div>
+        {% else %}
+          <div class="d-flex w-100 justify-content-center pt-3 pb-2">
+            <div  class="div_comment">
+              <h5>Vous devez vous connecter pour publier un commentaire</h5>
+              <button href="{{path('app_login')}}" class="btn btn-primary" style="margin-right:50px;font-size: 20px;">Connexion</button>
+            </div>
+          </div>
+      {% endif %}
+      {% if trick.comments | length > 0 %}
+        <div class="row " id="comments">
+				  {{ include ('trick/comments-list.html.twig') }}
+			  </div>
+            {# <button type="button"  onclick=""> #}
+            {# onclick="postAjaxCom();"> #}
+            {# Load More #}
+            {# <img src="/IMAGES/ajaxloader.png" width="30"> #}
+            {# </button> #}
+        <div class="load-more-block mt-3 mb-5">
+				  <button type="button" class="btn btn-primary bg-gradient" id="load-more-comments">
+					  <i class="bi bi-plus-circle-dotted load-circle"></i>Load More
+          </button>
+			  </div>
+        {% else %} 
+        <div> <h4><b>Aucun commentaire. Soyez le premier à commenter ce trick!</b></h4></div>
+      {% endif %} 
+    </div> {# container comments #}
+  
 {% endblock %} 
+
 {% block javascript %}
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+
+<script>
+ {{parent()}}      
+$(function () {
+  var click_count = 5
+  $('#load-more-comments').click(function () {
+    $.ajax({
+    url:'{{ path('load_more_comments') }}' + '/' + {{ trick.id }} + '/' + click_count,
+    method: 'get'
+    }).done(function (message) {
+    $('#comments').append(message)
+    })
+    click_count += 5
+    if (click_count >= {{ trick.comments|length }}) {
+    $('#load-more-comments').hide()
+    }
+  })
+})
+
+	</script>
 {% endblock %}
 
 

@@ -27,8 +27,9 @@ class ImageType extends AbstractType
                         'mimeTypes' => [
                             'application/jpg',
                             'application/png',
+                            'application/jpeg',
                         ],
-                        'mimeTypesMessage' => 'Uploadez une image de format jpg ou png',
+                        'mimeTypesMessage' => 'Uploadez une image de format jpg ou png ou jpeg',
                     ])
         ],
         'label' => 'Uploadez une image'

@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 #[UniqueEntity(fields: ['name'], message: 'Un trick à ce nom existe déjà sur le site')]
 #[UniqueEntity('slug')]
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
@@ -23,12 +25,9 @@ class Trick
 
 
     #[ORM\Column(type: 'string', length: 255)]
+    // #[Assert\Regex(pattern:'/[a-zA-Z._\p{L}-]{1,20}/',message:'Nom invalide: Ne doit contenir que des lettres et des lettres')]
+    #[Assert\Regex(pattern:'/[a-zA-Z.0-9._\p{L}-]{1,20}/',message:'Nom invalide: Ne doit contenir que des lettres et des lettres')]
     private $name;
-
-    // #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    // #[ORM\Column(type: 'string', length: 255, unique:true)]
-    
-    
 
     #[ORM\Column(type: 'text')]
     private $description;
@@ -55,10 +54,10 @@ class Trick
     private $images;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ['persist','remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    // #[ORM\JoinColumn(nullable: false)]
     private $videos;
 
-   #[ ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
+   #[ ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true, cascade: ['persist'])]
     private $comments;
 
    #[ORM\Column(type: 'string', length: 255, unique: true)]

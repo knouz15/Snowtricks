@@ -22,12 +22,13 @@ class VideoType extends AbstractType
         $builder
             ->add('url',TextType::class, [
                 'constraints' => [
-                    new Regex([
-                        'pattern' => '#(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))#',
-                        'message' => 'Ceci n\'est pas une iframe',
-                    ]),
+                    // new Regex([
+                    //     'pattern' => '#(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))#',
+                        
+                    //     'message' => 'Ceci n\'est pas une url valide',
+                    // ]),
                 ],
-                'label' => 'Entrez une iframe'
+                'label' => 'Entrez une url embed'
             ]
          
         );

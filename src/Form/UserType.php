@@ -79,8 +79,9 @@ class UserType extends AbstractType
                         'mimeTypes' => [
                             'image/jpeg',  
                             'image/jpg',
+                            'image/png'
                         ],
-                        'mimeTypesMessage' => 'Merci d\'uploader une image au format jpg ou jpeg',
+                        'mimeTypesMessage' => 'Merci d\'uploader une image au format jpg ou jpeg ou png',
                     ]),
                     new Assert\NotBlank([
                         'message' => 'Veuillez uploader un fichier',

@@ -29,35 +29,36 @@
     <!-- Nested row for non-featured blog posts-->
     <div class="container ">  
     <div class="row" id="tricks">
-        {% for trick in tricks %}
-            <div class="col-lg-4">
-                <div class="card mb-4">
-                    {% if trick.images | length > 0 %}
-                        <a href="{{ path('trick_show', {slug: trick.slug}) }}"><img class="card-img-top" src="{{ asset('IMAGES/' ~ trick.images[0].name) }}" alt="{{ trick.slug }}" style="height:15vw; object-fit: cover"></a>
-                    {% else %}  
-                        <a href="{{ path('trick_show', {slug: trick.slug}) }}"><img class="card-img-top" src="/IMAGES/no-image.jpg" style="height:15vw; object-fit: cover" alt="...">
-                    {% endif %}
-                    <div class="card-footer">             
-                        {{ trick.name }}
-                        {% if app.user %}
-                            <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"> <img class="float-right" src="/IMAGES/pencil.png"  style="width:5%;"alt="..."></a>
-                            <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:5%;"alt="..."></a>
-                        {% endif %}
-                    </div> 
-                </div>
-            </div>
-        {% endfor %}       
-        <a href="#"><img class="float-right" src="/IMAGES/arrow-up.png"  alt="haut de page"></a>
+        {{ include ('trick/list_tricks.html.twig') }}
+        
     </div>
     <!-- Pagination-->
 
-    <button type="button " onclick="getData();">
-    Load More
-    </button>
+    <div class="load-more-block mt-3">
+			<button type="button" class="btn btn-primary"  id="load-more" >
+				<i class="bi bi-plus-circle-dotted load-circle"></i>Load More</button>
+		</div>
 
-
+<a href="#"><img class="float-right" src="/IMAGES/arrow-up.png"  alt="haut de page"></a>
 {% endblock %}
 {% block javascript %}
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        {{parent()}}     
+        $(function () {
+            var click_count = 5
+            $('#load-more').click(function () {
+                $.ajax({url:'{{ path('load_more') }}' + '/' + click_count,
+                method: 'get'})
+                .done(function (message) {
+                    $('#tricks').append(message)
+                })
+                click_count += 5
+                if (click_count >= {{ trickCount }}) {
+                    $('#load-more').hide()
+                }
+            })
+        })
+    </script>
 {% endblock %}

@@ -276,14 +276,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
         return $this;
     }
 
-
-     /**
-     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-     * of 'UploadedFile' is injected into this setter to trigger the update. If this
-     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-     * must be able to accept an instance of 'File' as the bundle will inject one here
-     * during Doctrine hydration.
-     **/
     //  * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
      
     // public function setImageFile(?File $imageFile = null): void
@@ -301,7 +293,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     // {
     //     return $this->imageFile;
     // }
-
+ 
 
     
     public function getAvatarFilename(): ?string
@@ -309,11 +301,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
         return $this->avatarFilename;
     }
 
-    public function setAvatarFilename(?string $avatarFilename): void //self
+    public function setAvatarFilename(string $avatarFilename): self //void
     {
         $this->avatarFilename = $avatarFilename;
 
-        //return $this;
+        return $this;
     }
 
         public function serialize()
