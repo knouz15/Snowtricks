@@ -33,51 +33,69 @@
   {# <div class="row" id="seeMedia"> #}
   {# <div class="see-medias-block mt-3"> #}
     {# <div class="row row-cols-1 row-cols-md-2 g-4 mt-3 mb-5" style="justify-content: center"> #}
-    <div class="row">
-    {% if trick.images | length > 0 %}
-      
-      {% for image in trick.images %}
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-          <div class="card mb-4">
+    <div class="see-medias-block row">
+
+      {% if trick.images|length > 1 or trick.videos is not empty %}
+			  <section>
+				  <div  class="text-center ">
+					<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseMedias" aria-expanded="false" aria-controls="collapseMedias">
+						<i class="" aria-hidden="true"></i>
+						VOIR Médias
+					</button>
+				  </div>
+        
+				  <div class="collapse" id="collapseMedias"> {# Collapse #}
+
+            {% if trick.images | length > 1 %}
+            <div class="row mt-5">
+            {% for image in trick.images %}
+              <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card mb-4">
             <img src="{{ asset('IMAGES/Tricks/') ~image.name}}" class="card-img" style="height:18vw; object-fit: cover" alt="">
-          </div>
-        </div>
-      {% endfor %}
-      {% else %}
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-          <div class="card h-100">
+            </div>
+            </div>
+            {% endfor %}
+            </div>
+            {% else %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100">
             <div class="card text-bg-dark">
               <img class="card-img-top" src="/IMAGES/no-image.jpg"  alt="..." >
             <div class="card-img-overlay">
-          </div>
-        </div>  
-    {% endif %} 
-    {# </div>fin row images #}
+            </div>
+            </div>  
+            {% endif %} 
+            {# </div>fin row images #}
     
-    {# les videos #}
-    {# <div class="row"> #}
-    {% if trick.videos | length > 0 %}
-      {% for video in trick.videos %}
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-        <div class="embed-responsive embed-responsive-1by1">
-          {# <div class="card h-100" > #}
-            {# {{ video.url | raw}} #}
-            <iframe src="{{ video.url }}" frameborder="0" allow="accelerometer; fullscreen; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          {# </div> #}
-          </div>
-        </div>
-      {% endfor %}
-      {% else %}
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-          {# <div class="card h-100"> #}
-            <img class="card-img" src="/IMAGES/no-video.jpg"  style="height:18vw; object-fit: cover" alt="...">
-          {# </div> #}
-        </div>
-    {% endif %} 
-    {# </div>fin row vidéos #}
-
-  </div>
-  </div> {# fin medias#}
+            {# les videos #}
+            {# <div class="row"> #}
+            {% if trick.videos | length > 0 %}
+            <div class="row mt-5">
+            {% for video in trick.videos %}
+              <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+              <div class="embed-responsive embed-responsive-1by1">
+              {# <div class="card h-100" > #}
+              {# {{ video.url | raw}} #}
+              <iframe src="{{ video.url }}" frameborder="0" allow="accelerometer; fullscreen; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              {# </div> #}
+              </div>
+              </div>
+            {% endfor %}
+            </div>
+            {% else %}
+              <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+              {# <div class="card h-100"> #}
+              <img class="card-img" src="/IMAGES/no-video.jpg"  style="height:18vw; object-fit: cover" alt="...">
+              {# </div> #}
+              </div>
+            {% endif %} 
+              {# </div>fin row vidéos #}
+              {# </div> #}
+          </div> {# fin collapse#}
+        </section>
+      {% endif %}
+    
+    </div>
 
     <div class="p-5">
       <h5><b> DESCRIPTION DU TRICK :</b></center></h5>
@@ -86,7 +104,7 @@
       </font>
     </div> 
 
-    <div class="btn-group mx-5" role="group" aria-label="Infos trick">
+    <div class="btn-group" role="group" aria-label="Infos trick">
       <button type="button" class="btn btn-secondary"><font style="vertical-align: inherit;">Publié le {{ trick.createdAt|date('d/m/Y H:i') }} </font></button>
       <button type="button" class="btn btn-primary"><font style="vertical-align: inherit;">Catégorie : {{ trick.category }}</font></button>
       {% if trick.updatedAt %}
@@ -109,12 +127,24 @@
         {% endif %}
       </div>
       {% if app.user %}
-        <div class="d-flex justify-content-center pt-3 pb-2"> 
-          {{ form_start(commentForm) }}
+        <div class="d-flex justify-content-center pt-3 pb-2">
+          <form class="g-3 comment-form" action="{{ path('comment_add', {id: trick.id}) }}" method="POST">
+						<div class="row">
+							<div class="col-12 col-md-9 cmt-txta">
+								<textarea class="form-control" name="comment" id=""></textarea>
+							</div>
+
+							<div class="col-12 col-md-3 comment-btn-div">
+								<button type="submit" class="btn comment-btn">Leave a comment</button>
+							</div>
+						</div>
+					</form>
+
+          {# {{ form_start(commentForm) }}
             <div  class="second py-2 px-2 addtxt div_comment">
               {{ form_row(commentForm.content ) }}
             </div> 
-          {{ form_end(commentForm) }}
+          {{ form_end(commentForm) }} #}
         </div>
         {% else %}
           <div class="d-flex w-100 justify-content-center pt-3 pb-2">
@@ -128,11 +158,8 @@
         <div class="row " id="comments">
 				  {{ include ('trick/comments-list.html.twig') }}
 			  </div>
-            {# <button type="button"  onclick=""> #}
-            {# onclick="postAjaxCom();"> #}
-            {# Load More #}
             {# <img src="/IMAGES/ajaxloader.png" width="30"> #}
-            {# </button> #}
+      
         <div class="load-more-block mt-3 mb-5">
 				  <button type="button" class="btn btn-primary bg-gradient" id="load-more-comments">
 					  <i class="bi bi-plus-circle-dotted load-circle"></i>Load More
@@ -141,7 +168,7 @@
         {% else %} 
         <div> <h4><b>Aucun commentaire. Soyez le premier à commenter ce trick!</b></h4></div>
       {% endif %} 
-    </div> {# container comments #}
+    </div> {# end container comments #}
   
 {% endblock %} 
 
@@ -155,7 +182,7 @@ $(function () {
   var click_count = 5
   $('#load-more-comments').click(function () {
     $.ajax({
-    url:'{{ path('load_more_comments') }}' + '/' + {{ trick.id }} + '/' + click_count,
+    {# url:'{{ path('load_more_comments') }}' + '/' + {{ trick.id }} + '/' + click_count, #}
     method: 'get'
     }).done(function (message) {
     $('#comments').append(message)

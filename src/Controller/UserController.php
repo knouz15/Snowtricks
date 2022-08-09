@@ -94,7 +94,7 @@ class UserController extends AbstractController
 
 
     // #[Security("is_granted('ROLE_USER')")]
-    // #[Route('/utilisateur/mot-de-passe-oublie', 'user.forgot.password', methods: ['GET', 'POST'])]
+    // #[Route('/utilisateur/mot-de-passe-oublie', 'user_forgot_password', methods: ['GET', 'POST'])]
     // public function forgotPassword
     // (
     //     // User $choosenUser,
@@ -130,6 +130,8 @@ class UserController extends AbstractController
     //         'form' => $form->createView()
     //     ]);
     // }
+
+
     /**
      * This controller allow us to edit user's password
      *
@@ -140,7 +142,7 @@ class UserController extends AbstractController
      * @return Response
      */
     #[Security("is_granted('ROLE_USER') and user === choosenUser")]
-    #[Route('/utilisateur/edition-mot-de-passe/{id}', 'user.edit.password', methods: ['GET', 'POST'])]
+    #[Route('/utilisateur/edition-mot-de-passe/{id}', 'user_edit_password', methods: ['GET', 'POST'])]
     public function editPassword(
         User $choosenUser,
         Request $request,

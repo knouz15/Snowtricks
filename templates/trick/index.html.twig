@@ -2,7 +2,7 @@
 
 {% block title %}Snowtricks{% endblock %}
 {% block stylesheets %}
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    {# <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> #}
     <link href="{{ asset('css/index.css') }}" rel="stylesheet" />
 {% endblock %}
 {% block body %}
@@ -36,7 +36,10 @@
 
     <div class="load-more-block mt-3">
 			<button type="button" class="btn btn-primary"  id="load-more" >
-				<i class="bi bi-plus-circle-dotted load-circle"></i>Load More</button>
+				<i class="bi bi-plus-circle-dotted load-circle"></i>
+                Load More
+                <img src="/IMAGES/ajaxloader.png" width="30">
+            </button>
 		</div>
 
 <a href="#"><img class="float-right" src="/IMAGES/arrow-up.png"  alt="haut de page"></a>

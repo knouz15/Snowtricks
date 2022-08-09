@@ -14,7 +14,7 @@ use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Entity\Comment;
 use App\Form\CommentType;
-
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 // use Knp\Component\Pager\PaginatorInterface;
@@ -108,7 +108,9 @@ class TrickController extends AbstractController
                 'Votre trick a été créé avec succès !'
             );
 
-            return $this->redirectToRoute('trick_show',['slug'=>$trick->getSlug()]);
+            return $this->redirectToRoute('trick_show',[
+                'id' => $trick->getId(),
+                'slug'=>$trick->getSlug()]);
         }
 
         return $this->render(
@@ -123,53 +125,79 @@ class TrickController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/Trick/{slug}', name: 'trick_show', methods: ['GET','POST'])]
-    public function show(
-        Trick $trick,
+    #[Route('/Trick/{id}-{slug}', name: 'trick_show', methods: ['GET','POST'])]
+    public function show( $id,
+        // Trick $trick,
         Request $request,
         ManagerRegistry $doctrine,
-        CommentRepository $commentRepository
+        CommentRepository $commentRepository,
+        TrickRepository $trickRepository,
 
-    ): Response { //le repository sert à gérer la récupération des données
+    )
+    // : Response 
+    { //le repository sert à gérer la récupération des données
         
-        // $offset = max(0, $request->query->getInt('offset', 0));
-        // $paginator = $commentRepository->getCommentPaginator($trick, $offset);
-        // $commentNewCount = 
-        // Partie commentaires
-        // On crée le commentaire "vierge"
-        $comment = new Comment;
 
-        // On génère le formulaire
-        $commentForm = $this->createForm(CommentType::class, $comment);
+        $trick = $trickRepository->findOneBy(['id' => $id]);
 
-        $commentForm->handleRequest($request);
-
-        // Traitement du formulaire
-        if($commentForm->isSubmitted() && $commentForm->isValid()){
-            $comment->setCreatedAt(new \DateTimeImmutable());
-            $comment->setTrick($trick);
-            // $trick = $form->getData();
-            $comment->setUser($this->getUser());
+        $trickid = $trick->getId();
 
 
-            // On va chercher le commentaire correspondant
-            $em = $doctrine->getManager();
+        $comments = $commentRepository->findByTrick($trickid, ['createdAt' => 'DESC'], 5, 0);
+
+        // $commentCount = $commentRepository->count([]);
+
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
 
 
-            $em->persist($comment);
-            $em->flush();
 
-            $this->addFlash('message', 'Votre commentaire a bien été envoyé');
-            return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
-        }
-
-        return $this->render('trick/show.html.twig', [
+        return $this->render('trick/trick_show.html.twig', [
+            'slug' => $trick->getSlug(),
             'trick' => $trick,
-            'commentForm' => $commentForm->createView(),
-        //     'comments' => $paginator,
-        //     'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
-        //     'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
+            'user' => $user,
+            'comments' => $comments
+            // 'commentCount' => $commentCount
         ]);
+        
+
+        ///////
+        // // On crée le commentaire "vierge"
+        // $comment = new Comment;
+
+        // // On génère le formulaire
+        // $commentForm = $this->createForm(CommentType::class, $comment);
+
+        // $commentForm->handleRequest($request);
+
+        // // Traitement du formulaire
+        // if($commentForm->isSubmitted() && $commentForm->isValid()){
+        //     $comment->setCreatedAt(new \DateTimeImmutable());
+        //     $comment->setTrick($trick);
+        //     // $trick = $form->getData();
+        //     $comment->setUser($this->getUser());
+
+
+        //     // On va chercher le commentaire correspondant
+        //     $em = $doctrine->getManager();
+
+
+        //     $em->persist($comment);
+        //     $em->flush();
+
+        //     $this->addFlash('message', 'Votre commentaire a bien été envoyé');
+        //     return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
+        // }
+
+        // return $this->render('trick/show.html.twig', [
+        //     'trick' => $trick,
+        //     'user' => $user,
+        //     'comments' => $comments
+        //     // 'commentForm' => $commentForm->createView(),
+        // //     'comments' => $paginator,
+        // //     'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
+        // //     'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
+        // ]);
     }
 
     // #[Security("is_granted('ROLE_USER')]
@@ -315,20 +343,90 @@ class TrickController extends AbstractController
             ]);
         }
     }
-    /**
-     * @Route("/load-more-comments/{id}/{start}",name="load_more_comments")
-     */
-    #[Route('/load-more-comments/{id}/{start}', name: 'load_more_comments')]
-    public function load_more_comments(Request $request, CommentRepository $commentRepository, $start = 5, $id =0)
+
+    
+    #[Route('/comment_add/{id}', name: 'comment_add')]
+    public function addComment(
+        Request $request, 
+        Trick $trick, 
+        EntityManagerInterface $em, 
+        ManagerRegistry $doctrine,
+        )
     {
        
 
+            // /**@var \App\Entity\User $user */
+            // $user = $this->getUser();
+            // $comment->setUser($user);
+            // $comment->setContent($request->request->get('comment'));
+            // $comment->setTrick($trick);
+            // $comment->setCreatedAt(new \DateTimeImmutable);
 
-        if ($request->isXmlHttpRequest()) {
+            // $em->persist($comment);
+            // $em->flush();
 
-            $comments = $commentRepository->findByTrick($id, ['creationDate' => 'DESC'], 5, $start);
+            // /** @var FlashBag */
+            // $flashBag = $session->getBag('flashes');
 
-            return $this->render('comment/comments-list.html.twig', [
+            // $flashBag->add('success', "Le commentaire a bien été ajouté !");
+
+
+            // On crée le commentaire "vierge"
+        $comment = new Comment;
+
+        // On génère le formulaire
+        // $commentForm = $this->createForm(CommentType::class, $comment);
+
+        // $commentForm->handleRequest($request);
+
+        // Traitement du formulaire
+        // if($commentForm->isSubmitted() && $commentForm->isValid()){
+            $comment->setCreatedAt(new \DateTimeImmutable());
+            $comment->setTrick($trick);
+            // $trick = $form->getData();
+            $comment->setUser($this->getUser());
+            // On va chercher le commentaire correspondant
+            $em = $doctrine->getManager();
+
+
+            $em->persist($comment);
+            $em->flush();
+
+        //     $this->addFlash('message', 'Votre commentaire a bien été envoyé');
+        //     return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
+        // }
+
+        // return $this->render('trick/show.html.twig', [
+        //     'trick' => $trick,
+        //     'user' => $user,
+        //     'comments' => $comments
+        //     // 'commentForm' => $commentForm->createView(),
+        // //     'comments' => $paginator,
+        // //     'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
+        // //     'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
+        // ]);
+
+
+
+        $referer = $request->headers->get('referer');
+
+        return $this->redirect($referer);
+    }
+
+
+    /**
+     * @Route("/load-more-comments/{slug}/{start}",name="load_more_comments")
+     */
+    #[Route('/load-more-comments/{id}/{start}', name: 'load_more_comments')]
+    public function load_more_comments(Request $request, CommentRepository $commentRepository, $start = 5, $id =0)
+    {       
+        
+            if ($request->isXmlHttpRequest()) {
+
+            $comments = $commentRepository->findByTrick($id, ['createdAt' => 'DESC'], 5, $start);
+            // dd($id);
+            // $slug = $this->getTrick()->getSlug();
+            return $this->render('trick/comments-list.html.twig', [
                 'comments' => $comments
             ]);
         }

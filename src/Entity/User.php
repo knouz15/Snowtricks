@@ -59,18 +59,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     #[ORM\Column(type: 'string', nullable: true)]
     private $avatarFilename;
 
-    // #[ORM\Column(type: 'string')]
-    // private ?string $avatar;
-
-    // #[ORM\Column(type: 'string', nullable: true)]
-    // private ?string $avatar = null;
-    
-    
-    
-    // #[Assert\Image(maxSize : "500k",maxSizeMessage :"Votre avatar ne doit pas dépasser 500 ko", nullable:true)]
-    // #[ORM\Column(type: 'string', length: 255)]
-    // private $avatar;
-
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Trick::class, orphanRemoval: true)]
     private $tricks;
 
@@ -86,8 +74,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class, orphanRemoval: true)]
     private $comments;
 
-    // #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    // private $photo;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $resetToken;
+
 
     public function __construct()
     {
@@ -380,5 +369,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
 
     //     return $this;
     // }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
 
 }

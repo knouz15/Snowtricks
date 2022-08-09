@@ -24,7 +24,7 @@
   </div>
 
   <div class="row" id="seeMedia">
-    {% if trick.images | length > 0 %}
+    {% if trick.images | length > 1 %}
       {% for image in trick.images %}
         <div class="col-lg-4"> 
           {# <div class="col-lg-3 col-md-4 col-sm-6 mb-4"> #}
@@ -43,14 +43,14 @@
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card h-100">
               <a href="#">
-              <img class="card-img-top" src="/IMAGES/no-image.jpg"  alt="..." >
+              <img class="card-img-top" src="/IMAGES/no-image.jpg"  alt="No more images" >
             </a>
             </div>
           </div>  
     {% endif %} 
 
     {# les videos #}
-    {% if trick.videos | length > 0 %}
+    {% if trick.videos | length > 1 %}
       {% for video in trick.videos %}
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
             {# <div class="card h-100"> #}
@@ -68,7 +68,7 @@
       {% else %}
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card h-100">
-              <img class="card-img-top" src="/IMAGES/no-video.jpg"  alt="...">
+              <img class="card-img-top" src="/IMAGES/no-video.jpg"  alt="No more videos">
             </div>
           </div>
     {% endif %} 

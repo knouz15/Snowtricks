@@ -6,18 +6,17 @@ namespace App\Controller;
 // use App\Form\RegistrationType;
 // use Doctrine\ORM\EntityManagerInterface;
 // use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 // use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/connexion', name: 'app_login'
-    // , methods: ['GET','POST']
+    #[Route(path: '/connexion', name: 'app_login' //route créer avec les attributs php et non pas avec les annotations
     )]
-    public function login(AuthenticationUtils $authenticationUtils)
-    // : Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
