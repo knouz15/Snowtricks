@@ -77,6 +77,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $resetToken;
 
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private $updatedAt;
+
 
     public function __construct()
     {
@@ -378,6 +381,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     public function setResetToken(?string $resetToken): self
     {
         $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

@@ -14,23 +14,23 @@ class UserForgotPasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
+        $builder 
             ->add('username', TextType::class, [
                 'attr' => [
                 'class' => 'form-control',
-                "placeholder" => "Entrez un username",
-                'minlenght' => '2',
-                'maxlenght' => '50',
-                ],
+                "placeholder" => "Entrez votre username",
                 'label' => 'Nom d\'utilisateur',
-                'label_attr' => [
-                'class' => 'form-label  mt-4'
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir un username',
-                    ]),
-                    new Length(['min' => 2, 'max' => 50, 'minMessage' => 'Votre username doit contenir plus de 3 caractères'])
+                // 'minlenght' => '2',
+                // 'maxlenght' => '50',
+                // ],
+                // 'label_attr' => [
+                // 'class' => 'form-label  mt-4'
+                // ],
+                // 'constraints' => [
+                //     new NotBlank([
+                //         'message' => 'Veuillez saisir votre username',
+                //     ]),
+                //     new Length(['min' => 2, 'max' => 50, 'minMessage' => 'Votre username doit contenir plus de 3 caractères'])
                 ]
             ]); 
             
@@ -39,8 +39,6 @@ class UserForgotPasswordType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
+        //
     }
 }

@@ -26,7 +26,7 @@ class RegistrationController extends AbstractController
         Mailer $mailer,
      UserRepository $userRepository)
     {
-        
+         
         $this->userRepository = $userRepository;
         $this->mailer = $mailer;
     }

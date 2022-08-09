@@ -17,14 +17,18 @@ class Mailer
 
     private $mailer;
 
-    public function __construct(MailerInterface $mailer){$this->mailer = $mailer;}
+    public function __construct(MailerInterface $mailer){
+        $this->mailer = $mailer;}
 
 
 /** 
  * @Route("/email")
  * */
 
-public function sendEmail($email, $token)
+public function sendEmail(
+    $email, 
+    $token
+    )
     { 
 	$email = (new TemplatedEmail())
             ->from('resgister@example.fr')
