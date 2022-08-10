@@ -118,25 +118,22 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 					$video->setUrl('https://www.youtube.com/embed/'.$embedLinkCode);
 					$tr-> addVideo($video);
 				}
-
+				$username=['coco','soso','gogo','dodo','toto','jojo','fofo'];
 				// Comments
                 for ($u = 0; $u < rand(20, 50); $u++) {
                     // shuffle($users);
                     $comment = new Comment;
                     $comment->setContent($this->faker->unique()->text(150));
                     // $comment->setCreatedAt($this->faker->dateTimeThisDecade());
-					$comment->setUser($this->getReference($trick[3]));
+					$comment->setUser($this->getReference($username[array_rand($username)]));
+					
                     // $comment->setUser($users[0]);
-                    // $comment->setCreatedAt($this->faker->dateTimeThisYear());
-					$comment->setCreatedAt(new \DateTimeImmutable);
+                    $comment->setCreatedAt(\DateTimeImmutable::createFromMutable($this->faker->dateTimeThisYear()));
                     $tr->addComment($comment);
                 }
 				$manager->persist($tr);		
 		}
         $manager->flush();
-
-
-	
     }
 
 	public function getDependencies()

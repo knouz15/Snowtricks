@@ -59,12 +59,12 @@
     font-weight: 500;
     box-shadow: 4px 3px 3px #5e5e5e;
   }
-
+/* 
   .see-medias-block {
     display: flex;
     align-items: center;
     flex-direction: column;
-  }
+  } */
 
   /* .see-medias-block {
     display: none;
@@ -79,3 +79,12 @@
     display: flex;
     justify-content: center;
   }
+
+  @media (min-width: 768px) {
+    .collapse.dont-collapse-sm {
+      display: block;
+      height: auto !important;
+      visibility: visible;
+    }
+  }
+  

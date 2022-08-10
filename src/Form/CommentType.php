@@ -30,9 +30,8 @@ class CommentType extends AbstractType
                     'message' => 'Veuillez saisir un commentaire',
                 ])
             ]
-            ])       
-            ->add('poster', SubmitType::class)
-        ;
+            ])  ;     
+            // ->add('poster', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

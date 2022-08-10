@@ -351,7 +351,7 @@ class TrickController extends AbstractController
         Trick $trick, 
         EntityManagerInterface $em, 
         ManagerRegistry $doctrine,
-        )
+        ):Response 
     {
        
 
@@ -375,15 +375,17 @@ class TrickController extends AbstractController
         $comment = new Comment;
 
         // On génère le formulaire
-        // $commentForm = $this->createForm(CommentType::class, $comment);
+        $commentForm = $this->createForm(CommentType::class, $comment);
 
-        // $commentForm->handleRequest($request);
+        $commentForm->handleRequest($request);
 
         // Traitement du formulaire
-        // if($commentForm->isSubmitted() && $commentForm->isValid()){
+        if($commentForm->isSubmitted() && $commentForm->isValid()){
             $comment->setCreatedAt(new \DateTimeImmutable());
             $comment->setTrick($trick);
             // $trick = $form->getData();
+            $comment->setContent($request->request->get('comment'));
+
             $comment->setUser($this->getUser());
             // On va chercher le commentaire correspondant
             $em = $doctrine->getManager();
@@ -392,18 +394,18 @@ class TrickController extends AbstractController
             $em->persist($comment);
             $em->flush();
 
-        //     $this->addFlash('message', 'Votre commentaire a bien été envoyé');
-        //     return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
-        // }
+            $this->addFlash('message', 'Votre commentaire a bien été envoyé');
+            return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
+        }
 
         // return $this->render('trick/show.html.twig', [
         //     'trick' => $trick,
-        //     'user' => $user,
-        //     'comments' => $comments
-        //     // 'commentForm' => $commentForm->createView(),
-        // //     'comments' => $paginator,
-        // //     'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
-        // //     'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
+        //     // 'user' => $user,
+        //     // 'comments' => $comments,
+        //     'commentForm' => $commentForm->createView(),
+        //     'comments' => $paginator,
+        //     'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
+        //     'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
         // ]);
 
 
@@ -414,9 +416,7 @@ class TrickController extends AbstractController
     }
 
 
-    /**
-     * @Route("/load-more-comments/{slug}/{start}",name="load_more_comments")
-     */
+    
     #[Route('/load-more-comments/{id}/{start}', name: 'load_more_comments')]
     public function load_more_comments(Request $request, CommentRepository $commentRepository, $start = 5, $id =0)
     {       
