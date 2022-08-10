@@ -17,14 +17,14 @@ class CommentType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class, [
-            'label' => 'Nouveau commentaire',
+            'label' => false,
             'attr' =>  [
                 // 'class' => 'form-control',
                 "placeholder" => "+ Laisser un commentaire ..."
             ],
-            'label_attr' => [
-                'class' => 'form-label mt-4'
-            ],
+            // 'label_attr' => [
+            //     'class' => 'form-label mt-4'
+            // ],
             'constraints' => [
                 new Assert\NotBlank([
                     'message' => 'Veuillez saisir un commentaire',

@@ -121,15 +121,16 @@
       </div>
       {% if app.user %}
         <div class="d-flex justify-content-center pt-3 pb-2">
-          <form class="g-3 comment-form" action="{{ path('comment_add', {id: trick.id}) }}" method="POST">
+          <form class=" comment-form" action="{{ path('comment_add', {id: trick.id}) }}" method="POST">
 						<div class="row">
-							<div class="col-12 col-md-9 cmt-txta">
-								<textarea class="form-control" name="content" id="" placeholder="Nom d'utilisateur"></textarea>
-							</div>
+							{# <div class="col-12 col-md-9 "> #}
+								<textarea class="form-control" name="comment" id="" placeholder="Votre commentaire..."></textarea>
+							{# </div> #}
 
-							<div class="col-12 col-md-3 comment-btn-div">
-								<button type="submit" class="btn btn-comment">Leave a comment</button>
-							</div>
+							
+								{# <button type="submit" class="btn btn-comment">Poster</button> #}
+                <button class="btn btn-primary mt-1" style="margin-right:50px;font-size: 20px;" type="submit">Poster</button>
+							
 						</div>
 					</form>
 

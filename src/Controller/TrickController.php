@@ -350,8 +350,8 @@ class TrickController extends AbstractController
         Request $request, 
         Trick $trick, 
         EntityManagerInterface $em, 
-        ManagerRegistry $doctrine,
-        ):Response 
+        // ManagerRegistry $doctrine,
+        )
     {
        
 
@@ -375,28 +375,34 @@ class TrickController extends AbstractController
         $comment = new Comment;
 
         // On génère le formulaire
-        $commentForm = $this->createForm(CommentType::class, $comment);
+        // $commentForm = $this->createForm(CommentType::class, $comment);
 
-        $commentForm->handleRequest($request);
+        // $commentForm->handleRequest($request);
 
         // Traitement du formulaire
-        if($commentForm->isSubmitted() && $commentForm->isValid()){
-            $comment->setCreatedAt(new \DateTimeImmutable());
-            $comment->setTrick($trick);
-            // $trick = $form->getData();
-            $comment->setContent($request->request->get('comment'));
+        // if($commentForm->isSubmitted() && $commentForm->isValid()){
+            // $comment->setCreatedAt(new \DateTimeImmutable());
+            // $comment->setTrick($trick);
+            // // $trick = $form->getData();
+            // $comment->setContent($request->request->get('comment'));
 
-            $comment->setUser($this->getUser());
+            // $comment->setUser($this->getUser());
             // On va chercher le commentaire correspondant
-            $em = $doctrine->getManager();
-
+            // $em = $doctrine->getManager();
+ /**@var \App\Entity\User $user */
+ $user = $this->getUser();
+ $comment->setUser($user);
+ $comment->setContent($request->request->get('comment'));
+ $comment->setTrick($trick);
+            $comment->setCreatedAt(new \DateTimeImmutable());
 
             $em->persist($comment);
             $em->flush();
+            $this->addFlash( type:"success", message:"Votre commentaire a bien été envoyé");
 
-            $this->addFlash('message', 'Votre commentaire a bien été envoyé');
-            return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
-        }
+            // $this->addFlash('message', 'Votre commentaire a bien été envoyé');
+            // return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
+        // }
 
         // return $this->render('trick/show.html.twig', [
         //     'trick' => $trick,
