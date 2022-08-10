@@ -125,8 +125,8 @@ class TrickController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/Trick/{id}-{slug}', name: 'trick_show', methods: ['GET','POST'])]
-    public function show( $id,
+    #[Route('/Trick/{slug}', name: 'trick_show', methods: ['GET','POST'])]
+    public function show( $slug,
         // Trick $trick,
         Request $request,
         ManagerRegistry $doctrine,
@@ -138,7 +138,7 @@ class TrickController extends AbstractController
     { //le repository sert à gérer la récupération des données
         
 
-        $trick = $trickRepository->findOneBy(['id' => $id]);
+        $trick = $trickRepository->findOneBy(['slug' => $slug]);
 
         $trickid = $trick->getId();
 
@@ -216,6 +216,7 @@ class TrickController extends AbstractController
         // }
         // $trick = $trickRepository->findOneBy(['slug'=>$slug]);
         $form = $this->createForm(TrickType::class, $trick);
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

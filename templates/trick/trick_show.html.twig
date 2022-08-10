@@ -51,14 +51,14 @@
                 </div>
               {% endfor %}
             </div>
-            {% else %}
+            {# {% else %}
               <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card h-100">
                   <div class="card text-bg-dark">
                     <img class="card-img-top" src="/IMAGES/no-image.jpg"  alt="..." >
                   <div class="card-img-overlay">
                 </div>
-              </div>  
+              </div>   #}
           {% endif %} 
             {# </div>fin row images #}
     
@@ -77,12 +77,12 @@
                 </div>
               {% endfor %}
             </div>
-            {% else %}
+            {# {% else %}
               <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                {# <div class="card h-100"> #}
+                
                 <img class="card-img" src="/IMAGES/no-video.jpg"  style="height:18vw; object-fit: cover" alt="...">
-                {# </div> #}
-              </div>
+                
+              </div> #}
           {% endif %} 
               {# </div>fin row vidéos #}
               {# </div> #}
@@ -107,9 +107,9 @@
     <div class="hr-line">
 				<hr>
 		</div>
+   </div> 
     <!-- Include trick comments -->
-    
-
+   
     <div class="container justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;">
       <div id="load_data_message"></div>
       <div class="col-md-3 col-sm-6 mb-4" >
@@ -118,7 +118,7 @@
           <img src="/IMAGES/icon-comment.png" width="70" alt="..." >
           {% else %}<img src="/IMAGES/icon-comment.png" width="70" alt="..." >
         {% endif %}
-      </div>
+      </div> 
       {% if app.user %}
         <div class="d-flex justify-content-center pt-3 pb-2">
           <form class=" comment-form" action="{{ path('comment_add', {id: trick.id}) }}" method="POST">

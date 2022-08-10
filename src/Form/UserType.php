@@ -89,15 +89,6 @@ class UserType extends AbstractType
                 ],
             ]);
 
-
-
-            
-            // ->add('submit', SubmitType::class, [
-            //     'attr' => [
-            //         'class' => 'btn btn-primary mt-4'
-            //     ],
-            //     'label' => 'Mettre à jour mon profil'
-            // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

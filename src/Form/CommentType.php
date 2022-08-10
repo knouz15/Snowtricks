@@ -19,7 +19,6 @@ class CommentType extends AbstractType
             ->add('content', TextareaType::class, [
             'label' => false,
             'attr' =>  [
-                // 'class' => 'form-control',
                 "placeholder" => "+ Laisser un commentaire ..."
             ],
             // 'label_attr' => [

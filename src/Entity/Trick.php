@@ -22,13 +22,17 @@ class Trick
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
-
-
+ 
+    
+    #[Assert\NotBlank(groups:['creation'])]
+    
     #[ORM\Column(type: 'string', length: 255)]
     // #[Assert\Regex(pattern:'/[a-zA-Z._\p{L}-]{1,20}/',message:'Nom invalide: Ne doit contenir que des lettres et des lettres')]
-    #[Assert\Regex(pattern:'/[a-zA-Z.0-9._\p{L}-]{1,20}/',message:'Nom invalide: Ne doit contenir que des lettres et des lettres')]
+    // #[Assert\Regex(pattern:'/[a-zA-Z.0-9._\p{L}-]{1,20}/',message:'Nom invalide: Ne doit contenir que des lettres et des lettres')]
     private $name;
 
+    
+    #[Assert\NotBlank(groups:['creation'])]
     #[ORM\Column(type: 'text')]
     private $description;
 
@@ -39,6 +43,7 @@ class Trick
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $updatedAt;
 
+    #[Assert\NotBlank(groups:['creation'])]
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'tricks')]
     #[ORM\JoinColumn(nullable: false)]
     private $category;
@@ -47,12 +52,16 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
-    // #[Vich\UploadableField(mapping: 'user_images', fileNameProperty: 'avatar')]
-    // private ?File $imageFile = null;
     
+    /**
+    * @Assert\NotBlank(groups={"creation"})
+    */
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist','remove'])]
     private $images;
 
+    /**
+    * @Assert\NotBlank(groups={"creation"})
+    */
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ['persist','remove'])]
     // #[ORM\JoinColumn(nullable: false)]
     private $videos;

@@ -119,6 +119,9 @@ class TrickType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Trick::class,
+            // 'validation_groups' => array('creation', 'Default'),
+            'validation_groups' => ['creation', 'Default'],
+            
         ]);
     }
 }

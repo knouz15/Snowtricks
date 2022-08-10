@@ -7,7 +7,6 @@
     <div class="card mt-5 mb-5">
       {# <div class="card text-center mx-5 my-5"> #}
       {% if trick.images | length > 0 %}
-         
         <div class="card-title">
           <h5 class="card-text " style="font-size:200%">
           <center><b>{{ trick.name }}</b></center></h5>
@@ -16,42 +15,43 @@
           {% endif %}
         </div>
         <img src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks">
-       <div class="card-img-overlay">
-      {% else %}  
-        <img src="/IMAGES/no-image.jpg"  alt="...">
+        <div class="card-img-overlay">
+        {% else %}  
+          <img src="/IMAGES/no-image.jpg"  alt="...">
       {% endif %}  
     </div>
   </div>
-
-  <div class="row" id="seeMedia">
+  <div class="row">
     {% if trick.images | length > 1 %}
+      <div class="row mt-5">
       {% for image in trick.images %}
         <div class="col-lg-4"> 
           {# <div class="col-lg-3 col-md-4 col-sm-6 mb-4"> #}
-            <div class="card mb-4">
+          <div class="card mb-4">
             {# <div class="card h-100"> #}
-              <img class="card-img-top" src="{{ asset('IMAGES/Tricks/') ~image.name}}" style="height:15vw; object-fit: cover" alt="">
-              <div class="card-text"> 
+            <img class="card-img-top" src="{{ asset('IMAGES/Tricks/') ~image.name}}" style="height:15vw; object-fit: cover" alt="">
+            <div class="card-text"> 
                         {% if app.user %}
                           <a href="{{ path('trick_delete_image', {'id': image.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer cette image?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:5%;"alt="..."></a>
                         {% endif %}
-              </div> 
-            </div>
+            </div> 
           </div>
+        </div>
       {% endfor %}
-      {% else %} 
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card h-100">
-              <a href="#">
+      </div>
+      {# {% else %} 
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div class="card h-100">
+            <a href="#">
               <img class="card-img-top" src="/IMAGES/no-image.jpg"  alt="No more images" >
             </a>
-            </div>
-          </div>  
-    {% endif %} 
-
+          </div>
+        </div>   #}
+    {% endif %} {# end images #}
     {# les videos #}
     {% if trick.videos | length > 1 %}
-      {% for video in trick.videos %}
+      <div class="row mt-5">
+        {% for video in trick.videos %}
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
             {# <div class="card h-100"> #}
             <div class="embed-responsive embed-responsive-1by1">
@@ -61,26 +61,27 @@
                 
                   <a href="{{ path('trick_delete_video', {'id': video.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer cette vidéo?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:7%;"alt="..."></a>
                 
-                    </div> 
+              </div> 
             {# </div> #}
           </div>
-      {% endfor %}
-      {% else %}
+        {% endfor %}
+        </div>
+        {# {% else %}
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card h-100">
               <img class="card-img-top" src="/IMAGES/no-video.jpg"  alt="No more videos">
             </div>
-          </div>
-    {% endif %} 
-    <div class="container justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;">
-      {{ form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
-        {% for message in app.flashes('success') %}
+          </div> #}
+    {% endif %} {# end videos #}
+      <div class="container justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
+          {% for message in app.flashes('success') %}
 			        <div class="alert alert-success mt-4">
                 <div class="flash-notice">
 				          {{ message }}
 			          </div>
               </div>
-	      {% endfor %}    
+	        {% endfor %}    
             {# <div class="my-custom-class-for-errors"> #}
         <div>
               {# {{ form_errors(form) }} #}
@@ -94,7 +95,7 @@
                 {{ form_row(form.category)}}
           </div> 
              
-          <h6>Videos 
+          <h6>Rajoutez Videos  
                 <button type="button" class="btn btn-primary add_item_link" data-collection-holder-class="videos"> + </button>
           </h6>
 
@@ -108,7 +109,7 @@
                 {% endfor %}
           </ul>
               
-          <h6>Images 
+          <h6>Rajoutez Images 
                 <button type="button" class="btn btn-primary add_item_link" data-collection-holder-class="images"> + </button>
           </h6>
 
@@ -122,16 +123,17 @@
                 {% endfor %} #}
           </ul> 
           {{ form_row(form._token) }}             
-              {# <hr class="my-4"> #}
-          {# <div class="mb-5"> #}
-                <button class="btn btn-primary btn-login text-uppercase fw-bold mb-5 mr-5 float-right" href="" type="submit">Enregistrer</button>
+              <hr class="my-4">
+          <div class="mb-5 float-right">
+                <button class="btn btn-primary btn-login text-uppercase fw-bold mb-5 mr-5 " href="" type="submit">Enregistrer</button>
         {# </div> #}
         {# </form>   #}
           {# <div class="mb-5">     #}
                 {# <button class="btn btn-primary btn-login text-uppercase fw-bold mb-5 mr-5 float-right" href="{{ path('app_index')}}"> Annuler</button> #}
           {# </div> #}
             {# </div> #}
-           
+              <button class="btn btn-primary btn-login text-uppercase fw-bold mb-5 mr-5" href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> Effacer trick</button>
+</div>
           {# {{ form_end(form)}} #}
         </form> 
          </div>
