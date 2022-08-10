@@ -51,7 +51,7 @@ class Trick
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'trick')]
     #[ORM\JoinColumn(nullable: false)]
     private $user;
-
+ 
     
     /**
     * @Assert\NotBlank(groups={"creation"})
@@ -288,3 +288,4 @@ class Trick
         }
     }
 }
+

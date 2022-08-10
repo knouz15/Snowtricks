@@ -8,7 +8,7 @@
                         {% if app.user %}
                             {% if app.user.avatarFilename %}
 								
-                                <img src="{{asset('IMAGES/Avatars/' ~  app.user.avatarFilename )}}" class="avatar"  />
+                                <img src="{{asset('uploads/avatars/' ~  app.user.avatarFilename )}}" class="avatar"  />
                             {% else %}
 								<img src="{{asset('IMAGES/Avatars/no-avatar.png')}}" class="avatar"/> 
 							{% endif %}
@@ -25,3 +25,4 @@
                 </div>
             </div>
         </nav>
+        

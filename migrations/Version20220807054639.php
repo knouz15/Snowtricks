@@ -51,3 +51,4 @@ final class Version20220807054639 extends AbstractMigration
         $this->addSql('DROP TABLE video');
     }
 }
+

@@ -398,3 +398,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     }
 
 }
+

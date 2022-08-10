@@ -116,3 +116,4 @@ class RegistrationController extends AbstractController
         return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');//on nettoie les valeurs encodés on retirant les +,/ et =
     }
 }
+

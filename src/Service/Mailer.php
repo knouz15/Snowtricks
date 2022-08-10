@@ -21,9 +21,6 @@ class Mailer
         $this->mailer = $mailer;}
 
 
-/** 
- * @Route("/email")
- * */
 
 public function sendEmail(
     $email, 
@@ -42,3 +39,4 @@ public function sendEmail(
         $this->mailer->send($email);
     }
 }
+
