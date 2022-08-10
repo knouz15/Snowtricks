@@ -6,6 +6,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -16,7 +17,9 @@ class Category
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    // private $nom;
+    private $nom;
+
+    #[ORM\Column(type: 'string', length: 255)]
     private $slug;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Trick::class, orphanRemoval: false)]
@@ -44,17 +47,17 @@ class Category
         return $this;
     }
 
-    // public function getNom(): ?string
-    // {
-    //     return $this->nom;
-    // }
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
 
-    // public function setNom(string $nom): self
-    // {
-    //     $this->nom = $nom;
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
     /**
      * @return Collection<int, Trick>
@@ -88,7 +91,15 @@ class Category
 
     public function __toString()
     {
-        // return $this->nom;
-        return $this->slug;
+        return $this->nom;
+        
+    }
+
+    public function computeSlug(SluggerInterface $slugger)
+    {
+        if (!$this->slug || '-' === $this->slug) {
+            $this->slug = (string) $slugger->slug((string) $this)->lower();
+        }
     }
 }
+

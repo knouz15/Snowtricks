@@ -21,13 +21,16 @@ class VideoType extends AbstractType
         
         $builder
             ->add('url',TextType::class, [
+                // 'placeholder' => 'lolo',
                 'constraints' => [
                     new Regex([
-                        'pattern' => '#(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))#',
-                        'message' => 'Ceci n\'est pas une iframe',
+                        // 'pattern' => '#(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))#',
+                        
+                        'pattern' => '#(https?:\/\/)?(www.)?(youtube\.com|youtu\.be|youtube-nocookie\.com)\/(?:embed\/|v\/|watch\?v=|watch\?list=(.*)&v=)?((\w|-){11})(&list=(\w+)&?)?#',
+                        'message' => 'Non valide. ',
                     ]),
-                ],
-                'label' => 'Entrez une iframe'
+                ], 
+                'label' => 'Votre url embed'
             ]
          
         );

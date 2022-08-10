@@ -1,0 +1,29 @@
+
+  {% for comment in comments %} 
+    <div class="d-flex justify-content-center py-2">
+     
+      <div class="second py-2 px-2">
+        <span class="text2">
+          {{ comment.content | raw }}
+        </span>
+        <div class="d-flex justify-content-between py-1 pt-2">
+          <div>
+            {% if comment.user.avatarFilename %}
+              <img src="{{asset('IMAGES/Avatars/' ~  comment.user.avatarFilename )}}" class="avatar"  />
+            {% else %}
+              <img src="{{ asset('IMAGES/Avatars/no-avatar.png')}}" class="avatar">
+            {% endif %}
+            <span class="text1">
+              _{{ comment.user.username }}_
+            </span>
+          </div>
+          <div>
+            <span class="text3">
+              Posté le {{ comment.createdAt |date('d/m/Y H:i') }}
+            </span>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  {% endfor %}

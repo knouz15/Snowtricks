@@ -26,7 +26,7 @@ class RegistrationController extends AbstractController
         Mailer $mailer,
      UserRepository $userRepository)
     {
-        
+         
         $this->userRepository = $userRepository;
         $this->mailer = $mailer;
     }
@@ -63,33 +63,18 @@ class RegistrationController extends AbstractController
             // dd($user);
             $user->setIagreeTerms(new \DateTime()); 
             $user->setToken($this->generateToken());
-            // $em = $this->getDoctrine()->getManager();
-            // $em->persist($user);
-            // $em->flush();
-
+            
             $entityManager->persist($user);
             $entityManager->flush();
-
             $this->mailer->sendEmail($user->getEmail(), $user->getToken());
             // $this->mailer->sendEmail($user->getEmail());
-
             $this->addFlash( type:"success", message:"Votre compte a bien été créé ! Veuillez valider le mail d'activation");
             // do anything else you need here, like send an email
-
-
             return $this->redirectToRoute('app_login');     
-
-            // return $userAuthenticator->authenticateUser($user, $authenticator,$request);
         } 
-        // else{
-        //     $this->addFlash( 'Erreur', 'Aucun compte n a été créé !');
-        // }
-
-        return $this->render('registration/register.html.twig', 
+            return $this->render('registration/register.html.twig', 
        
-        ['registrationForm' => $form->createView(), 
-        // 'user' => $user
-        ]
+        ['registrationForm' => $form->createView()]
     );
 
     }
@@ -105,7 +90,7 @@ class RegistrationController extends AbstractController
         //Vérifier si le user existe mais n'a pas encore activé son compte
         // if($user && !$user->getIsVerified()) {
         if($user) {
-            $user->setToken(null);
+            $user->setToken(null);// on supprime le token
             $user->setIsVerified(true);
             // $em = $this->getDoctrine()->getManager();
             // $em->persist($user);
@@ -114,7 +99,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
             $this->addFlash("success", "Compte actif !");
             return $this->redirectToRoute('app_index');
-        } else {
+        } else { //erreur 404
             $this->addFlash("error", "Ce compte ne semble pas valide !");
             return $this->redirectToRoute('app_index');
         }

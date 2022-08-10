@@ -54,10 +54,10 @@ class RegistrationFormType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez saisir un email',
+                        'message' => 'Veuillez saisir une email',
                     ]),
                     new Email([
-                        'message' => 'Veuillez saisir un email valide',
+                        'message' => 'Veuillez saisir une email valide',
                     ]),
                     new Length(['min' => 2, 'max' => 180])
                 ]

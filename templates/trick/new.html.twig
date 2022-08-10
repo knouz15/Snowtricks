@@ -9,7 +9,7 @@
   <link href="{{ asset('css/register.css') }}" rel="stylesheet" />
 {% endblock %}
 {% block body %}
-  <div class="row">
+  <div class="row mt-5">
     <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
       <div class="card border-0 shadow rounded-3 my-5">
         <div class="card-body p-4 p-sm-5">
@@ -18,6 +18,7 @@
             Création d'un trick
           </h2>
           {{ form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
+          {{ form_errors (form)}}
             {% for message in app.flashes('success') %}
 			        <div class="alert alert-success mt-4">
                 <div class="flash-notice">
@@ -48,6 +49,7 @@
               <ul class="videos"
                 data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
                 data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">  
+                {{ form_errors (form.videos)}}
                 {% for videoForm in form.videos %}
                   <li>
                     {{ form_row(videoForm)  }}
@@ -139,4 +141,5 @@
   </script>
 
 {% endblock %}
+
 	

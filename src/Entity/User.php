@@ -13,7 +13,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -23,12 +22,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 // #[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 /**
  * @ORM\Entity
- * @Vich\Uploadable
  */
-// #[Vich\Uploadable]
 #@Ignore()
 class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serializable
-{
+{ 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -40,12 +37,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     
-    private ?string $email = '';
+    private ?string $email;
 
     #[ORM\Column(type: 'json')]
     
     private array $roles = [];
+    // private array $roles = ['ROLE_USER'];
 
+    
     //#[Assert\EqualTo(propertyPath : "password",message :  "Le mot de passe n'est pas identique.")]
     private ?string $plainPassword='password';
 
@@ -55,27 +54,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
 
     #[ORM\Column(type: 'datetime_immutable', 
     options: ['default' => 'CURRENT_TIMESTAMP'])]
-    
     private \DateTimeImmutable $createdAt;
 
-    /**
-     * @Vich\UploadableField(mapping="user_images", fileNameProperty="avatar")
-     * @var File
-     */
-    // #[Vich\UploadableField(mapping: 'user_images', fileNameProperty: 'avatar')]
-    private ?File $imageFile = null;
-
-    #[ORM\Column(type: 'string')]
-    private ?string $avatar = '';
-
-    // #[ORM\Column(type: 'string', nullable: true)]
-    // private ?string $avatar = null;
-    
-    
-    
-    // #[Assert\Image(maxSize : "500k",maxSizeMessage :"Votre avatar ne doit pas dépasser 500 ko", nullable:true)]
-    // #[ORM\Column(type: 'string', length: 255)]
-    // private $avatar;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $avatarFilename;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Trick::class, orphanRemoval: true)]
     private $tricks;
@@ -93,7 +75,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     private $comments;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $photo;
+    private $resetToken;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private $updatedAt;
+
 
     public function __construct()
     {
@@ -282,44 +268,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
         return $this;
     }
 
+    //  * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     
+    // public function setImageFile(?File $imageFile = null): void
+    // {
+    //     $this->imageFile = $imageFile;
 
-     /**
-     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
-     * of 'UploadedFile' is injected into this setter to trigger the update. If this
-     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
-     * must be able to accept an instance of 'File' as the bundle will inject one here
-     * during Doctrine hydration.
-     *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
-    */ 
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
+    //     if (null !== $imageFile) {
+    //         // It is required that at least one field changes if you are using doctrine
+    //         // otherwise the event listeners won't be called and the file is lost
+    //         $this->createdAt = new \DateTimeImmutable();//ou updatedAt
+    //     }
+    // }
 
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->createdAt = new \DateTimeImmutable();//ou updatedAt
-        }
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
+    // public function getImageFile(): ?File
+    // {
+    //     return $this->imageFile;
+    // }
+ 
 
     
-    public function getAvatar(): ?string
+    public function getAvatarFilename(): ?string
     {
-        return $this->avatar;
+        return $this->avatarFilename;
     }
 
-    public function setAvatar(?string $avatar): void //self
+    public function setAvatarFilename(string $avatarFilename): self //void
     {
-        $this->avatar = $avatar;
+        $this->avatarFilename = $avatarFilename;
 
-        //return $this;
+        return $this;
     }
 
         public function serialize()
@@ -329,7 +307,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
             $this->username,
             $this->email,
             $this->password,
-            $this->avatar,
+            $this->avatarFilename,
         ));
     }
 
@@ -340,7 +318,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
             $this->username,
             $this->email,
             $this->password,
-            $this->avatar,
+            $this->avatarFilename,
            
         ) = unserialize($serialized);
     }
@@ -383,14 +361,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
         return $this;
     }
 
-    public function getPhoto(): ?string
+    // public function getPhoto(): ?string
+    // {
+    //     return $this->photo;
+    // }
+
+    // public function setPhoto(?string $photo): self
+    // {
+    //     $this->photo = $photo;
+
+    //     return $this;
+    // }
+
+    public function getResetToken(): ?string
     {
-        return $this->photo;
+        return $this->resetToken;
     }
 
-    public function setPhoto(?string $photo): self
+    public function setResetToken(?string $resetToken): self
     {
-        $this->photo = $photo;
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

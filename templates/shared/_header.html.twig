@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{{ path('app_index') }}">
+                <img src="{{ asset('favicon.svg') }}" alt="logo" style="width:40%; height:40%"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {% if app.user %}
+                            {% if app.user.avatarFilename %}
+								
+                                <img src="{{asset('IMAGES/Avatars/' ~  app.user.avatarFilename )}}" class="avatar"  />
+                            {% else %}
+								<img src="{{asset('IMAGES/Avatars/no-avatar.png')}}" class="avatar"/> 
+							{% endif %}
+                            <li class="nav-item"><a class="nav-link active" >Bonjour {{ app.user.username }}!</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('trick_new') }}">Créer un trick</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('user_edit_profil', {id : app.user.id}) }}">Modifier mon profil</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="/#tricks">Tricks</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Connexion</a></li>
+                            <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('app_register') }}">Inscription</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>

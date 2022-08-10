@@ -55,9 +55,6 @@ section {
     color: #343a40;
     width: 100%;
 }
-#seeMedia {
-	display:none;
-}
 
 .comment-item {
     width: 100%;
@@ -90,4 +87,17 @@ section {
 
 .avatar {
     display: inline-block;
+}
+
+#seeMedia {
+	display:none;
+}
+
+.center {
+  /* display: flex;
+  justify-content: center; 
+  align-items: center;
+  height: 200px;
+  border: 3px solid green; */
+  margin: 0 auto;
 }

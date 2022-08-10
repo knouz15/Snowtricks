@@ -51,18 +51,7 @@ class TrickType extends AbstractType
                     ])
                 ]
             ])
-            // ->add('slug', TextType::class, [
-            //     'attr' => [
-            //         'class' => 'form-control'
-            //     ],
-            //     'label' => 'Slug',
-            //     'label_attr' => [
-            //         'class' => 'form-label mt-4'
-            //     ],
-            //     'constraints' => [
-            //         new Assert\NotBlank()
-            //     ]
-            // ])
+            
             ->add('description', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -86,11 +75,11 @@ class TrickType extends AbstractType
                     'by_reference'   => false,
                     'allow_add'      => true,
                     'allow_delete'   => true,
-                    'required'       => false,
+                    // 'required'       => false,
                     'prototype'      => true,
                     'constraints' => [
                         new Assert\NotBlank([
-                            'message' => 'Veuillez saisir au moins une url',
+                            'message' => 'Veuillez renseigner des médias',
                         ]),
                     ]
                 ])
@@ -107,42 +96,11 @@ class TrickType extends AbstractType
                     'prototype'      => true,
                     'constraints' => [
                         new Assert\NotBlank([
-                            'message' => 'Veuillez joindre au moins une image',
+                            'message' => 'Veuillez renseigner des médias',
                         ]),
                     ]
                 ])
 
-                // ->add('images', FileType::class, [
-                //     'label' => 'image (PDF file)',
-                //     // 'multiple' => true,
-    
-                //     // unmapped means that this field is not associated to any entity property
-                //     'mapped' => false,
-    
-                //     // make it optional so you don't have to re-upload the PDF file
-                //     // every time you edit the Product details
-                //     'required' => false,
-    
-                //     // unmapped fields can't define their validation using annotations
-                //     // in the associated entity, so you can use the PHP constraint classes
-                //     'constraints' => [
-                //         new File([
-                //             'maxSize' => '1024k',
-                //             'mimeTypes' => [
-                //                 'application/jpg',
-                //                 'application/png',
-                //             ],
-                //             'mimeTypesMessage' => 'Uploadez une image à formatvalide',
-                //         ])
-                //     ],
-                // ])
-
-                // ->add('images', FileType::class, [
-                //     'label' => 'Images:jpg ou png ou  ',
-                //     'multiple' => true,
-                //     'mapped' => false,
-                //     'required' => true
-                // ]) 
             ->add('category', EntityType::class, [ 
                 'class' => Category::class,
                 // 'choice_label' => 'slug',
@@ -161,6 +119,9 @@ class TrickType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Trick::class,
+            // 'validation_groups' => array('creation', 'Default'),
+            'validation_groups' => ['creation', 'Default'],
+            
         ]);
     }
 }
