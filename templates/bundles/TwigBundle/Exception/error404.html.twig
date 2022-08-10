@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+  <link href="{{ asset('css/errors.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block title %}SnowTricks - Page non trouvée{% endblock %}
+
+{% block body %}
+    <div class="page-wrap d-flex flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+                <span class="display-1 d-block">404</span>
+                <div class="mb-4 lead">Oups ! La page que vous recherchez n'existe pas !</div>
+                <a href="{{ path('app_index') }}" class="btn btn-primary">Retour l'accueil</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

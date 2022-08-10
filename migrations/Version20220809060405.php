@@ -29,3 +29,4 @@ final class Version20220809060405 extends AbstractMigration
         $this->addSql('ALTER TABLE user DROP reset_token');
     }
 }
+

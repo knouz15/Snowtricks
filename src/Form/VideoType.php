@@ -27,7 +27,7 @@ class VideoType extends AbstractType
                         // 'pattern' => '#(?:<iframe[^>]*)(?:(?:\/>)|(?:>.*?<\/iframe>))#',
                         
                         'pattern' => '#(https?:\/\/)?(www.)?(youtube\.com|youtu\.be|youtube-nocookie\.com)\/(?:embed\/|v\/|watch\?v=|watch\?list=(.*)&v=)?((\w|-){11})(&list=(\w+)&?)?#',
-                        'message' => 'Non valide. ',
+                        'message' => 'Non valide. Exemple de url embed : https://www.youtube.com/embed/QMrelVooJR4',
                     ]),
                 ], 
                 'label' => 'Votre url embed'

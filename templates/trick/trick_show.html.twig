@@ -3,9 +3,10 @@
 {% block stylesheets %}
   <link href="{{ asset('css/show_trick.css') }}" rel="stylesheet" />
 {% endblock %}
-{% block body %}
+{% block body %} 
 
-  <div class="container">
+  <div class="container col-12">
+   {# <div class=""> #}
     <div class="card mt-5 mb-5">
       {% if trick.images | length > 0 %}
         <div class="card-title">
@@ -16,13 +17,14 @@
           <h5 class="card-text " style="font-size:200%">
           <center><b>{{ trick.name }}</b></center></h5>
           {% if app.user %}
-              <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"> <img class="float-right" src="/IMAGES/pencil.png"  style="width:2%;"alt="..."></a>
+              <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"> <img class="float-right  mb-4 mr-4" src="/IMAGES/pencil.png"  style="width:2%"alt="..."></a>
               <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:2%;"alt="..."></a>
           {% endif %}
         </div>
         {# <div class="card-body" width="100%"> #}
-          <img src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks ">
-          {# <div class="card-img-overlay"> ça bloque l'affichage #}
+          <img src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks" style="height:900px">
+          {# <div class="card-img-overlay">ça bloque l'affichage  #}
+          
         {# </div> #}
       {% else %}  
         <img src="/IMAGES/Tricks/no-image.jpg"  alt="...">
@@ -30,27 +32,24 @@
     </div>
   </div>
 
-  {# <div class="row" id="seeMedia"> #}
-  {# <div class="see-medias-block mt-3"> #}
-    {# <div class="row row-cols-1 row-cols-md-2 g-4 mt-3 mb-5" style="justify-content: center"> #}
   <div class="container"> {# container médias #}
 		<div  class="text-center ">
       <button class="btn btn-primary hidden visible-xs" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">VOIR Médias</button>
 		</div>
     <div class="collapse dont-collapse-sm" id="collapseExample"> {# Collapse #}
-      <div >
+      <div row>
         {% if trick.images|length > 1 or trick.videos is not empty %}
 
           {% if trick.images | length > 1 %}
-            <div class="row mt-5">
+            <div class="row mt-3">
               {% for image in trick.images %}
-                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="col-12 col-md-6 col-lg-3">
                   <div class="card mb-4">
-                    <img src="{{ asset('IMAGES/Tricks/') ~image.name}}" class="card-img" style="height:18vw; object-fit: cover" alt="">
+                    <img src="{{ asset('IMAGES/Tricks/') ~image.name}}" class="card-img" style="height:349px;" class="img-responsive" alt="">
                   </div>
-                </div>
+                </div> 
               {% endfor %}
-            </div>
+            {# </div> #}
             {# {% else %}
               <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card h-100">
@@ -65,10 +64,11 @@
             {# les videos #}
             {# <div class="row"> #}
           {% if trick.videos | length > 0 %}
-            <div class="row mt-5">
+            {# <div class="row mt-3"> #}
               {% for video in trick.videos %}
+              {# <div class="col-12 col-md-6 col-lg-3"> #}
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                  <div class="embed-responsive embed-responsive-1by1">
+                  <div class="embed-responsive embed-responsive-1by1" style="height:349px;">
                 {# <div class="card h-100" > #}
                 {# {{ video.url | raw}} #}
                     <iframe src="{{ video.url }}" frameborder="0" allow="accelerometer; fullscreen; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -89,7 +89,7 @@
         {% endif %}
       </div> {# fin well#}
     </div>{# fin collapse#}
-  </div>
+  </div>{# fin container médias #}
 
     <div class="p-5">
       <h5><b> DESCRIPTION DU TRICK :</b></center></h5>
@@ -104,7 +104,7 @@
         <button type="button" class="btn btn-secondary"><font style="vertical-align: inherit;">Mis à jour le {{ trick.createdAt|date('d/m/Y H:i') }} </font></button>
       {% endif %}
     </div>   
-    <div class="hr-line">
+    <div class="hr-line mt-5">
 				<hr>
 		</div>
    </div> 
@@ -154,9 +154,11 @@
 			  </div>
             {# <img src="/IMAGES/ajaxloader.png" width="30"> #}
       
-        <div class="load-more-block mt-3 mb-5">
+        <div class="load-more-block mt-3 mb-5 text-center">
 				  <button type="button" class="btn btn-primary bg-gradient" id="load-more-comments">
 					  <i class="bi bi-plus-circle-dotted load-circle"></i>Load More
+            <img src="/IMAGES/ajaxloader.png" width="30">
+        
           </button>
 			  </div>
         {% else %} 

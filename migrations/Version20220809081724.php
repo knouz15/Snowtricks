@@ -29,3 +29,4 @@ final class Version20220809081724 extends AbstractMigration
         $this->addSql('ALTER TABLE user DROP updated_at');
     }
 }
+

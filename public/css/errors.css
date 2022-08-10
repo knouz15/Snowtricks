@@ -1,0 +1,7 @@
+body {
+    background: #678fdf;
+}
+.page-wrap {
+    min-height: 100vh;
+    font-weight: 500;
+}

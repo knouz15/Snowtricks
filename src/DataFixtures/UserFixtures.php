@@ -114,8 +114,6 @@ class UserFixtures extends Fixture
         $manager->persist($user);
         $this->addReference($user->getUsername(),$user );
         // $this->addReference('user',$user );
-        $manager->flush();
-
-        
+        $manager->flush();     
     }
 }

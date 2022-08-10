@@ -273,7 +273,7 @@ class TrickController extends AbstractController
 
     #[Route('/Trick/suppression/{slug}', 'trick_delete', methods: ['GET'])]
     #[Security("is_granted('ROLE_USER')")]
-    public function delete_trick(Request $request,
+    public function deleteTrick(Request $request,
     ManagerRegistry $doctrine,
         // EntityManagerInterface $manager,
         Trick $trick
@@ -296,7 +296,7 @@ class TrickController extends AbstractController
 
 
     #[Route('/supprime/image/{id}', name:'trick_delete_image', methods:['GET'])]
-    public function delete_Image(Image $image, Request $request, ManagerRegistry $doctrine)
+    public function deleteImage(Image $image, Request $request, ManagerRegistry $doctrine)
     {
        
           // On récupère le nom de l'image
@@ -316,7 +316,7 @@ class TrickController extends AbstractController
     }
 
     #[Route('/supprime/video/{id}', name:'trick_delete_video', methods:['GET'])]
-    public function delete_Video(Video $video, Request $request, ManagerRegistry $doctrine)
+    public function deleteVideo(Video $video, Request $request, ManagerRegistry $doctrine)
     {
             // On supprime l'entrée de la base
             $em = $doctrine->getManager();
@@ -333,7 +333,7 @@ class TrickController extends AbstractController
      * @Route("/load-more/{start}",name="load_more")
      */
     #[Route('/load-more/{start}', name: 'load_more')]
-    public function load_more(Request $request, TrickRepository $trickRepository, $start = 15)
+    public function loadMore(Request $request, TrickRepository $trickRepository, $start = 15)
     {
         if ($request->isXmlHttpRequest()) {
 
@@ -425,7 +425,7 @@ class TrickController extends AbstractController
 
     
     #[Route('/load-more-comments/{id}/{start}', name: 'load_more_comments')]
-    public function load_more_comments(Request $request, CommentRepository $commentRepository, $start = 5, $id =0)
+    public function loadMoreComments(Request $request, CommentRepository $commentRepository, $start = 5, $id =0)
     {       
         
             if ($request->isXmlHttpRequest()) {
