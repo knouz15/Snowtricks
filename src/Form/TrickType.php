@@ -29,7 +29,7 @@ class TrickType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
+        $builder 
             
             ->add('name', TextType::class, [
                 'attr' => [
@@ -121,7 +121,7 @@ class TrickType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Trick::class,
             // 'validation_groups' => array('creation', 'Default'),
-            'validation_groups' => ['creation', 'Default'],
+            'validation_groups' => ['create', 'update'],
             
         ]);
     }

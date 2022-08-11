@@ -53,7 +53,8 @@ class TrickController extends AbstractController
         SluggerInterface $slugger
     ): Response {
         $trick = new Trick();
-        $form = $this->createForm(TrickType::class, $trick,);
+        $form = $this->createForm(TrickType::class, $trick,[
+            'validation_groups' => ['create','update']]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
