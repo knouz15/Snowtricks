@@ -5,7 +5,6 @@
 {% endblock %} 
 
 {% block stylesheets %}
-     {# <link href="{{ asset('css/index.css') }}" rel="stylesheet" /> #}
   <link href="{{ asset('css/register.css') }}" rel="stylesheet" />
 {% endblock %}
 {% block body %}
@@ -17,7 +16,6 @@
     <div class="col-lg-10 col-xl-9 mx-auto">
       <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
         <div class="card-img-left d-none d-md-flex">
-            <!-- Background image for card set in CSS! -->
         </div> 
         <div class="card-body p-4 p-sm-5">
           <h5 class="card-title text-center mb-5 fw-light fs-5"><b>Inscription</b></h5>
@@ -34,32 +32,22 @@
               {{ form_errors(registrationForm) }}
    
               <div class="form-floating mb-3">
-                   {# <input type="text" class="form-control" id="floatingInputUsername" placeholder="username" > #}
-                    {# value="{{ user.username }}"> #}
-                    {# required autofocus> #}
-                    {# <label for="floatingInputUsername">Username</label> #}
+                  
                 {{ form_row(registrationForm.username)}}
               </div>
                
               <div class="form-floating mb-3">
-                    {# <input type="email" class="form-control" id="floatingInputEmail" placeholder="name@example.com">  #}
-                    {# value="{{ user.email }}"> #}
-                    {# <label for="floatingInputEmail">Email</label> #}
 				    
                 {{ form_row(registrationForm.email)}}
               </div>
              
               <div class="form-floating mb-3">
-                    {# <input type="password" class="form-control" id="floatingPassword" placeholder="********" > #}
-                    {# value="{{ user.password }}"> #}
-                    {# <label for="floatingPassword">Mot de passe</label> #}
+                    
                 {{ form_row(registrationForm.plainPassword)}}
               </div>
 
               <div class="form-check mb-3">
-                    {# <input class="form-check-input" type="checkbox" value="" id="agreeTerms" > #}
-                    {# value="{{ user.agreeTerms }}"> #}
-                    {# <label class="form-check-label" for="agreeTerms"> Accepter conditions du site</label>#}
+                   
                 {{ form_row(registrationForm.agreeTerms)}}
               </div>
               <div class="d-grid mb-2">
@@ -75,4 +63,5 @@
   </div>
 
 {% endblock %}
+
 

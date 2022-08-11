@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\User;
 
 use Symfony\Component\Form\AbstractType;
-// use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -39,40 +38,10 @@ class UserType extends AbstractType
                 ]
             ])
 
-
-            // ->add('plainPassword', PasswordType::class, [
-            //     'attr' => [
-            //         'class' => 'form-control'
-            //     ],
-            //     'label' => 'Mot de passe',
-            //     'label_attr' => [
-            //         'class' => 'form-label  mt-4'
-            //     ],
-            //     'constraints' => [
-            //         new Assert\NotBlank(),
-            //         // new Assert\Email(),
-            //     ]
-            // ])
-            // ->add('imageFile', VichImageType::class, [
-            //     'label' => 'Votre Avatar',
-            //     'label_attr' => [
-            //         'class' => 'form-label mt-4'
-            //     ],
-            //     'required' => false
-            // ])
-
             ->add('avatar', FileType::class, [
                 'label' => 'Votre avatar (Image file)',
-                 
-                // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
- 
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
                 'required' => false,
- 
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -98,3 +67,4 @@ class UserType extends AbstractType
         ]);
     }
 }
+

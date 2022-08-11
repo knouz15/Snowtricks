@@ -67,6 +67,18 @@ class TrickType extends AbstractType
                     ])
                 ]
                 ])
+
+                ->add('category', EntityType::class, [ 
+                    'class' => Category::class,
+                    'label' => 'Catégorie',
+                    'placeholder' => '',
+                    'constraints' => [
+                        new Assert\NotBlank([
+                            'message' => 'Veuillez choisir une catégorie',
+                        ])
+                    ] 
+                ])
+
                 ->add('videos', CollectionType::class, [
                     'entry_type'     => VideoType::class,
                     'entry_options'  => [
@@ -75,11 +87,10 @@ class TrickType extends AbstractType
                     'by_reference'   => false,
                     'allow_add'      => true,
                     'allow_delete'   => true,
-                    // 'required'       => false,
                     'prototype'      => true,
                     'constraints' => [
                         new Assert\NotBlank([
-                            'message' => 'Veuillez renseigner des médias',
+                            'message' => 'Veuillez renseigner le champs Videos',
                         ]),
                     ]
                 ])
@@ -96,22 +107,12 @@ class TrickType extends AbstractType
                     'prototype'      => true,
                     'constraints' => [
                         new Assert\NotBlank([
-                            'message' => 'Veuillez renseigner des médias',
+                            'message' => 'Veuillez renseigner le champs Images',
                         ]),
                     ]
                 ])
 
-            ->add('category', EntityType::class, [ 
-                'class' => Category::class,
-                // 'choice_label' => 'slug',
-                'label' => 'Catégorie',
-                'placeholder' => '',
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Veuillez choisir une catégorie',
-                    ])
-                ] 
-                    ]);
+           ;
            
     } 
 
@@ -125,3 +126,6 @@ class TrickType extends AbstractType
         ]);
     }
 }
+
+
+

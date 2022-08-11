@@ -80,11 +80,18 @@
     justify-content: center;
   }
 
+  .card-title {
+    margin-bottom: 0.5rem;
+    
+  }
+
   @media (min-width: 768px) {
     .collapse.dont-collapse-sm {
       display: block;
       height: auto !important;
       visibility: visible;
     }
+  
+  
   }
   

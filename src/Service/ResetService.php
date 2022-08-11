@@ -21,7 +21,6 @@ class ResetService
         array $context
     ): void
     {
-        //On crée le mail
         $email = (new TemplatedEmail())
             ->from($from)
             ->to($to)
@@ -29,7 +28,7 @@ class ResetService
             ->htmlTemplate("emails/$template.html.twig")
             ->context($context);
 
-        // On envoie le mail
         $this->mailer->send($email);
     }
 }
+

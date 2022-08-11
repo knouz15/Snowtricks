@@ -56,10 +56,7 @@ class Video
         $this->tricks->add($trick);
     }
 }
-    
-    // public function __toString()
-    // {
-    //     return $this->name;
-    // }
+  
 }
+
 

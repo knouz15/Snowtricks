@@ -42,14 +42,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     #[ORM\Column(type: 'json')]
     
     private array $roles = [];
-    // private array $roles = ['ROLE_USER'];
-
     
-    //#[Assert\EqualTo(propertyPath : "password",message :  "Le mot de passe n'est pas identique.")]
     private ?string $plainPassword='password';
 
     #[ORM\Column(type: 'string')]
-    //#[Assert\NotBlank()]
     private string $password;
 
     #[ORM\Column(type: 'datetime_immutable', 
@@ -122,7 +118,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -229,7 +224,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     public function removeTrick(Trick $trick): self
     {
         if ($this->trick->removeElement($trick)) {
-            // set the owning side to null (unless already changed)
             if ($trick->getUser() === $this) {
                 $trick->setUser(null);
             }
@@ -259,7 +253,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     public function removeComment(Comment $comment): self
     {
         if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
             }
@@ -267,26 +260,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
 
         return $this;
     }
-
-    //  * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
-     
-    // public function setImageFile(?File $imageFile = null): void
-    // {
-    //     $this->imageFile = $imageFile;
-
-    //     if (null !== $imageFile) {
-    //         // It is required that at least one field changes if you are using doctrine
-    //         // otherwise the event listeners won't be called and the file is lost
-    //         $this->createdAt = new \DateTimeImmutable();//ou updatedAt
-    //     }
-    // }
-
-    // public function getImageFile(): ?File
-    // {
-    //     return $this->imageFile;
-    // }
- 
-
     
     public function getAvatarFilename(): ?string
     {
@@ -361,18 +334,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
         return $this;
     }
 
-    // public function getPhoto(): ?string
-    // {
-    //     return $this->photo;
-    // }
-
-    // public function setPhoto(?string $photo): self
-    // {
-    //     $this->photo = $photo;
-
-    //     return $this;
-    // }
-
     public function getResetToken(): ?string
     {
         return $this->resetToken;
@@ -398,4 +359,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface ,\Serial
     }
 
 }
+
 

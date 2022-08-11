@@ -47,23 +47,17 @@ class UserController extends AbstractController
             /** @var UploadedFile $avatarFile */
             $avatarFile = $form->get('avatar')->getData();
 
- // this condition is needed because the 'avatar' field is not required
- // so the PDF file must be processed only when a file is uploaded
             if ($avatarFile) {
                 $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
                 $extension = $avatarFile->guessExtension();
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$extension;
-
-                // Move the file to the directory where avatars are stored
                 try {
                     $avatarFile->move(
                     $this->getParameter('avatars_directory'),
                     $newFilename
                     );
-                } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
+                    } catch (FileException $e) {
                 }
                 $user->setAvatarFilename($newFilename);
             }
@@ -82,7 +76,7 @@ class UserController extends AbstractController
 
     #[Route('/passwordoublie', name:'forgot_password', methods: ['GET', 'POST'])]
     public function forgotPassword(
-        Request $request,//on récupère les infos du formulaire
+        Request $request,
         UserRepository $userRepository,
         TokenGeneratorInterface $tokenGenerator,
         EntityManagerInterface $em,
@@ -97,30 +91,23 @@ class UserController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $donnees = $form->getData();
             
-            $user = $userRepository->findOneByUsername( //On va chercher l'utilisateur par son username
-                // $form->get('username')->getData());
+            $user = $userRepository->findOneByUsername( 
                 $donnees['username']);
 
-            // On vérifie si on a un utilisateur
             if($user){
-                // On génère un token de réinitialisation
-                $token = $tokenGenerator->generateToken();
-                $user->setResetToken($token);//important meme s'il retourne une erreur (visuelle seulement) car parfois il fait pas le lien repository entié
-                //Rajouter catch/ try
                 
+                $token = $tokenGenerator->generateToken();
+                $user->setResetToken($token);
                 $em->persist($user);
                 $em->flush();
 
-                // On génère un lien de réinitialisation du mot de passe
                 $url = $this->generateUrl('reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-                // On crée les données du mail
-                $context = compact('url', 'user');// compact au lieu de faire un tableau context avec $user->$user et $url->$url
-                // Email
+                $context = compact('url', 'user');
                 $mail->sendEmail(
-                    'no-reply@snowtricks.fr',//from
-                    $user->getEmail(),//to
-                    'Réinitialisation du mot de passe oublié',//titre
-                    'reset_password_reponse',//le template
+                    'no-reply@snowtricks.fr',
+                    $user->getEmail(),
+                    'Réinitialisation du mot de passe oublié',
+                    'reset_password_reponse',
                     $context
                 );
 
@@ -128,7 +115,6 @@ class UserController extends AbstractController
                 return $this->redirectToRoute('app_login');
             }
             else{
-            // $user est null
             throw new NotFoundHttpException("User invalide");
             }
         }
@@ -146,7 +132,7 @@ class UserController extends AbstractController
         UserPasswordHasherInterface $passwordHasher
     ): Response
     { 
-        // On vérifie si on a ce token dans la base
+        
         $user = $userRepository->findOneByResetToken($token);
         
         if($user){
@@ -155,7 +141,7 @@ class UserController extends AbstractController
             $form->handleRequest($request);
 
             if($form->isSubmitted() && $form->isValid()){
-                $user->setResetToken('');// On efface le token
+                $user->setResetToken('');
                 $user->setPassword(
                     $passwordHasher->hashPassword(
                         $user,
@@ -178,4 +164,5 @@ class UserController extends AbstractController
             
     }
 }
+
 

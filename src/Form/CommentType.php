@@ -21,16 +21,13 @@ class CommentType extends AbstractType
             'attr' =>  [
                 "placeholder" => "+ Laisser un commentaire ..."
             ],
-            // 'label_attr' => [
-            //     'class' => 'form-label mt-4'
-            // ],
+            
             'constraints' => [
                 new Assert\NotBlank([
                     'message' => 'Veuillez saisir un commentaire',
                 ])
             ]
-            ])  ;     
-            // ->add('poster', SubmitType::class);
+            ])  ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -40,3 +37,4 @@ class CommentType extends AbstractType
         ]);
     }
 }
+

@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
     private $mailer;
     private $userRepository;
     public function __construct(
-        Mailer $mailer,
+    Mailer $mailer,
      UserRepository $userRepository)
     {
          
@@ -33,7 +33,7 @@ class RegistrationController extends AbstractController
 
     #[Route('/inscription', name: 'app_register', methods: ['GET','POST'])]
     public function register(
-        // Mailer $mailer,
+        
         Request $request, 
         UserPasswordHasherInterface $userPasswordHasher, 
         UserAuthenticatorInterface $userAuthenticator, 
@@ -41,7 +41,7 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager
         ): Response
     {
-        //si connecté, redirection vers page d'accueil
+        
         if ($this->getUser()) {
             return $this->redirectToRoute('app_index');
         }
@@ -51,25 +51,23 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $user = $form-> getData();
-            //dd($user);
-            // encode the plain password
+            
             $user->setPassword(
             $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
-            // dd($user);
+            
             $user->setIagreeTerms(new \DateTime()); 
             $user->setToken($this->generateToken());
             
             $entityManager->persist($user);
             $entityManager->flush();
             $this->mailer->sendEmail($user->getEmail(), $user->getToken());
-            // $this->mailer->sendEmail($user->getEmail());
+            
             $this->addFlash( type:"success", message:"Votre compte a bien été créé ! Veuillez valider le mail d'activation");
-            // do anything else you need here, like send an email
+            
             return $this->redirectToRoute('app_login');     
         } 
             return $this->render('registration/register.html.twig', 
@@ -87,19 +85,16 @@ class RegistrationController extends AbstractController
     public function confirmAccount(string $token, EntityManagerInterface $entityManager)
     {
         $user = $this->userRepository->findOneBy(["token" => $token]);
-        //Vérifier si le user existe mais n'a pas encore activé son compte
-        // if($user && !$user->getIsVerified()) {
+        
         if($user) {
-            $user->setToken(null);// on supprime le token
+            $user->setToken(null);
             $user->setIsVerified(true);
-            // $em = $this->getDoctrine()->getManager();
-            // $em->persist($user);
-            // $em->flush();
+            
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash("success", "Compte actif !");
             return $this->redirectToRoute('app_index');
-        } else { //erreur 404
+        } else { 
             $this->addFlash("error", "Ce compte ne semble pas valide !");
             return $this->redirectToRoute('app_index');
         }
@@ -109,11 +104,10 @@ class RegistrationController extends AbstractController
      * @return string
      * @throws \Exception
      */
-    private function generateToken(
-        // int $validity = 10800
-        )
+    private function generateToken()
     {
-        return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');//on nettoie les valeurs encodés on retirant les +,/ et =
+        return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
     }
 }
+
 

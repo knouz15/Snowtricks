@@ -25,8 +25,6 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        
-		// $faker = Factory::create('fr_FR');
 
         $tricks = [
 			
@@ -118,16 +116,14 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 					$video->setUrl('https://www.youtube.com/embed/'.$embedLinkCode);
 					$tr-> addVideo($video);
 				}
+
 				$username=['coco','soso','gogo','dodo','toto','jojo','fofo'];
-				// Comments
-                for ($u = 0; $u < rand(20, 50); $u++) {
-                    // shuffle($users);
+				for ($u = 0; $u < rand(20, 50); $u++) {
+                    
                     $comment = new Comment;
                     $comment->setContent($this->faker->unique()->text(150));
-                    // $comment->setCreatedAt($this->faker->dateTimeThisDecade());
-					$comment->setUser($this->getReference($username[array_rand($username)]));
+                    $comment->setUser($this->getReference($username[array_rand($username)]));
 					
-                    // $comment->setUser($users[0]);
                     $comment->setCreatedAt(\DateTimeImmutable::createFromMutable($this->faker->dateTimeThisYear()));
                     $tr->addComment($comment);
                 }

@@ -17,11 +17,8 @@ class ImageType extends AbstractType
         $builder
         ->add('name', FileType::class,[
             'mapped' => false,
-        //   'required' => false,
+            'required' => false,
         'constraints' => [
-            new NotBlank([
-                'message' => 'Veuillez joindre au moins une image',
-            ]),
             new File([
                         'maxSize' => '1024k',
                         'mimeTypes' => [
@@ -33,16 +30,6 @@ class ImageType extends AbstractType
                     ])
         ],
         'label' => 'Uploadez une image'
-        //     'constraints' => [
-                //         new File([
-                //             'maxSize' => '1024k',
-                //             'mimeTypes' => [
-                //                 'application/jpg',
-                //                 'application/png',
-                //             ],
-                //             'mimeTypesMessage' => 'Uploadez une image à format valide',
-                //         ])
-                //     ],
         ]);
     } 
  
@@ -53,3 +40,5 @@ class ImageType extends AbstractType
         ]);
     }
 }
+
+

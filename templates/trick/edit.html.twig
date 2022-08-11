@@ -5,7 +5,6 @@
 
   <div class="container">
     <div class="card mt-5 mb-5">
-      {# <div class="card text-center mx-5 my-5"> #}
       {% if trick.images | length > 0 %}
         <div class="card-title">
           <h5 class="card-text " style="font-size:200%">
@@ -14,8 +13,7 @@
             <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right mb-4 mr-4" src="/IMAGES/trash.png"  style="width:3%;"alt="..."></a>
           {% endif %}
         </div>
-        <img src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks">
-        <div class="card-img-overlay">
+        <img src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks" style="height:900px">
         {% else %}  
           <img src="/IMAGES/no-image.jpg"  alt="...">
       {% endif %}  
@@ -24,12 +22,9 @@
 
   <div class="row">
     {% if trick.images | length > 1 %}
-      <div class="row mt-5">
-      {% for image in trick.images %}
+        {% for image in trick.images %}
         <div class="col-12 col-md-6 col-lg-3"> 
-          {# <div class="col-lg-3 col-md-4 col-sm-6 mb-4"> #}
           <div class="card mb-4">
-            {# <div class="card h-100"> #}
             <img class="card-img-top" src="{{ asset('IMAGES/Tricks/') ~image.name}}" style="height:349px;" class="img-responsive" alt="">
             <div class="card-text"> 
                         {% if app.user %}
@@ -38,46 +33,26 @@
             </div> 
           </div>
         </div>
-      {% endfor %}
-      {# </div> #}
-      {# {% else %} 
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-          <div class="card h-100">
-            <a href="#">
-              <img class="card-img-top" src="/IMAGES/no-image.jpg"  alt="No more images" >
-            </a>
-          </div>
-        </div>   #} 
-    {% endif %} {# end images #}
-    {# les videos #}
+        {% endfor %}
+    {% endif %} 
+    
     {% if trick.videos | length > 1 %}
-      {# <div class="row mt-5"> #}
         {% for video in trick.videos %}
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            {# <div class="card h-100"> #}
             <div class="embed-responsive embed-responsive-1by1" style="height:349px;">
               <iframe src="{{ video.url }}" frameborder="0" allow="accelerometer; fullscreen; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-              <div class="card-footer">
-                
-                  <a href="{{ path('trick_delete_video', {'id': video.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer cette vidéo?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:10%;"alt="..."></a>
-                
-              </div> 
-            {# </div> #}
+            <div class="card-footer">
+              <a href="{{ path('trick_delete_video', {'id': video.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer cette vidéo?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:10%;"alt="..."></a>
+            </div> 
           </div>
         {% endfor %}
-        </div>
-        {# {% else %}
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card h-100">
-              <img class="card-img-top" src="/IMAGES/no-video.jpg"  alt="No more videos">
-            </div>
-          </div> #}
-    {% endif %} {# end videos #}
+    {% endif %} 
   </div> 
 
-    <div class="container justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;">
+  <div class="container justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;">
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
+          {{ form_errors (form)}}
           {% for message in app.flashes('success') %}
 			        <div class="alert alert-success mt-4">
                 <div class="flash-notice">
@@ -85,24 +60,23 @@
 			          </div>
               </div>
 	        {% endfor %}    
-            {# <div class="my-custom-class-for-errors"> #}
-        <div>
-              {# {{ form_errors(form) }} #}
-          <div class="form-floating mb-3">
+          <div>
+        
+            <div class="form-floating mb-3">
                 {{ form_row(form.name)}}
-          </div>
-          <div class="form-floating mb-3">
+            </div>
+            <div class="form-floating mb-3">
                 {{ form_row(form.description)}}
-          </div>
-          <div class="btn">
+            </div>
+            <div class="btn">
                 {{ form_row(form.category)}}
-          </div> 
+            </div> 
              
-          <h6>Rajoutez Videos  
+            <h6>Rajoutez Videos  
                 <button type="button" class="btn btn-primary add_item_link" data-collection-holder-class="videos"> + </button>
-          </h6>
+            </h6>
 
-          <ul class="videos"
+            <ul class="videos"
                 data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
                 data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">  
                 {% for videoForm in form.videos %}
@@ -110,42 +84,31 @@
                     {{ form_row(videoForm)  }}
                   </li>
                 {% endfor %}
-          </ul>
+            </ul>
               
-          <h6>Rajoutez Images 
+            <h6>Rajoutez Images 
                 <button type="button" class="btn btn-primary add_item_link" data-collection-holder-class="images"> + </button>
-          </h6>
+            </h6>
  
-          <ul class="images"
+            <ul class="images"
                 data-index="{{ form.imagesFile|length > 0 ? form.imagesFile|last.vars.name + 1 : 0 }}"
                 data-prototype="{{ form_widget(form.imagesFile.vars.prototype)|e('html_attr') }}">
-                {# {% for imageForm in form.images %}
-                  <li>
-                    {{ form_row(imageForm)  }}
-                  </li>
-                {% endfor %} #}
-          </ul> 
-          {{ form_row(form._token) }}             
+            </ul> 
+            {{ form_row(form._token) }}             
               <hr class="my-4">
-          <div class="mb-5 float-right">
-                <button class="btn btn-primary btn-login text-uppercase fw-bold mb-5 mr-5 " href="" type="submit">Enregistrer</button>
-        {# </div> #}
-        {# </form>   #}
-          {# <div class="mb-5">     #}
-                {# <button class="btn btn-primary btn-login text-uppercase fw-bold mb-5 mr-5 float-right" href="{{ path('app_index')}}"> Annuler</button> #}
-          {# </div> #}
-            {# </div> #}
+            <div class="mb-5 float-right">
+              <button class="btn btn-primary btn-login text-uppercase fw-bold mb-5 mr-5 " href="" type="submit">Enregistrer</button>
+        
               <button class="btn btn-primary btn-login text-uppercase fw-bold mb-5 mr-5" href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> Effacer trick</button>
-            {# </div> #}
-          {# {{ form_end(form)}} #}
-        </form> 
-      </div>
-    </div>
+            </div>
+          </div>  
+        </form>    
 
   </div>
-</div>
+{% endblock %} 
 
-<script>
+{% block javascript %}
+  <script>
     const addTagFormDeleteLink = (item) => {
       const removeFormButton = document.createElement('button');
       removeFormButton.innerText = 'Supprimer';
@@ -154,7 +117,7 @@
 
       removeFormButton.addEventListener('click', (e) => {
         e.preventDefault();
-        // remove the li for the tag form
+        
         item.remove();
       });
     }
@@ -175,7 +138,6 @@
 
       collectionHolder.dataset.index++;
 
-      // add a delete link to the new form
       addTagFormDeleteLink(item);
     }
 
@@ -184,12 +146,6 @@
     .forEach((video) => {
         addTagFormDeleteLink(video)
     })
-
-    {# document
-    .querySelectorAll('ul.images li')
-    .forEach((image) => {
-        addTagFormDeleteLink(image)
-    }) #}
 
     document
     .querySelectorAll('.add_item_link')
@@ -200,5 +156,8 @@
   </script>
 
 {% endblock %} 
+
+
+
 
 

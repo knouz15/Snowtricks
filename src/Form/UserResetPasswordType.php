@@ -18,52 +18,15 @@ class UserResetPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        
-            // ->add('username', TextType::class, [
-            //     'attr' => [
-            //     'class' => 'form-control',
-            //     "placeholder" => "Entrez votre username",
-            //     'label' => 'Votre nom d\'utilisateur',
-            //     // 'minlenght' => '2',
-            //     // 'maxlenght' => '50',
-            //     // ],
-            //     // 'label_attr' => [
-            //     // 'class' => 'form-label  mt-4'
-            //     // ],
-            //     // 'constraints' => [
-            //     //     new NotBlank([
-            //     //         'message' => 'Veuillez saisir votre username',
-            //     //     ])
-            //     ]
-            // ])
-            // ->add('password', PasswordType::class, [ 
-            //     'attr' => ['class' => 'form-control'],
-            //     'label' => 'Nouveau mot de passe',
-            //     'label_attr' => ['class' => 'form-label mt-4'],
-            //     'constraints' => [
-            //         new Assert\NotBlank([
-            //         'message' => 'Veuillez saisir un mot de passe',
-            //         ]),
-            //         new Length([
-            //             'min' => 6,
-            //             'minMessage' => 'Votre mot de passe doit contenir plus de 7 caractères',
-            //             // max length allowed by Symfony for security reasons
-            //             'max' => 4096,
-            //             // 'message' => 'Votre password doit contenir plus de 7 caractères'
-
-            //         ]),
-            //     ]
-            //     ]);
                 ->add('plainPassword', RepeatedType::class, [
                     'type' => PasswordType::class,
                     'first_options' => [
-                        // 'mapped' => false,
+                        'mapped' => false,
                         'attr' => [
                             'autocomplete' => 'new-password',
                             "placeholder" => "Entrez votre mot de passe",
                         ],
                         'label' => 'Mot de passe',
-                        // 'label_attr' => ['class' => 'form-label  mt-4']
                         'constraints' => [
                             new NotBlank([
                                 'message' => 'Veuillez saisir un mot de passe',
@@ -71,9 +34,7 @@ class UserResetPasswordType extends AbstractType
                             new Length([
                                 'min' => 6,
                                 'minMessage' => 'Votre mot de passe doit contenir plus de 7 caractères',
-                                // max length allowed by Symfony for security reasons
                                 'max' => 4096,
-                                // 'message' => 'Votre password doit contenir plus de 7 caractères'
     
                             ]),
                         ],
@@ -90,13 +51,7 @@ class UserResetPasswordType extends AbstractType
                     ],
                     'invalid_message' => 'Les mots de passe ne correspondent pas.'
                 ]);
-            // ->add('submit', SubmitType::class, [
-            //     'attr' => [
-            //         'class' => 'btn btn-primary mt-4'
-            //     ],
-            //     'label' => 'Changer mon mot de passe'
-            // ]);
-     
+            
     }
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -104,3 +59,6 @@ class UserResetPasswordType extends AbstractType
     }
 
 }
+
+
+

@@ -4,7 +4,6 @@
     Snowtricks - Nouveau trick
 {% endblock %}
 
-{# {% form_theme form _self %} #}
 {% block stylesheets %}
   <link href="{{ asset('css/register.css') }}" rel="stylesheet" />
 {% endblock %}
@@ -13,24 +12,20 @@
     <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
       <div class="card border-0 shadow rounded-3 my-5">
         <div class="card-body p-4 p-sm-5">
-          {# <h5 class="card-title text-center mb-5 fw-light fs-5"> #}
           <h2 class="text-center">
             Création d'un trick
           </h2>
           {{ form_start(form, {'attr': {'novalidate': 'novalidate'}})}}
-          {{ form_errors (form)}}
-            {% for message in app.flashes('success') %}
-			        <div class="alert alert-success mt-4">
-                <div class="flash-notice">
-				          {{ message }}
-			          </div>
-              </div>
-	          {% endfor %}
-            
-            {# <div class="my-custom-class-for-errors"> #}
+              {{ form_errors (form)}}
+              {% for message in app.flashes('success') %}
+			          <div class="alert alert-success mt-4">
+                  <div class="flash-notice">
+				            {{ message }}
+			            </div>
+                </div>
+	            {% endfor %}
             <div>
-              {# {{ form_errors(form) }} #}
-
+              
               <div class="form-floating mb-3">
                 {{ form_row(form.name)}}
               </div>
@@ -64,23 +59,17 @@
               <ul class="images"
                 data-index="{{ form.imagesFile|length > 0 ? form.imagesFile|last.vars.name + 1 : 0 }}"
                 data-prototype="{{ form_widget(form.imagesFile.vars.prototype)|e('html_attr') }}">
-                {# {% for imageForm in form.images %}
-                  <li>
-                    {{ form_row(imageForm)  }}
-                  </li>
-                {% endfor %} #}
               </ul> 
               
               {{ form_row(form._token) }}             
-              {# <hr class="my-4"> #}
+              <hr class="my-4">
               <div class="d-grid mb-2">
                 <button class="btn btn-primary btn-login text-uppercase fw-bold" href="" type="submit">
                   Créer mon trick
                 </button>
               </div>
             </div>
-          {# {{ form_end(form)}} #}
-           </form> 
+          </form> 
         </div>
       </div>
     </div>
@@ -95,7 +84,6 @@
 
       removeFormButton.addEventListener('click', (e) => {
         e.preventDefault();
-        // remove the li for the tag form
         item.remove();
       });
     }
@@ -116,7 +104,6 @@
 
       collectionHolder.dataset.index++;
 
-      // add a delete link to the new form
       addTagFormDeleteLink(item);
     }
 
@@ -125,12 +112,6 @@
     .forEach((video) => {
         addTagFormDeleteLink(video)
     })
-
-    {# document
-    .querySelectorAll('ul.images li')
-    .forEach((image) => {
-        addTagFormDeleteLink(image)
-    }) #}
 
     document
     .querySelectorAll('.add_item_link')
@@ -142,5 +123,3 @@
 
 {% endblock %}
 
-
-	

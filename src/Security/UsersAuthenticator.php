@@ -17,28 +17,26 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class UsersAuthenticator extends AbstractLoginFormAuthenticator
 {
-    use TargetPathTrait; //UsersAuthenticator récupère ce Trait 
+    use TargetPathTrait;  
 
-    public const LOGIN_ROUTE = 'app_login'; //une constante qui est le nom de la route qui permet de faire ce login
+    public const LOGIN_ROUTE = 'app_login'; 
 
-    private UrlGeneratorInterface $urlGenerator; //Generation d'urls
+    private UrlGeneratorInterface $urlGenerator; 
 
     public function __construct(UrlGeneratorInterface $urlGenerator)
     {
         $this->urlGenerator = $urlGenerator;
     }
 
-    public function authenticate(Request $request): Passport //l'objet passport: outil pr gérer l'authentifi° des utilisateurs
+    public function authenticate(Request $request): Passport 
     {
-        $username = $request->request->get('username', ''); //request request car on fait du post
-        // $email = $request->request->get('email', '');
-        $request->getSession()->set(Security::LAST_USERNAME, $username); //on insère ds la session la dernière personne qui était connectée
-        // dd($username);
+        $username = $request->request->get('username', ''); 
+        $request->getSession()->set(Security::LAST_USERNAME, $username); 
         return new Passport(
-            new UserBadge($username), //va chercher le user par son username
+            new UserBadge($username), 
             new PasswordCredentials($request->request->get('password', '')),
             [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),//jeton de sécurité
+                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
             ]
         );
     }
@@ -49,9 +47,7 @@ class UsersAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        return new RedirectResponse($this->urlGenerator->generate('app_index')); //on redirige le user vers l'accueil
-        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        return new RedirectResponse($this->urlGenerator->generate('app_index')); 
     }
 
     protected function getLoginUrl(Request $request): string
@@ -59,4 +55,5 @@ class UsersAuthenticator extends AbstractLoginFormAuthenticator
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 }
+
 

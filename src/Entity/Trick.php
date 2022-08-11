@@ -27,8 +27,6 @@ class Trick
     #[Assert\NotBlank(groups:['creation'])]
     
     #[ORM\Column(type: 'string', length: 255)]
-    // #[Assert\Regex(pattern:'/[a-zA-Z._\p{L}-]{1,20}/',message:'Nom invalide: Ne doit contenir que des lettres et des lettres')]
-    // #[Assert\Regex(pattern:'/[a-zA-Z.0-9._\p{L}-]{1,20}/',message:'Nom invalide: Ne doit contenir que des lettres et des lettres')]
     private $name;
 
     
@@ -75,7 +73,6 @@ class Trick
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        // $this->updatedAt = new \DateTimeImmutable();
         $this->images = new ArrayCollection();
         $this->videos = new ArrayCollection();
         $this->comments = new ArrayCollection();
@@ -94,7 +91,6 @@ class Trick
 
     public function setName(string $name): self
     {
-        // $this->slug = $name;
         $this->name = $name;
         return $this;
     }
@@ -137,12 +133,9 @@ class Trick
         return $this;
     }
 
-    // #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function updateTimestamps()
     {
-        // if($this->getCreatedAt() === null){
-        // $this->setCreatedAt = new \DateTimeImmutable();
         $this->setUpdatedAt = new \DateTimeImmutable();
       
     }
@@ -171,13 +164,11 @@ class Trick
         return $this;
     }
 
-    //pour aller chercher les images d'un trick
     public function getImages(): Collection
     {
         return $this->images;
     }
 
-    //pour ajouter une image au trick
     public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
@@ -188,12 +179,10 @@ class Trick
         return $this;
     }
 
-    //pour supprimer les images d'un trick
     public function removeImage(Image $image): self
     {
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
-            // set the owning side to null (unless already changed)
             if ($image->getTrick() === $this) {
                 $image->setTrick(null);
             }
@@ -224,7 +213,6 @@ class Trick
     {
         if ($this->videos->contains($video)) {
             $this->videos->removeElement($video) ;
-                // set the owning side to null (unless already changed)
             if ($video->getTrick() === $this) {
                     $video->setTrick(null);
             }
@@ -254,7 +242,6 @@ class Trick
     public function removeComment(Comment $comment): self
     {
         if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
             if ($comment->getTrick() === $this) {
                 $comment->setTrick(null);
             }
@@ -288,4 +275,5 @@ class Trick
         }
     }
 }
+
 
