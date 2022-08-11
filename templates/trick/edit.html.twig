@@ -10,7 +10,7 @@
           <h5 class="card-text " style="font-size:200%">
           <center><b>{{ trick.name }}</b></center></h5>
           {% if app.user %}
-            <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right mb-4 mr-4" src="/IMAGES/trash.png"  style="width:3%;"alt="..."></a>
+            <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right mb-4 mr-4" src="/IMAGES/trash.png"  style="width:2%;"alt="..."></a>
           {% endif %}
         </div>
         <img src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks" style="height:900px">
@@ -155,9 +155,4 @@
  
   </script>
 
-{% endblock %} 
-
-
-
-
-
+{% endblock %}

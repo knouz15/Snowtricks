@@ -55,7 +55,9 @@ class Trick
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist','remove'])]
     private $images;
 
-    #[Assert\NotBlank(groups:['create'])]
+    #[Assert\NotBlank(groups:['create','update'])]
+    #[Assert\Valid(groups:['create','update'])]
+    #[Assert\Count(min:1, minMessage:'Veuillez renseigner le champs Videos',groups:['create','update'])]
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ['persist','remove'])]
     private $videos;
 
@@ -270,5 +272,3 @@ class Trick
         }
     }
 }
-
-
