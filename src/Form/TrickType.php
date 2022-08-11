@@ -126,6 +126,3 @@ class TrickType extends AbstractType
         ]);
     }
 }
-
-
-
