@@ -22,7 +22,7 @@
 1. Clone the project repository
 
 ````
-git clone https://github.com/geoffrey521/snowtricks.git
+git clone https://github.com/knouz15/snowtricks.git
 ````
 
 2. Download and install Composer dependencies
