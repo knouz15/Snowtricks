@@ -28,7 +28,9 @@ class UserFixtures extends Fixture
 
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        $user->setAvatarFilename('boy-icon-man-icon-avatar-icon-NK0qgMNF_t.jpg');
+        copy(__DIR__.'/images/avatars/boy-icon-man1.jpg',__DIR__.'/../../public/uploads/avatars/boy-icon-man1.jpg');
+
+        $user->setAvatarFilename('boy-icon-man1.jpg');
         $manager->persist($user);
         $this->addReference($user->getUsername(),$user );
         $manager->flush();
@@ -42,7 +44,9 @@ class UserFixtures extends Fixture
 
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        $user->setAvatarFilename('imgbin-avatar-icon-3d-character-icon-material-woman-wearing-blue-suit-cector-HJBJAK3EFdaXKzZQ6SuTXDUJb_t.jpg');
+        copy(__DIR__.'/images/avatars/boy-icon-man2.jpg',__DIR__.'/../../public/uploads/avatars/boy-icon-man2.jpg');
+
+        $user->setAvatarFilename('/boy-icon-man2.jpg');
         $manager->persist($user);
         $this->addReference($user->getUsername(),$user );
         $manager->flush();
@@ -56,7 +60,9 @@ class UserFixtures extends Fixture
 
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        $user->setAvatarFilename('/imgbin-scalable-graphics-avatar-icon-ms-curly-hair-DUUCHSqTJbkFz6FReXgD9gcTH_t.jpg');
+        copy(__DIR__.'/images/avatars/boy-icon-man3.jpg',__DIR__.'/../../public/uploads/avatars/boy-icon-man3.jpg');
+
+        $user->setAvatarFilename('/boy-icon-man3.jpg');
         $manager->persist($user);
         $this->addReference($user->getUsername(),$user );
         $manager->flush();
@@ -70,22 +76,13 @@ class UserFixtures extends Fixture
 
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        $user->setAvatarFilename('/man-icon-avatars-icon-avatar-icon-zbnC5PFp_t.jpg');
+        copy(__DIR__.'/images/avatars/woman-icon1.jpg',__DIR__.'/../../public/uploads/avatars/woman-icon1.jpg');
+
+        $user->setAvatarFilename('/woman-icon1.jpg');
         $manager->persist($user);
         $this->addReference($user->getUsername(),$user );
         $manager->flush();
  
-        $user = new User();
-        $user->setUsername('toto');
-        $user->setEmail('t@y.fr');
-        $user->setIsVerified(true);
-        $user->setIagreeTerms(new \Datetime());
-        
-
-        $password = $this->hasher->hashPassword($user, '123456');
-        $user->setPassword($password);
-        $manager->persist($user);
-        $manager->flush();
  
         $user = new User();
         $user->setUsername('jojo');
@@ -96,7 +93,9 @@ class UserFixtures extends Fixture
 
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        $user->setAvatarFilename('/young-icon-boy-icon-avatar-icon-vtUqbnUb_t.jpg');
+        copy(__DIR__.'/images/avatars/woman-icon2.jpg',__DIR__.'/../../public/uploads/avatars/woman-icon2.jpg');
+
+        $user->setAvatarFilename('/woman-icon2.jpg');
         $manager->persist($user);
         $this->addReference($user->getUsername(),$user );
         $manager->flush();
@@ -109,9 +108,12 @@ class UserFixtures extends Fixture
         
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        $user->setAvatarFilename('/boy-icon-man-icon-avatar-icon-2SqTupUC_t.jpg');
+        copy(__DIR__.'/images/avatars/woman-icon3.jpg',__DIR__.'/../../public/uploads/avatars/woman-icon3.jpg');
+
+        $user->setAvatarFilename('/woman-icon3.jpg');
         $manager->persist($user);
         $this->addReference($user->getUsername(),$user );
         $manager->flush();     
     }
+
 }

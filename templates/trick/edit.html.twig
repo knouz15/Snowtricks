@@ -1,4 +1,6 @@
 {% extends "base.html.twig" %}
+{% block meta_description %} la page de modification d’une figure de snowtricks. Mis à jour des médias images et vidéos et de autres informations du trick {% endblock %}
+
 {% block title %}Modifier {{ trick.name }}{% endblock %}
 
 {% block body %}
@@ -6,16 +8,17 @@
   <div class="container">
     <div class="card mt-5 mb-5">
       {% if trick.images | length > 0 %}
-        <div class="card-title">
-          <h5 class="card-text " style="font-size:200%">
-          <center><b>{{ trick.name }}</b></center></h5>
+        <div class="card-header">
+          {{ trick.name }}
           {% if app.user %}
-            <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right mb-4 mr-4" src="/IMAGES/trash.png"  style="width:3%;"alt="..."></a>
+            <div class=""style="text-align: right;">
+              <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm(`Confirmez la suppression du trick : {{trick.name}} ?`)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </div>
           {% endif %}
         </div>
         <img src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks" style="height:900px">
         {% else %}  
-          <img src="/IMAGES/no-image.jpg"  alt="...">
+          <img src="/IMAGES/no-image.jpg"  alt="No image">
       {% endif %}  
     </div>
   </div>
@@ -25,10 +28,12 @@
         {% for image in trick.images %}
         <div class="col-12 col-md-6 col-lg-3"> 
           <div class="card mb-4">
-            <img class="card-img-top" src="{{ asset('IMAGES/Tricks/') ~image.name}}" style="height:349px;" class="img-responsive" alt="">
-            <div class="card-text"> 
+            <img class="card-img-top" src="{{ asset('IMAGES/Tricks/') ~image.name}}" style="height:349px;" class="img-responsive" alt="image snowtricks">
+            <div class="card-footer"> 
                         {% if app.user %}
-                          <a href="{{ path('trick_delete_image', {'id': image.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer cette image?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:8%;"alt="..."></a>
+                <div class=""style="text-align: right;">
+                  <a href="{{ path('trick_delete_image', {'id': image.id}) }}" onclick="return confirm(`Confirmez la suppression de cette image?`)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </div>
                         {% endif %}
             </div> 
           </div>
@@ -38,12 +43,14 @@
     
     {% if trick.videos | length > 1 %}
         {% for video in trick.videos %}
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div class="col-12 col-md-6 col-lg-3 mb-4">
             <div class="embed-responsive embed-responsive-1by1" style="height:349px;">
               <iframe src="{{ video.url }}" frameborder="0" allow="accelerometer; fullscreen; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="card-footer">
-              <a href="{{ path('trick_delete_video', {'id': video.id}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer cette vidéo?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:10%;"alt="..."></a>
+              <div class=""style="text-align: right;">
+                <a href="{{ path('trick_delete_video', {'id': video.id}) }}" onclick="return confirm(`Confirmez la suppression de cette video?`)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+              </div>
             </div> 
           </div>
         {% endfor %}
@@ -96,7 +103,7 @@
             </ul> 
             {{ form_row(form._token) }}             
               <hr class="my-4">
-            <div class="mb-5 float-right">
+            <div class="mb-5" style="text-align: right;">
               <button class="btn btn-primary btn-login text-uppercase fw-bold mb-5 mr-5 " href="" type="submit">Enregistrer</button>
         
               <button class="btn btn-primary btn-login text-uppercase fw-bold mb-5 mr-5" href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> Effacer trick</button>
@@ -156,8 +163,3 @@
   </script>
 
 {% endblock %} 
-
-
-
-
-

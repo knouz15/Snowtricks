@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% block meta_description %} la page d’accueil où figure la liste des figures du site illustrée d'images de tricks{% endblock %}
 {% block title %}Snowtricks{% endblock %}
 {% block stylesheets %}
     <link href="{{ asset('css/index.css') }}" rel="stylesheet" />
@@ -17,7 +17,7 @@
                             <div class="w-100 text-white">
                                 <h1>BORN TO SNOW</h1>
                                 <p class="lead mb-0">LES PLUS BELLES FIGURES</p>
-                                <a href="#tricks"><img class="img-fluid" style="position:absolute;left:80%;bottom:10%;" src="/IMAGES/arrow-down.png"  alt="tricks"></a>
+                                <a href="#tricks"><img class="img-fluid" style="position:absolute;left:80%;bottom:10%;" src="/IMAGES/arrow-down.png"  alt="accueil snowtricks"></a>
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,9 @@
                 <img src="/IMAGES/ajaxloader.png" width="30">
             </button>
 	    </div>
-        <a href="#"><img class="float-right" src="/IMAGES/arrow-up.png"  alt="haut de page"></a>
+        <div class="" style="text-align: right;">
+            <a href="#"><img class="float-right mb-5" src="/IMAGES/arrow-up.png"  alt="haut de page snowtricks"></a>
+        </div>
     </div>
 {% endblock %}
 {% block javascript %}

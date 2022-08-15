@@ -1,7 +1,16 @@
 body {
-    background: #678fdf;
+    background: #cdd7ec;
 }
+
 .page-wrap {
     min-height: 100vh;
     font-weight: 500;
 }
+ /* .texte{ */
+    
+    h3{
+    color:red ;
+    font-weight: bold;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: 200;
+    }

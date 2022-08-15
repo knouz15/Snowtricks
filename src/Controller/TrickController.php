@@ -45,7 +45,7 @@ class TrickController extends AbstractController
      * @param ManagerRegistry $doctrine
      * @return Response
      */
-    #[Route('/Trick/creation', 'trick_new', methods: ['GET', 'POST'])]
+    #[Route('/Trick/creation',name:  'trick_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function new(
         Request $request,
@@ -53,7 +53,8 @@ class TrickController extends AbstractController
         SluggerInterface $slugger
     ): Response {
         $trick = new Trick();
-        $form = $this->createForm(TrickType::class, $trick,);
+        $form = $this->createForm(TrickType::class, $trick,[
+            'validation_groups' => ['create','update']]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
