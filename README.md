@@ -33,3 +33,4 @@ Vous pouvez maintenant insérer des données fictives dans vos tables avec la co
       php bin/console doctrine:fixtures:load 
 
 L’application est installé est prête à tourner.
+
