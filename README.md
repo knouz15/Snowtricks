@@ -1,35 +1,108 @@
 # Snowtricks
 
-Installation de l’application
+[![SymfonyInsight](https://insight.symfony.com/projects/6a39a599-b148-46c8-9e81-d9e3de522820/big.svg)](https://insight.symfony.com/projects/6a39a599-b148-46c8-9e81-d9e3de522820)
 
-1- Téléchargez sur votre machine mon repository GitHub que vous trouverez à cette adresse :
+# Initialise project
 
-      https://github.com/knouz15/Snowtricks
+## Versions
+* PHP 8.0
+* Symfony 5.4.1
+* Doctrine 2.10.4
+* Postgresql 13
 
-2-  Une fois installé sur votre machine, créez, à la racine du projet, une copie du fichier .env
+## Requirement
+* PHP
+* Symfony 
+* Docker
+* Composer
+* yarn
 
-      Appelez ce fichier .env.local
-      
-      Configurez y les variables de connexion BD, le serveur SMTP et l’adresse email.
+## Steps
 
-3- Installez à l’aide de Composer, les dépendances Back-end
+1. Clone the project repository
 
-4- Installez à l’aide de Npm, les dépendances Front-end, et WebpackEncore
+````
+git clone https://github.com/geoffrey521/snowtricks.git
+````
 
-5- Placez- vous dans le répectoire du projet et Créez y la BD avec la commande :
+2. Download and install Composer dependencies
 
-      php bin/console doctrine :database :create
+```
+composer install
+```
 
-6- Créez les tables de votre base de données avec la commande :
+3. Download and install packages dependencies
 
-      php bin/console doctrine:migrations:migrate
+````
+yarn install
+````
 
-7-  Installer le DoctrineFixturesBundle (facultatif) avec la commande :
+or
 
-      composer require --dev orm-fixtures
-      
-Vous pouvez maintenant insérer des données fictives dans vos tables avec la commande :
+````
+npm install
+````
 
-      php bin/console doctrine:fixtures:load 
+4. Build from asset
 
-L’application est installé est prête à tourner.
+````
+yarn encore dev
+````
+
+5. Using Database from docker
+
+Make sure docker is running, run:
+
+````
+docker-compose up
+````
+
+6. Update database
+
+````
+symfony console d:m:m 
+````
+
+7. Load datas OR fixtures
+
+````
+symfony run psql < dump.sql      
+````
+or
+
+````
+symfony console d:f:l
+````
+
+
+8. Start server
+
+````
+symfony serve
+````
+9. Open mailer
+
+````
+symfony open:local:mailer
+````
+
+
+Local access:
+
+````
+symfony serve
+````
+
+Local access:
+
+* Website project : 
+  * Url: "localhost:8000"
+* Mailer : 
+  * Url: "localhost:48157"
+* Adminer : 
+  * Url "localhost:8080"
+     *auth:
+        * server: "database"
+        * user: "symfony"
+        * password: "ChangeMe"
+        * database: "app"
