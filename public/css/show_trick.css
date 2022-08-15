@@ -9,7 +9,7 @@
 }
 
 .second{
-    width: 100%;
+    width: 90%;
     background-color: white;
     border-radius: 4px;
     box-shadow: 10px 10px 5px #aaaaaa;  
@@ -44,6 +44,7 @@
 	background-color: #e5e8ed;
 	font-weight: 500;
 }
+
 .form-control{
 	color: #000;
 }
@@ -59,20 +60,9 @@
     font-weight: 500;
     box-shadow: 4px 3px 3px #5e5e5e;
   }
-/* 
-  .see-medias-block {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  } */
-
-  /* .see-medias-block {
-    display: none;
-  } */
 
   .avatar {
     width: 50;
-    /* margin-right: 5px; */
   }
 
   .comment-form {
@@ -91,7 +81,14 @@
       height: auto !important;
       visibility: visible;
     }
+  }
   
+  .btn-login{
+    margin-right:50px;
+    font-size: 20px;
+  }
   
+.btn-post{
+  font-size: 1.3rem;
   }
   

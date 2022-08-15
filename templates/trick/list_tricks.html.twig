@@ -9,12 +9,13 @@
                     <div class="card-footer">             
                         {{ trick.name }} 
                         {% if app.user %}
-                            <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"> <img class="float-right" src="/IMAGES/pencil.png"  style="width:5%;"alt="..."></a>
-                            <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:5%;"alt="..."></a>
+                    <div class=""style="text-align: right;">
+                        <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                        <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm(`Confirmez la suppression du trick : {{trick.name}} ?`)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    </div>
                         {% endif %} 
                     </div> 
+            
                 </div>
             </div>
         {% endfor %}
-
-        

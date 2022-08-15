@@ -1,4 +1,6 @@
 {% extends "base.html.twig" %}
+{% block meta_description %} la page de présentation d’une figure (contenant l’espace de discussion commun autour d’une figure) {% endblock %}
+
 {% block title %}{{ trick.name }}{% endblock %}
 {% block stylesheets %}
   <link href="{{ asset('css/show_trick.css') }}" rel="stylesheet" />
@@ -7,35 +9,37 @@
 
   <div class="container col-12">
     <div class="card mt-5 mb-5">
-      {% if trick.images | length > 0 %}
-        <div class="card-title">
-          <h5 class="card-text " style="font-size:200%">
-            <center><b>{{ trick.name }}</b></center></h5>
+      
+        <div class="card-header">
+          {{ trick.name }}
           {% if app.user %}
-              <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"> <img class="float-right  mb-4 mr-4" src="/IMAGES/pencil.png"  style="width:2%"alt="..."></a>
-              <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce trick?');"> <img class="float-right" src="/IMAGES/trash.png"  style="width:2%;"alt="..."></a>
+            <div class=""style="text-align: right;">
+              <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+              <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm(`Confirmez la suppression du trick : {{trick.name}} ?`)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </div>
           {% endif %}
         </div>
-        <img src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtricks" style="height:900px">
+        {% if trick.images | length > 0 %}
+        <img src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtrick" style="height:900px">
         {% else %}  
-          <img src="/IMAGES/Tricks/no-image.jpg"  alt="...">
+          <img src="/IMAGES/Tricks/no-image.jpg"  alt="No image">
       {% endif %}
     </div>
   </div>
 
-  <div class="container"> 
+
 		<div  class="text-center ">
-      <button class="btn btn-primary hidden visible-xs" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">VOIR Médias</button>
+      <a class="btn btn-primary d-block d-sm-none" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">VOIR Médias</a>
 		</div>
     <div class="collapse dont-collapse-sm" id="collapseExample"> 
-      <div class="row well mt-3">
+      <div class="row mt-3">
         {% if trick.images|length > 1 or trick.videos is not empty %}
 
           {% if trick.images | length > 1 %}
             {% for image in trick.images %}
               <div class="col-12 col-md-6 col-lg-3">
                 <div class="card mb-4">
-                  <img src="{{ asset('IMAGES/Tricks/') ~image.name}}" class="card-img" style="height:349px;" class="img-responsive" alt="">
+                  <img src="{{ asset('IMAGES/Tricks/') ~image.name}}" class="card-img" style="height:349px;" class="img-responsive" alt="Images du trick">
                 </div>
               </div> 
             {% endfor %}
@@ -43,17 +47,19 @@
             
           {% if trick.videos | length > 0 %}
             {% for video in trick.videos %}
-              <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="embed-responsive embed-responsive-1by1" style="height:349px;">
+              <div class="col-12 col-md-6 col-lg-3">
+                <div class="card mb-4">
+                <div class="card-img embed-responsive embed-responsive-1by1 ">
                   <iframe src="{{ video.url }}" frameborder="0" allow="accelerometer; fullscreen; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
+              </div>
               </div>
             {% endfor %}
           {% endif %} 
         {% endif %}
       </div> 
     </div>
-  </div>
+  
 
     <div class="p-5">
       <h5><b> DESCRIPTION DU TRICK :</b></center></h5>
@@ -74,21 +80,22 @@
 		</div>
 
    
-    <div class="container justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;">
-      <div id="load_data_message"></div>
+    <div class=" container justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;">
+      <div id="load_data_message">
+      </div>
         <div class="col-md-3 col-sm-6 mb-4" >
           {% if trick.comments | length > 0 %}
             <b> {{ trick.comments|length }} Commentaire(s)  </b>
-            <img src="/IMAGES/icon-comment.png" width="70" alt="..." >
-            {% else %}<img src="/IMAGES/icon-comment.png" width="70" alt="..." >
+            <img src="/IMAGES/icon-comment.png" width="70" alt="Commentaires" >
+            {% else %}<img src="/IMAGES/icon-comment.png" width="70" alt="No comment" >
           {% endif %}
         </div> 
         {% if app.user %}
           <div class="d-flex justify-content-center pt-3 pb-2">
-            <form class="  second mb-5" action="{{ path('comment_add', {id: trick.id}) }}" method="POST">
+            <form class="second mb-5" action="{{ path('comment_add', {id: trick.id}) }}" method="POST">
 						  <div class="row">
 							  <textarea class="form-control" name="comment" id="" placeholder="Votre commentaire..."></textarea>
-                <button class="btn btn-primary mt-1" style="font-size: 1.3rem;" type="submit">Poster</button>
+                <button class="btn-post btn-primary mt-1" type="submit">Poster</button>
 						  </div>
 					  </form>
           </div>
@@ -96,7 +103,7 @@
             <div class="d-flex w-100 justify-content-center pt-3 pb-2">
               <div  class="div_comment">
                 <h5>Vous devez vous connecter pour publier un commentaire</h5>
-                <button href="{{path('app_login')}}" class="btn btn-primary" style="margin-right:50px;font-size: 20px;">Connexion</button>
+                <button href="{{path('app_login')}}" class="btn-login btn-primary" >Connexion</button>
               </div>
             </div>
         {% endif %}
@@ -104,7 +111,7 @@
           <div class="row " id="comments">
 				    {{ include ('trick/comments-list.html.twig') }}
 			    </div>
-          <div class="load-more-block mt-3 mb-5 text-center">
+          <div class="load-more-block mt-3 text-center">
 				    <button type="button" class="btn btn-primary bg-gradient" id="load-more-comments">
 					    <i class="bi bi-plus-circle-dotted load-circle"></i>Load More
               <img src="/IMAGES/ajaxloader.png" width="30">
@@ -114,6 +121,7 @@
             <div> <h4><b>Aucun commentaire. Soyez le premier à commenter ce trick!</b></h4></div>
         {% endif %} 
       </div>
+    
     </div> 
 {% endblock %} 
 
@@ -140,6 +148,3 @@
     })
     </script>
 {% endblock %}
-
-
-

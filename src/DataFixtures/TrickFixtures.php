@@ -50,7 +50,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 			],
 			[
 				'mute','Grabs','saisie de la carre frontside de la planche entre les deux pieds avec la main avant',
-				'dodo',
+				'fofo',
 				['4sha5smEUHA','KXDQv7f8JNs','8r_yZfBWCeQ'],
 				['mute-1.jpg','mute-2.jpg','mute-3.jpg','mute-4.jpg','mute-5.jpg']
 			],
@@ -103,7 +103,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 
 				// Images
 				foreach( $trick[5] as $path){
-					copy(__DIR__.'/images/'.$path,__DIR__.'/../../public/uploads/trick_images/'.$path);
+					copy(__DIR__.'/images/'.$path,__DIR__.'/../../public/uploads/'.$path);
 					$img = new Image();
 					$img->setName($path);
 					$img->setPath($path);
@@ -117,7 +117,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 					$tr-> addVideo($video);
 				}
 
-				$username=['coco','soso','gogo','dodo','toto','jojo','fofo'];
+				$username=['coco','soso','gogo','dodo','jojo','fofo'];
 				for ($u = 0; $u < rand(20, 50); $u++) {
                     
                     $comment = new Comment;

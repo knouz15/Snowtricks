@@ -21,8 +21,7 @@
 				        {{ message }}
 			        </div>
 	          {% endfor %}
-            <form 
-            method="post" novalidate>
+            <form method="post" novalidate>
              
 	          {% if error %}
 			        <div class="alert alert-danger mt-4">
@@ -49,13 +48,11 @@
                   <a class="d-block text-center mt-2 small mt-5" href="{{ path('app_register') }}" role="button">Pas de compte? S'inscrire</a>
                   <hr class="my-4">
                   <a class="d-block text-center mt-2 small" href="{{ path('forgot_password') }}" role="button">Mot de passe oublié?</a>
-                    </div>
-                  </div>
+                    
+                  
             </form>
           </div>
         </div>
       </div>
     </div>	
 {% endblock %}
-
-

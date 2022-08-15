@@ -24,13 +24,13 @@ class Trick
     private $id;
  
     
-    #[Assert\NotBlank(groups:['creation'])]
+    #[Assert\NotBlank(groups:['create','update'])]
     
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     
-    #[Assert\NotBlank(groups:['creation'])]
+    #[Assert\NotBlank(groups:['create','update'])]
     #[ORM\Column(type: 'text')]
     private $description;
 
@@ -41,7 +41,7 @@ class Trick
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $updatedAt;
 
-    #[Assert\NotBlank(groups:['creation'])]
+    #[Assert\NotBlank(groups:['create','update'])]
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'tricks')]
     #[ORM\JoinColumn(nullable: false)]
     private $category;
@@ -51,17 +51,14 @@ class Trick
     private $user;
  
     
-    /**
-    * @Assert\NotBlank(groups={"creation"})
-    */
+    #[Assert\NotBlank(groups:['create'])]
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist','remove'])]
     private $images;
 
-    /**
-    * @Assert\NotBlank(groups={"creation"})
-    */
+    #[Assert\NotBlank(groups:['create','update'])]
+    #[Assert\Valid(groups:['create','update'])]
+    #[Assert\Count(min:1, minMessage:'Veuillez renseigner le champs Videos',groups:['create','update'])]
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ['persist','remove'])]
-    // #[ORM\JoinColumn(nullable: false)]
     private $videos;
 
    #[ ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true, cascade: ['persist'])]
@@ -275,5 +272,3 @@ class Trick
         }
     }
 }
-
-
