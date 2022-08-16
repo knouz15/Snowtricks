@@ -9,18 +9,18 @@
 
   <div class="container col-12">
     <div class="card mt-5 mb-5">
-      
-        <div class="card-header">
-          {{ trick.name }}
-          {% if app.user %}
-            <div class=""style="text-align: right;">
-              <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i class="fa fa-cog" aria-hidden="true"></i></a>
-              <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm(`Confirmez la suppression du trick : {{trick.name}} ?`)"><i class="fa fa-trash" aria-hidden="true"></i></a>
-            </div>
-          {% endif %}
-        </div>
-        {% if trick.images | length > 0 %}
-        <img src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name)}}" class="card-img" alt="image snowtrick" style="height:900px">
+  
+      <div class="card-header">
+        {{ trick.name }}
+        {% if app.user %}
+          <div class=""style="text-align: right;">
+            <a href="{{ path('trick_edit', {'slug': trick.slug}) }}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            <a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm(`Confirmez la suppression du trick : {{trick.name}} ?`)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+          </div>
+        {% endif %}
+      </div>
+      {% if trick.images | length > 0 %}
+        <img src="{{ asset('uploads/tricks/' ~ trick.images[0].path)}}" class="card-img" alt="image snowtrick" style="height:500px">
         {% else %}  
           <img src="/IMAGES/Tricks/no-image.jpg"  alt="No image">
       {% endif %}
@@ -33,19 +33,15 @@
 		</div>
     <div class="collapse dont-collapse-sm" id="collapseExample"> 
       <div class="row mt-3">
-        {% if trick.images|length > 1 or trick.videos is not empty %}
 
-          {% if trick.images | length > 1 %}
             {% for image in trick.images %}
               <div class="col-12 col-md-6 col-lg-3">
                 <div class="card mb-4">
-                  <img src="{{ asset('IMAGES/Tricks/') ~image.name}}" class="card-img" style="height:349px;" class="img-responsive" alt="Images du trick">
+                  <img src="{{ asset('uploads/tricks/') ~image.path}}" class="card-img" style="height:350px;" class="img-responsive" alt="Images du trick">
                 </div>
               </div> 
             {% endfor %}
-          {% endif %} 
-            
-          {% if trick.videos | length > 0 %}
+
             {% for video in trick.videos %}
               <div class="col-12 col-md-6 col-lg-3">
                 <div class="card mb-4">
@@ -55,8 +51,6 @@
               </div>
               </div>
             {% endfor %}
-          {% endif %} 
-        {% endif %}
       </div> 
     </div>
   

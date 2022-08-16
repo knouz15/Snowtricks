@@ -108,7 +108,7 @@ class TrickController extends AbstractController
      * @return Response
      */
     #[Route('/Trick/{slug}', name: 'trick_show', methods: ['GET','POST'])]
-    public function show( $slug,
+    public function show( Trick $trick,
         Request $request,
         ManagerRegistry $doctrine,
         CommentRepository $commentRepository,
@@ -116,31 +116,18 @@ class TrickController extends AbstractController
 
     )
     { 
-        
 
-        $trick = $trickRepository->findOneBy(['slug' => $slug]);
-
-        $trickid = $trick->getId();
-
-
-        $comments = $commentRepository->findByTrick($trickid, ['createdAt' => 'DESC'], 5, 0);
-
-
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
-
-
+        $comments = $commentRepository->findByTrick($trick, ['createdAt' => 'DESC'], 5, 0);
 
         return $this->render('trick/trick_show.html.twig', [
-            'slug' => $trick->getSlug(),
+            
             'trick' => $trick,
-            'user' => $user,
+            
             'comments' => $comments
         ]);
         
     }
 
-    // #[Security("is_granted('ROLE_USER')]
     #[Route('/Trick/edition/{slug}', name: 'trick_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function edit(
@@ -216,7 +203,7 @@ class TrickController extends AbstractController
         return $this->redirectToRoute('app_index');
     }
 
-
+    #[Security("is_granted('ROLE_USER')")]
     #[Route('/supprime/image/{id}', name:'trick_delete_image', methods:['GET'])]
     public function deleteImage(Image $image, Request $request, ManagerRegistry $doctrine)
     {
@@ -233,6 +220,7 @@ class TrickController extends AbstractController
             ['slug'=>$image->getTrick()->getSlug()]);
     }
 
+    #[Security("is_granted('ROLE_USER')")]
     #[Route('/supprime/video/{id}', name:'trick_delete_video', methods:['GET'])]
     public function deleteVideo(Video $video, Request $request, ManagerRegistry $doctrine)
     {
