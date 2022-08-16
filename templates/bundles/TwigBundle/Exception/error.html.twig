@@ -2,16 +2,16 @@
 {% block stylesheets %}
   <link href="{{ asset('css/errors.css') }}" rel="stylesheet" />
 {% endblock %}
-{% block title %}SnowTricks - Erreur interne du serveur{% endblock %}
+{% block title %}SnowTricks - Erreurs{% endblock %}
 
 {% block body %}
     <div class="page-wrap d-flex flex-row align-items-center">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12 text-center">
-                <span class="display-1 d-block">500</span>
-                <div class="mb-4 lead">Une erreur est survenue du côté serveur !</div>
-                <a href="{{ path('app_index') }}" class="btn btn-info">Retour l'accueil</a>
+                <img src="/IMAGES/Oops.png" width="25%" alt="Erreurs" >
+                <div class="mt-5 mb-5"><h3>Une erreur est survenue !</h3></div>
+                <a href="{{ path('app_index') }}" class="btn btn-primary">Retour à la page d'accueil</a>
             </div>
         </div>
     </div>
