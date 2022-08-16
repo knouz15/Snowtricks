@@ -103,7 +103,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 
 				// Images
 				foreach( $trick[5] as $path){
-					copy(__DIR__.'/images/'.$path,__DIR__.'/../../public/uploads/'.$path);
+					copy(__DIR__.'/images/'.$path,__DIR__.'/../../public/uploads/tricks/'.$path);
 					$img = new Image();
 					$img->setName($path);
 					$img->setPath($path);

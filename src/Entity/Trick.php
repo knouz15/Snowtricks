@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[UniqueEntity(fields: ['name'], message: 'Un trick à ce nom existe déjà sur le site')]
+#[UniqueEntity(fields: ['name'], message: 'Un trick ayant ce nom existe déjà sur le site')]
 #[UniqueEntity('slug')]
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\HasLifecycleCallbacks]

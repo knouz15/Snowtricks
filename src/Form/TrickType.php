@@ -88,6 +88,12 @@ class TrickType extends AbstractType
                     'allow_add'      => true,
                     'allow_delete'   => true,
                     'prototype'      => true,
+                    'constraints' => [
+                        new Assert\NotBlank([
+                            'message' => 'Veuillez renseigner le champs Videoss',
+                            'groups'=>['create'],
+                        ]),
+                    ]
                     
                 ])
                 ->add('imagesFile', CollectionType::class, [
@@ -112,7 +118,7 @@ class TrickType extends AbstractType
            ;
            
     } 
-
+ 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

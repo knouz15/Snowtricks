@@ -211,7 +211,7 @@ class TrickController extends AbstractController
 
         $this->addFlash(
             'success',
-            'Votre trick a été supprimé avec succès !'
+            'Le trick a été supprimé avec succès !'
         );
         return $this->redirectToRoute('app_index');
     }
