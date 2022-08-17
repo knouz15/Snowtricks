@@ -48,23 +48,6 @@ npm install
 yarn encore dev
 ````
 
-5. Using Database from docker
-
-Make sure docker is running, run:
-
-````
-docker-compose up
-````
-
-6. Update database
-
-````
-symfony console d:m:m 
-
-````
-
-or 
-
 
 5. Using Database without docker
 
@@ -74,10 +57,14 @@ Update DATABASE_URL .env file with your database configuration:
 DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name
 
 
-6. Create database then database structure
+6. Create database
 
 ````
 symfony console d:d:c 
+
+````
+
+Create database structure
 
 ````
 symfony console m:m
