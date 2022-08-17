@@ -1,5 +1,4 @@
 [![SymfonyInsight](https://insight.symfony.com/projects/96e1976b-ac52-430f-a4aa-3e437679f26b/big.svg)](https://insight.symfony.com/projects/96e1976b-ac52-430f-a4aa-3e437679f26b)
-https://insight.symfony.com/projects/96e1976b-ac52-430f-a4aa-3e437679f26b/analyses/63
 
 # Initialise project
 
