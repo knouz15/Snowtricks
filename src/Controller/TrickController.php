@@ -13,8 +13,6 @@ use App\Entity\Image;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Entity\Comment;
-use App\Form\CommentType;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,10 +24,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TrickController extends AbstractController
 {
-    #[Route('/', name: 'app_index', methods: ['GET'])]
+    #[Route('/ ', name: 'app_index', methods: ['GET'])]
     public function index(
         TrickRepository $trickRepository
-    ): Response {
+    ): Response 
+    {
         $tricks = $trickRepository->findBy([], ['createdAt' => 'DESC'], 5);
         $trickCount = $trickRepository->count([]);
         return $this->render('trick/index.html.twig', [
@@ -45,7 +44,7 @@ class TrickController extends AbstractController
      * @param ManagerRegistry $doctrine
      * @return Response
      */
-    #[Route('/Trick/creation',name:  'trick_new', methods: ['GET', 'POST'])]
+    #[Route('/Trick/creation',name: 'trick_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function new(
         Request $request,
@@ -113,10 +112,8 @@ class TrickController extends AbstractController
         ManagerRegistry $doctrine,
         CommentRepository $commentRepository,
         TrickRepository $trickRepository,
-
     )
     { 
-
         $comments = $commentRepository->findByTrick($trick, ['createdAt' => 'DESC'], 5, 0);
 
         return $this->render('trick/trick_show.html.twig', [
@@ -220,6 +217,7 @@ class TrickController extends AbstractController
             ['slug'=>$image->getTrick()->getSlug()]);
     }
 
+
     #[Security("is_granted('ROLE_USER')")]
     #[Route('/supprime/video/{id}', name:'trick_delete_video', methods:['GET'])]
     public function deleteVideo(Video $video, Request $request, ManagerRegistry $doctrine)
@@ -231,7 +229,6 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('trick_edit',
             ['slug'=>$video->getTrick()->getSlug()]);
     }
-
 
     
     #[Route('/load-more/{start}', name: 'load_more')]
@@ -255,10 +252,7 @@ class TrickController extends AbstractController
         EntityManagerInterface $em, 
         )
     {
-       
         $comment = new Comment;
-
-    
         /**@var \App\Entity\User $user */
         $user = $this->getUser();
         $comment->setUser($user);

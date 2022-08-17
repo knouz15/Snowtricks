@@ -24,10 +24,7 @@ class Image
     #[ORM\Column(type: 'string', length: 255)]
     private $path;
 
-    #[ORM\Column(type: 'boolean')]
-    private $promotedImage = false;
-
-    
+     
 
     public function getId(): ?int
     {
@@ -69,17 +66,6 @@ class Image
 
         return $this;
     }
-
-    public function isPromoteddImage(): ?bool
-    {
-        return $this->promotedImage;
-    }
-
-    public function setPromotedImage(bool $promotedImage): self
-    {
-        $this->promotedImage = $promotedImage;
-
-        return $this;
-    }
 }
+
 

@@ -8,8 +8,8 @@
 {% block body %} 
 
   <div class="container col-12">
-    <div class="card mt-5 mb-5">
-  
+    <div class="card mt-5 mb-5 border border-black">
+      
       <div class="card-header">
         {{ trick.name }}
         {% if app.user %}
@@ -19,36 +19,29 @@
           </div>
         {% endif %}
       </div>
-      {% if trick.images | length > 0 %}
         <img src="{{ asset('uploads/tricks/' ~ trick.images[0].path)}}" class="card-img" alt="image snowtrick" style="height:500px">
-        {% else %}  
-          <img src="/IMAGES/Tricks/no-image.jpg"  alt="No image">
-      {% endif %}
     </div>
-  </div>
-
-
+  
 		<div  class="text-center ">
       <a class="btn btn-primary d-block d-sm-none" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">VOIR Médias</a>
 		</div>
     <div class="collapse dont-collapse-sm" id="collapseExample"> 
       <div class="row mt-3">
-
             {% for image in trick.images %}
               <div class="col-12 col-md-6 col-lg-3">
                 <div class="card mb-4">
-                  <img src="{{ asset('uploads/tricks/') ~image.path}}" class="card-img" style="height:350px;" class="img-responsive" alt="Images du trick">
+                  <img src="{{ asset('uploads/tricks/') ~image.path}}" class="card-img" style="height:350px;" class="img-responsive" alt="Image du trick">
                 </div>
               </div> 
-            {% endfor %}
+            {% endfor %} 
 
             {% for video in trick.videos %}
               <div class="col-12 col-md-6 col-lg-3">
                 <div class="card mb-4">
-                <div class="card-img embed-responsive embed-responsive-1by1 ">
-                  <iframe src="{{ video.url }}" frameborder="0" allow="accelerometer; fullscreen; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                  <div class="embed-responsive embed-responsive-1by1"  >
+                    <iframe src="{{ video.url }}" width="100%"  height="350px" frameborder="0"  allow="accelerometer; fullscreen; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                  </div>
                 </div>
-              </div>
               </div>
             {% endfor %}
       </div> 
@@ -56,28 +49,28 @@
   
 
     <div class="p-5">
-      <h5><b> DESCRIPTION DU TRICK :</b></center></h5>
+      <h3><b> DESCRIPTION DU TRICK :</b></h3>
       <font style="vertical-align: inherit;">
-      {{ trick.description}}  
+        {{ trick.description}}  
       </font>
     </div> 
     <div  class="text-center" aria-label="Infos trick">
       <button type="button" class="btn btn-secondary"><font style="vertical-align: inherit;">Publié le {{ trick.createdAt|date('d/m/Y H:i') }} </font></button>
       <button type="button" class="btn btn-primary"><font style="vertical-align: inherit;">Catégorie : {{ trick.category }}</font></button>
       {% if trick.updatedAt %}
-        <button type="button" class="btn btn-secondary"><font style="vertical-align: inherit;">Mis à jour le {{ trick.createdAt|date('d/m/Y H:i') }} </font></button>
+        <button type="button" class="btn btn-secondary"><font style="vertical-align: inherit;">Mis à jour le {{ trick.updatedAt|date('d/m/Y H:i') }} </font></button>
       {% endif %}
     </div>
 
     <div class="hr-line mt-5">
 				<hr>
 		</div>
+  
+    <div class=" justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;">
+        <div id="load_data_message">
+        </div>
 
-   
-    <div class=" container justify-content-center mt-5 border-left border-right" style="background-color: #eef2f5;width: 100%;">
-      <div id="load_data_message">
-      </div>
-        <div class="col-md-3 col-sm-6 mb-4" >
+         <div class="mx-5">
           {% if trick.comments | length > 0 %}
             <b> {{ trick.comments|length }} Commentaire(s)  </b>
             <img src="/IMAGES/icon-comment.png" width="70" alt="Commentaires" >
@@ -106,7 +99,7 @@
 				    {{ include ('trick/comments-list.html.twig') }}
 			    </div>
           <div class="load-more-block mt-3 text-center">
-				    <button type="button" class="btn btn-primary bg-gradient" id="load-more-comments">
+				    <button type="button" class="btn btn-primary bg-gradient mb-5" id="load-more-comments">
 					    <i class="bi bi-plus-circle-dotted load-circle"></i>Load More
               <img src="/IMAGES/ajaxloader.png" width="30">
             </button>
@@ -114,9 +107,9 @@
           {% else %} 
             <div> <h4><b>Aucun commentaire. Soyez le premier à commenter ce trick!</b></h4></div>
         {% endif %} 
-      </div>
+    </div>
     
-    </div> 
+  </div> 
 {% endblock %} 
 
 {% block javascript %}

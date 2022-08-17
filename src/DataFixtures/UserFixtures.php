@@ -28,7 +28,7 @@ class UserFixtures extends Fixture
 
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        copy(__DIR__.'/images/avatars/boy-icon-man1.jpg',__DIR__.'/../../public/uploads/avatars/boy-icon-man1.jpg');
+        copy(__DIR__.'/avatars/boy-icon-man1.jpg',__DIR__.'/../../public/uploads/avatars/boy-icon-man1.jpg');
 
         $user->setAvatarFilename('boy-icon-man1.jpg');
         $manager->persist($user);
@@ -44,7 +44,7 @@ class UserFixtures extends Fixture
 
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        copy(__DIR__.'/images/avatars/boy-icon-man2.jpg',__DIR__.'/../../public/uploads/avatars/boy-icon-man2.jpg');
+        copy(__DIR__.'/avatars/boy-icon-man2.jpg',__DIR__.'/../../public/uploads/avatars/boy-icon-man2.jpg');
 
         $user->setAvatarFilename('/boy-icon-man2.jpg');
         $manager->persist($user);
@@ -60,7 +60,7 @@ class UserFixtures extends Fixture
 
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        copy(__DIR__.'/images/avatars/boy-icon-man3.jpg',__DIR__.'/../../public/uploads/avatars/boy-icon-man3.jpg');
+        copy(__DIR__.'/avatars/boy-icon-man3.jpg',__DIR__.'/../../public/uploads/avatars/boy-icon-man3.jpg');
 
         $user->setAvatarFilename('/boy-icon-man3.jpg');
         $manager->persist($user);
@@ -76,7 +76,7 @@ class UserFixtures extends Fixture
 
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        copy(__DIR__.'/images/avatars/woman-icon1.jpg',__DIR__.'/../../public/uploads/avatars/woman-icon1.jpg');
+        copy(__DIR__.'/avatars/woman-icon1.jpg',__DIR__.'/../../public/uploads/avatars/woman-icon1.jpg');
 
         $user->setAvatarFilename('/woman-icon1.jpg');
         $manager->persist($user);
@@ -93,7 +93,7 @@ class UserFixtures extends Fixture
 
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        copy(__DIR__.'/images/avatars/woman-icon2.jpg',__DIR__.'/../../public/uploads/avatars/woman-icon2.jpg');
+        copy(__DIR__.'/avatars/woman-icon2.jpg',__DIR__.'/../../public/uploads/avatars/woman-icon2.jpg');
 
         $user->setAvatarFilename('/woman-icon2.jpg');
         $manager->persist($user);
@@ -108,7 +108,7 @@ class UserFixtures extends Fixture
         
         $password = $this->hasher->hashPassword($user, '123456');
         $user->setPassword($password);
-        copy(__DIR__.'/images/avatars/woman-icon3.jpg',__DIR__.'/../../public/uploads/avatars/woman-icon3.jpg');
+        copy(__DIR__.'/avatars/woman-icon3.jpg',__DIR__.'/../../public/uploads/avatars/woman-icon3.jpg');
 
         $user->setAvatarFilename('/woman-icon3.jpg');
         $manager->persist($user);
