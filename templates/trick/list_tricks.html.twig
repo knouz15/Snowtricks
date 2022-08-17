@@ -1,11 +1,7 @@
         {% for trick in tricks %}
             <div class="col-12 col-md-6 col-lg-3">
                 <div class="card mb-4">
-                    {% if trick.images | length > 0 %}
-                        <a href="{{ path('trick_show', {'slug': trick.slug}) }}"><img class="card-img-top" src="{{ asset('IMAGES/Tricks/' ~ trick.images[0].name) }}" alt="{{ trick.slug }}" style="height:349px;"class="img-responsive"></a>
-                    {% else %}  
-                        <a href="{{ path('trick_show', {'slug': trick.slug}) }}"><img class="card-img-top" src="{{ asset('IMAGES/Tricks/no-image.jpg') }}" style="height:349px;" class="img-responsive" alt="...">
-                    {% endif %}
+                    <a href="{{ path('trick_show', {'slug': trick.slug}) }}"><img class="card-img-top" src="{{ asset('uploads/tricks/' ~ trick.images[0].path) }}" alt="{{ trick.slug }}" style="height:350px;"class="img-responsive"></a>
                     <div class="card-footer">             
                         {{ trick.name }} 
                         {% if app.user %}
