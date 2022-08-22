@@ -11,7 +11,6 @@
 ## Requirement
 * PHP
 * Symfony 
-* Docker
 * Composer
 * yarn
 
