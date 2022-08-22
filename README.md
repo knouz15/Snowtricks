@@ -48,7 +48,7 @@ yarn encore dev
 ````
 
 
-5. Using Database without docker
+5. Using Database
 
 Update DATABASE_URL .env file with your database configuration:
 
